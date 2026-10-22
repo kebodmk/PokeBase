@@ -4,6 +4,7 @@ let inventoryBtn;
 let salesBtn;
 let scannerBtn;
 let tradesBtn;
+let loginBtn;
 
 const currentUrl = window.location.href;
 window.addEventListener("load", init)
@@ -28,6 +29,10 @@ function init(){
     tradesBtn = document.getElementById("trades");
     url = "./trades.php";
     enableButtons(tradesBtn, url);
+
+    loginBtn = document.getElementById("login");
+    url = "./login.php";
+    enableButtons(loginBtn, url);
 
     scannerBtn = document.getElementById("scan");
     url = "./scanner.php";
