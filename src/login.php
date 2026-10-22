@@ -1,8 +1,7 @@
 <?php
-require_once __DIR__ . "/../includes/config.php";
+require_once __DIR__ . '/includes/config.php';
 
 include "includes/header.php";
-include "includes/navbar.php";
 $error = $_SESSION["error"]??"";
 $page = $_GET["page"]??"login";
 
@@ -17,5 +16,5 @@ if($page=="login"){
     require_once "index.php";
 }
 
-include "include/footer.php";
+include "includes/footer.php";
 ?>
