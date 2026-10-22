@@ -19,6 +19,8 @@
         <BR>
         <button id = "trades">Trades</button>
         <BR>
+        <button id = "login">Login</button>
+        <BR>
         <!-- SET THIS TO SHOW UP IF PYTHON SERVER IS AVAILABLE -->
         <button id = "scan">Scan Cards</button>
         <BR>
