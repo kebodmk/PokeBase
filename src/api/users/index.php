@@ -4,9 +4,9 @@ header('Content-Type: application/json; charset=UTF-8');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 
-// require_once __DIR__ . "/../../includes/config.php";
-// require_once __DIR__ . "/../../includes/WFDatabase.php";
-// require_once __DIR__ . "/../../includes/json_functions.php";
+require_once __DIR__ . "/../../includes/config.php";
+require_once __DIR__ . "/../../includes/WFDatabase.php";
+require_once __DIR__ . "/../../includes/json_functions.php";
 
 $method = $_SERVER['REQUEST_METHOD'];
 

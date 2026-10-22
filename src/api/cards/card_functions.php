@@ -92,7 +92,7 @@ function insertCard(array $fields): int
         ':grade' => $fields['grade'] ?? null,
     ];
 
-    return (int)WFDatabase::executeSQL($insert_card_sql, $insert_params);
+    return (int)WFDatabase::executeSQL($insert_card_sql, $insert_params, true);
 }
 
 function getCardById(int $cardId): ?array

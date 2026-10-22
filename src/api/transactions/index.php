@@ -4,9 +4,9 @@ header('Content-Type: application/json; charset=UTF-8');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 
-// require_once __DIR__ . "/../../includes/config.php";
-// require_once __DIR__ . "/../../includes/WFDatabase.php";
-// require_once __DIR__ . "/../../includes/json_functions.php";
+require_once __DIR__ . "/../../includes/config.php";
+require_once __DIR__ . "/../../includes/WFDatabase.php";
+require_once __DIR__ . "/../../includes/json_functions.php";
 require_once __DIR__ . '/../api_functions.php';
 require_once __DIR__ . '/../cards/card_functions.php';
 
@@ -88,22 +88,18 @@ if ($routePart === 'add') {
     VALUES
     (:trans_id, :card_id, :recieved)';
 
-    $transId = null;
-    $createdCardIds = [];
+    // All inserts succeed together or none are kept
+    WFDatabase::startTransaction();
 
     try {
         $transId = (int)WFDatabase::executeSQL($insert_transaction_sql, [
             ':date' => $fields['date'],
             ':user_id' => $fields['user_id'],
             ':sold_for' => $fields['sold_for'] ?? null,
-        ]);
+        ], true);
 
         foreach ($cardEntries as $entry) {
-            $cardId = $entry['card_id'];
-            if ($cardId === null) {
-                $cardId = insertCard($entry['card_fields']);
-                $createdCardIds[] = $cardId;
-            }
+            $cardId = $entry['card_id'] ?? insertCard($entry['card_fields']);
 
             WFDatabase::executeSQL($insert_exchange_sql, [
                 ':trans_id' => $transId,
@@ -111,16 +107,10 @@ if ($routePart === 'add') {
                 ':recieved' => $entry['recieved'],
             ]);
         }
+
+        WFDatabase::commitTransaction();
     } catch (Throwable $e) {
-        // TODO: Use a real DB transaction (BEGIN/COMMIT/ROLLBACK) once WFDatabase exposes one.
-        // Until then, undo the rows this request inserted so no partial transaction is left behind.
-        if ($transId !== null) {
-            WFDatabase::executeSQL('DELETE FROM exchanged_cards WHERE trans_id = :trans_id', [':trans_id' => $transId]);
-            WFDatabase::executeSQL('DELETE FROM transactions WHERE trans_id = :trans_id', [':trans_id' => $transId]);
-        }
-        foreach ($createdCardIds as $createdCardId) {
-            WFDatabase::executeSQL('DELETE FROM cards WHERE card_id = :card_id', [':card_id' => $createdCardId]);
-        }
+        WFDatabase::rollbackTransaction();
 
         error_log('Transaction add failed: ' . $e->getMessage());
         sendJson(500, ['success' => false, 'message' => 'Transaction could not be saved.']);
@@ -188,8 +178,18 @@ if ($routePart === 'delete') {
         sendJson(404, ['success' => false, 'message' => 'Transaction not found.']);
     }
 
-    WFDatabase::executeSQL('DELETE FROM exchanged_cards WHERE trans_id = :trans_id', [':trans_id' => $transId]);
-    WFDatabase::executeSQL('DELETE FROM transactions WHERE trans_id = :trans_id', [':trans_id' => $transId]);
+    WFDatabase::startTransaction();
+
+    try {
+        WFDatabase::executeSQL('DELETE FROM exchanged_cards WHERE trans_id = :trans_id', [':trans_id' => $transId]);
+        WFDatabase::executeSQL('DELETE FROM transactions WHERE trans_id = :trans_id', [':trans_id' => $transId]);
+        WFDatabase::commitTransaction();
+    } catch (Throwable $e) {
+        WFDatabase::rollbackTransaction();
+
+        error_log('Transaction delete failed: ' . $e->getMessage());
+        sendJson(500, ['success' => false, 'message' => 'Transaction could not be deleted.']);
+    }
 
     sendJson(200, ['success' => true, 'message' => 'Transaction deleted.']);
 }
