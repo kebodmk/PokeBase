@@ -29,8 +29,8 @@ CREATE TABLE IF NOT EXISTS `pokebase`.`cards` (
   `printing` VARCHAR(45) NULL,
   `grade` VARCHAR(45) NULL,
   PRIMARY KEY (`card_id`),
-  UNIQUE INDEX `card_id_UNIQUE` (`card_id` ASC) )
-;
+  UNIQUE INDEX `card_id_UNIQUE` (`card_id` ASC))
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `pokebase`.`users` (
   `last_name` VARCHAR(45) NOT NULL,
   `date_registered` DATE NOT NULL,
   PRIMARY KEY (`user_id`),
-  UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC) )
+  UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC))
 ENGINE = InnoDB;
 
 
@@ -58,9 +58,9 @@ CREATE TABLE IF NOT EXISTS `pokebase`.`transactions` (
   `user_id` INT NOT NULL,
   `sold_for` FLOAT NULL,
   PRIMARY KEY (`trans_id`),
-  UNIQUE INDEX `trans_id_UNIQUE` (`trans_id` ASC) ,
-  INDEX `user_id_idx` (`user_id` ASC) ,
-  CONSTRAINT `user_id`
+  UNIQUE INDEX `trans_id_UNIQUE` (`trans_id` ASC),
+  INDEX `user_id_idx` (`user_id` ASC),
+  CONSTRAINT `transactions_users_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `pokebase`.`users` (`user_id`)
     ON DELETE NO ACTION
@@ -77,15 +77,15 @@ CREATE TABLE IF NOT EXISTS `pokebase`.`exchanged_cards` (
   `card_id` INT NOT NULL,
   `recieved` TINYINT NOT NULL,
   PRIMARY KEY (`exchange_id`),
-  UNIQUE INDEX `card_id_UNIQUE` (`exchange_id` ASC) ,
-  INDEX `card_id_idx` (`card_id` ASC) ,
-  INDEX `trans_id_idx` (`trans_id` ASC) ,
-  CONSTRAINT `card_id`
+  UNIQUE INDEX `card_id_UNIQUE` (`exchange_id` ASC),
+  INDEX `card_id_idx` (`card_id` ASC),
+  INDEX `trans_id_idx` (`trans_id` ASC),
+  CONSTRAINT `exchanged_cards_card_id`
     FOREIGN KEY (`card_id`)
     REFERENCES `pokebase`.`cards` (`card_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `trans_id`
+  CONSTRAINT `exchanged_transactions_trans_id`
     FOREIGN KEY (`trans_id`)
     REFERENCES `pokebase`.`transactions` (`trans_id`)
     ON DELETE NO ACTION
@@ -103,10 +103,10 @@ CREATE TABLE IF NOT EXISTS `pokebase`.`api_sessions` (
   `created_at` DATETIME NOT NULL,
   `ended_at` DATETIME NOT NULL,
   PRIMARY KEY (`session_id`),
-  UNIQUE INDEX `session_id_UNIQUE` (`session_id` ASC) ,
-  INDEX `user_id_idx` (`user_id` ASC) ,
-  CONSTRAINT `user_id`
-    FOREIGN KEY (`api_sessions_users_user_id`)
+  UNIQUE INDEX `session_id_UNIQUE` (`session_id` ASC),
+  INDEX `user_id_idx` (`user_id` ASC),
+  CONSTRAINT `api_sessions_users_user_id`
+    FOREIGN KEY (`user_id`)
     REFERENCES `pokebase`.`users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `pokebase`.`inventory_tracker` (
   `date` DATE NOT NULL,
   `total_value` FLOAT NOT NULL,
   PRIMARY KEY (`inv_id`),
-  UNIQUE INDEX `inv_id_UNIQUE` (`inv_id` ASC) )
+  UNIQUE INDEX `inv_id_UNIQUE` (`inv_id` ASC))
 ENGINE = InnoDB;
 
 
@@ -134,10 +134,10 @@ CREATE TABLE IF NOT EXISTS `pokebase`.`audits` (
   `date` DATE NOT NULL,
   `notes` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`audit_id`),
-  UNIQUE INDEX `audit_id_UNIQUE` (`audit_id` ASC) ,
-  INDEX `user_id_idx` (`user_id` ASC) ,
-  CONSTRAINT `user_id`
-    FOREIGN KEY (`audits_users_user_id`)
+  UNIQUE INDEX `audit_id_UNIQUE` (`audit_id` ASC),
+  INDEX `user_id_idx` (`user_id` ASC),
+  CONSTRAINT `audits_users_user_id`
+    FOREIGN KEY (`user_id`)
     REFERENCES `pokebase`.`users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
