@@ -5,7 +5,7 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 
 require_once __DIR__ . "/../../includes/config.php";
-require_once __DIR__ . "/../../includes/WFDatabase.php";
+require_once __DIR__ . "/../../includes/PokeDatabase.php";
 require_once __DIR__ . "/../../includes/json_functions.php";
 require_once __DIR__ . '/../api_functions.php';
 
@@ -39,7 +39,7 @@ if ($routePart === 'add') {
     VALUES
     (:user_id, :date, :notes)';
 
-    $auditId = (int)WFDatabase::executeSQL($insert_audit_sql, [
+    $auditId = (int)PokeDatabase::executeSQL($insert_audit_sql, [
         ':user_id' => $fields['user_id'],
         ':date' => $fields['date'],
         ':notes' => $fields['notes'],
@@ -80,7 +80,7 @@ if ($routePart === 'update') {
     }
 
     [$update_sql, $update_params] = buildUpdateQuery('audits', 'audit_id', $auditId, $fields);
-    WFDatabase::executeSQL($update_sql, $update_params);
+    PokeDatabase::executeSQL($update_sql, $update_params);
 
     sendJson(200, [
         'success' => true,
@@ -105,7 +105,7 @@ if ($routePart === 'delete') {
         sendJson(404, ['success' => false, 'message' => 'Audit not found.']);
     }
 
-    WFDatabase::executeSQL('DELETE FROM audits WHERE audit_id = :audit_id', [':audit_id' => $auditId]);
+    PokeDatabase::executeSQL('DELETE FROM audits WHERE audit_id = :audit_id', [':audit_id' => $auditId]);
 
     sendJson(200, ['success' => true, 'message' => 'Audit deleted.']);
 }
@@ -165,7 +165,7 @@ function validateAuditFields(array $data, bool $partial): array
 function getAuditById(int $auditId): ?array
 {
     $sql = 'SELECT audit_id, user_id, `date`, notes FROM audits WHERE audit_id = :audit_id';
-    $rows = WFDatabase::getDataFromSQL($sql, [':audit_id' => $auditId]);
+    $rows = PokeDatabase::getDataFromSQL($sql, [':audit_id' => $auditId]);
 
     return $rows[0] ?? null;
 }

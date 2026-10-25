@@ -5,7 +5,7 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 
 require_once __DIR__ . "/../../includes/config.php";
-require_once __DIR__ . "/../../includes/WFDatabase.php";
+require_once __DIR__ . "/../../includes/PokeDatabase.php";
 require_once __DIR__ . "/../../includes/json_functions.php";
 require_once __DIR__ . '/../api_functions.php';
 
@@ -39,7 +39,7 @@ if ($routePart === 'add') {
     VALUES
     (:date, :total_value)';
 
-    $invId = (int)WFDatabase::executeSQL($insert_inventory_sql, [
+    $invId = (int)PokeDatabase::executeSQL($insert_inventory_sql, [
         ':date' => $fields['date'],
         ':total_value' => $fields['total_value'],
     ], true);
@@ -79,7 +79,7 @@ if ($routePart === 'update') {
     }
 
     [$update_sql, $update_params] = buildUpdateQuery('inventory_tracker', 'inv_id', $invId, $fields);
-    WFDatabase::executeSQL($update_sql, $update_params);
+    PokeDatabase::executeSQL($update_sql, $update_params);
 
     sendJson(200, [
         'success' => true,
@@ -104,7 +104,7 @@ if ($routePart === 'delete') {
         sendJson(404, ['success' => false, 'message' => 'Inventory snapshot not found.']);
     }
 
-    WFDatabase::executeSQL('DELETE FROM inventory_tracker WHERE inv_id = :inv_id', [':inv_id' => $invId]);
+    PokeDatabase::executeSQL('DELETE FROM inventory_tracker WHERE inv_id = :inv_id', [':inv_id' => $invId]);
 
     sendJson(200, ['success' => true, 'message' => 'Inventory snapshot deleted.']);
 }
@@ -149,7 +149,7 @@ function validateInventoryFields(array $data, bool $partial): array
 function getInventoryById(int $invId): ?array
 {
     $sql = 'SELECT inv_id, `date`, total_value FROM inventory_tracker WHERE inv_id = :inv_id';
-    $rows = WFDatabase::getDataFromSQL($sql, [':inv_id' => $invId]);
+    $rows = PokeDatabase::getDataFromSQL($sql, [':inv_id' => $invId]);
 
     return $rows[0] ?? null;
 }

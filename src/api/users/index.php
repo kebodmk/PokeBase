@@ -5,7 +5,7 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 
 require_once __DIR__ . "/../../includes/config.php";
-require_once __DIR__ . "/../../includes/WFDatabase.php";
+require_once __DIR__ . "/../../includes/PokeDatabase.php";
 require_once __DIR__ . "/../../includes/json_functions.php";
 
 $method = $_SERVER['REQUEST_METHOD'];
@@ -41,7 +41,7 @@ if ($routePart === 'register') {
     $check_sql = 'SELECT userid FROM users WHERE email = :email';
     $check_params = [':email' => $email];
       
-    $user_already_exist_results = WFDatabase::getDataFromSQL($check_sql,$check_params);
+    $user_already_exist_results = PokeDatabase::getDataFromSQL($check_sql,$check_params);
 
     if (count($user_already_exist_results)>0) {
         sendJson(409, ['success' => false, 'message' => 'That email address is already registered.']);
@@ -63,7 +63,7 @@ if ($routePart === 'register') {
         ':password' => password_hash($userpassword, PASSWORD_DEFAULT),
     ];
     
-    $userId = WFDatabase::executeSQL($insert_user_sql,$insert_params);
+    $userId = PokeDatabase::executeSQL($insert_user_sql,$insert_params);
     #TODO: Manage session tokens in the DB eventually
 
     $user_data = getUserById($userId);
@@ -92,7 +92,7 @@ if ($routePart === 'login') {
 
     $user_login_sql = 'SELECT userid, password FROM users WHERE email = :email LIMIT 1';
     $login_params = [':email' => $email];
-    $records = WFDatabase::getDatafromSQL($user_login_sql,$login_params);
+    $records = PokeDatabase::getDatafromSQL($user_login_sql,$login_params);
     $record = $records[0];
     if (!$record || !password_verify($userpassword, $record['password'])) {
         sendJson(401, [

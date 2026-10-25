@@ -1,6 +1,6 @@
 <?PHP
 
-class WFDatabase{
+class PokeDatabase{
     private static $conn = null;
 
     private static function connect() {

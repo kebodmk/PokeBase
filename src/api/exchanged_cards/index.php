@@ -5,7 +5,7 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 
 require_once __DIR__ . "/../../includes/config.php";
-require_once __DIR__ . "/../../includes/WFDatabase.php";
+require_once __DIR__ . "/../../includes/PokeDatabase.php";
 require_once __DIR__ . "/../../includes/json_functions.php";
 require_once __DIR__ . '/../api_functions.php';
 
@@ -39,7 +39,7 @@ if ($routePart === 'add') {
     VALUES
     (:trans_id, :card_id, :recieved)';
 
-    $exchangeId = (int)WFDatabase::executeSQL($insert_exchange_sql, [
+    $exchangeId = (int)PokeDatabase::executeSQL($insert_exchange_sql, [
         ':trans_id' => $fields['trans_id'],
         ':card_id' => $fields['card_id'],
         ':recieved' => $fields['recieved'],
@@ -80,7 +80,7 @@ if ($routePart === 'update') {
     }
 
     [$update_sql, $update_params] = buildUpdateQuery('exchanged_cards', 'exchange_id', $exchangeId, $fields);
-    WFDatabase::executeSQL($update_sql, $update_params);
+    PokeDatabase::executeSQL($update_sql, $update_params);
 
     sendJson(200, [
         'success' => true,
@@ -105,7 +105,7 @@ if ($routePart === 'delete') {
         sendJson(404, ['success' => false, 'message' => 'Exchanged card not found.']);
     }
 
-    WFDatabase::executeSQL('DELETE FROM exchanged_cards WHERE exchange_id = :exchange_id', [':exchange_id' => $exchangeId]);
+    PokeDatabase::executeSQL('DELETE FROM exchanged_cards WHERE exchange_id = :exchange_id', [':exchange_id' => $exchangeId]);
 
     sendJson(200, ['success' => true, 'message' => 'Exchanged card deleted.']);
 }
@@ -163,7 +163,7 @@ function validateExchangedCardFields(array $data, bool $partial): array
 function getExchangedCardById(int $exchangeId): ?array
 {
     $sql = 'SELECT exchange_id, trans_id, card_id, recieved FROM exchanged_cards WHERE exchange_id = :exchange_id';
-    $rows = WFDatabase::getDataFromSQL($sql, [':exchange_id' => $exchangeId]);
+    $rows = PokeDatabase::getDataFromSQL($sql, [':exchange_id' => $exchangeId]);
 
     return $rows[0] ?? null;
 }

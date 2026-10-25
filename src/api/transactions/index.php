@@ -5,7 +5,7 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 
 require_once __DIR__ . "/../../includes/config.php";
-require_once __DIR__ . "/../../includes/WFDatabase.php";
+require_once __DIR__ . "/../../includes/PokeDatabase.php";
 require_once __DIR__ . "/../../includes/json_functions.php";
 require_once __DIR__ . '/../api_functions.php';
 require_once __DIR__ . '/../cards/card_functions.php';
@@ -89,10 +89,10 @@ if ($routePart === 'add') {
     (:trans_id, :card_id, :recieved)';
 
     // All inserts succeed together or none are kept
-    WFDatabase::startTransaction();
+    PokeDatabase::startTransaction();
 
     try {
-        $transId = (int)WFDatabase::executeSQL($insert_transaction_sql, [
+        $transId = (int)PokeDatabase::executeSQL($insert_transaction_sql, [
             ':date' => $fields['date'],
             ':user_id' => $fields['user_id'],
             ':sold_for' => $fields['sold_for'] ?? null,
@@ -101,16 +101,16 @@ if ($routePart === 'add') {
         foreach ($cardEntries as $entry) {
             $cardId = $entry['card_id'] ?? insertCard($entry['card_fields']);
 
-            WFDatabase::executeSQL($insert_exchange_sql, [
+            PokeDatabase::executeSQL($insert_exchange_sql, [
                 ':trans_id' => $transId,
                 ':card_id' => $cardId,
                 ':recieved' => $entry['recieved'],
             ]);
         }
 
-        WFDatabase::commitTransaction();
+        PokeDatabase::commitTransaction();
     } catch (Throwable $e) {
-        WFDatabase::rollbackTransaction();
+        PokeDatabase::rollbackTransaction();
 
         error_log('Transaction add failed: ' . $e->getMessage());
         sendJson(500, ['success' => false, 'message' => 'Transaction could not be saved.']);
@@ -152,7 +152,7 @@ if ($routePart === 'update') {
     }
 
     [$update_sql, $update_params] = buildUpdateQuery('transactions', 'trans_id', $transId, $fields);
-    WFDatabase::executeSQL($update_sql, $update_params);
+    PokeDatabase::executeSQL($update_sql, $update_params);
 
     sendJson(200, [
         'success' => true,
@@ -178,14 +178,14 @@ if ($routePart === 'delete') {
         sendJson(404, ['success' => false, 'message' => 'Transaction not found.']);
     }
 
-    WFDatabase::startTransaction();
+    PokeDatabase::startTransaction();
 
     try {
-        WFDatabase::executeSQL('DELETE FROM exchanged_cards WHERE trans_id = :trans_id', [':trans_id' => $transId]);
-        WFDatabase::executeSQL('DELETE FROM transactions WHERE trans_id = :trans_id', [':trans_id' => $transId]);
-        WFDatabase::commitTransaction();
+        PokeDatabase::executeSQL('DELETE FROM exchanged_cards WHERE trans_id = :trans_id', [':trans_id' => $transId]);
+        PokeDatabase::executeSQL('DELETE FROM transactions WHERE trans_id = :trans_id', [':trans_id' => $transId]);
+        PokeDatabase::commitTransaction();
     } catch (Throwable $e) {
-        WFDatabase::rollbackTransaction();
+        PokeDatabase::rollbackTransaction();
 
         error_log('Transaction delete failed: ' . $e->getMessage());
         sendJson(500, ['success' => false, 'message' => 'Transaction could not be deleted.']);
@@ -247,7 +247,7 @@ function validateTransactionFields(array $data, bool $partial): array
 function getTransactionById(int $transId): ?array
 {
     $sql = 'SELECT trans_id, `date`, user_id, sold_for FROM transactions WHERE trans_id = :trans_id';
-    $rows = WFDatabase::getDataFromSQL($sql, [':trans_id' => $transId]);
+    $rows = PokeDatabase::getDataFromSQL($sql, [':trans_id' => $transId]);
 
     return $rows[0] ?? null;
 }
@@ -266,7 +266,7 @@ function getTransactionWithCards(int $transId): ?array
     WHERE e.trans_id = :trans_id
     ORDER BY e.exchange_id';
 
-    $transaction['cards'] = WFDatabase::getDataFromSQL($cards_sql, [':trans_id' => $transId]);
+    $transaction['cards'] = PokeDatabase::getDataFromSQL($cards_sql, [':trans_id' => $transId]);
 
     return $transaction;
 }

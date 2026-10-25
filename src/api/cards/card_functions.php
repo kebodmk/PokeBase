@@ -92,13 +92,21 @@ function insertCard(array $fields): int
         ':grade' => $fields['grade'] ?? null,
     ];
 
-    return (int)WFDatabase::executeSQL($insert_card_sql, $insert_params, true);
+    return (int)PokeDatabase::executeSQL($insert_card_sql, $insert_params, true);
 }
 
 function getCardById(int $cardId): ?array
 {
     $sql = 'SELECT ' . CARD_SELECT_COLUMNS . ' FROM cards WHERE card_id = :card_id';
-    $rows = WFDatabase::getDataFromSQL($sql, [':card_id' => $cardId]);
+    $rows = PokeDatabase::getDataFromSQL($sql, [':card_id' => $cardId]);
+
+    return $rows[0] ?? null;
+}
+
+function getCardByName(string $cardName): ?array
+{
+    $sql = 'select ' . CARD_SELECT_COLUMNS .' FROM cards WHERE name LIKE %:card_name%';
+    $rows = PokeDatabase::getDataFromSQL($sql, [':card_name' => $cardName]);
 
     return $rows[0] ?? null;
 }

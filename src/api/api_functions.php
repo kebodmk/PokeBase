@@ -72,6 +72,6 @@ function buildUpdateQuery(string $table, string $idColumn, int $id, array $field
 function rowExists(string $table, string $idColumn, int $id): bool
 {
     $sql = "SELECT `$idColumn` FROM `$table` WHERE `$idColumn` = :id LIMIT 1";
-    $rows = WFDatabase::getDataFromSQL($sql, [':id' => $id]);
+    $rows = PokeDatabase::getDataFromSQL($sql, [':id' => $id]);
     return count($rows) > 0;
 }

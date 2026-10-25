@@ -5,7 +5,7 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 
 require_once __DIR__ . "/../../includes/config.php";
-require_once __DIR__ . "/../../includes/WFDatabase.php";
+require_once __DIR__ . "/../../includes/PokeDatabase.php";
 require_once __DIR__ . "/../../includes/json_functions.php";
 require_once __DIR__ . '/../api_functions.php';
 require_once __DIR__ . '/card_functions.php';
@@ -13,6 +13,7 @@ require_once __DIR__ . '/card_functions.php';
 $method = $_SERVER['REQUEST_METHOD'];
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
 $parts = explode('/', trim($path, '/'));
 $cardsIndex = array_search('cards', $parts, true);
 $routePart = $cardsIndex !== false ? ($parts[$cardsIndex + 1] ?? null) : null;
@@ -23,6 +24,7 @@ $subResource = $cardsIndex !== false ? ($parts[$cardsIndex + 2] ?? null) : null;
 GET /api/cards/search?name=&set=&set_num=&lang=&condition=&printing=&grade=&price_date=&price_min=&price_max=
 ------------------------------------------------------------
 */
+
 if ($routePart === 'search') {
     if ($method !== 'GET') {
         sendJson(405, ['success' => false, 'message' => 'Method not allowed.']);
@@ -74,7 +76,7 @@ if ($routePart === 'search') {
     }
     $search_sql .= ' ORDER BY `name`, card_id';
 
-    $cards = WFDatabase::getDataFromSQL($search_sql, $search_params);
+    $cards = PokeDatabase::getDataFromSQL($search_sql, $search_params);
 
     sendJson(200, [
         'success' => true,
@@ -82,6 +84,7 @@ if ($routePart === 'search') {
         'cards' => $cards,
     ]);
 }
+
 
 /*
 ------------------------------------------------------------
@@ -137,7 +140,7 @@ if ($routePart === 'update') {
     }
 
     [$update_sql, $update_params] = buildUpdateQuery('cards', 'card_id', $cardId, $fields);
-    WFDatabase::executeSQL($update_sql, $update_params);
+    PokeDatabase::executeSQL($update_sql, $update_params);
 
     sendJson(200, [
         'success' => true,
@@ -163,15 +166,14 @@ if ($routePart === 'delete') {
     }
 
     $exchange_check_sql = 'SELECT exchange_id FROM exchanged_cards WHERE card_id = :card_id LIMIT 1';
-    $exchanges = WFDatabase::getDataFromSQL($exchange_check_sql, [':card_id' => $cardId]);
+    $exchanges = PokeDatabase::getDataFromSQL($exchange_check_sql, [':card_id' => $cardId]);
 
     if (count($exchanges) > 0) {
         sendJson(409, ['success' => false, 'message' => 'Card is part of a transaction and cannot be deleted.']);
     }
 
-    WFDatabase::executeSQL('DELETE FROM cards WHERE card_id = :card_id', [':card_id' => $cardId]);
+    PokeDatabase::executeSQL('DELETE FROM cards WHERE card_id = :card_id', [':card_id' => $cardId]);
 
     sendJson(200, ['success' => true, 'message' => 'Card deleted.']);
 }
-
 sendJson(404, ['success' => false, 'message' => 'Endpoint not found.']);
