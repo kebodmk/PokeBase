@@ -1,5 +1,10 @@
 # API: /transactions/
 
+Requests that change data must send the logged-in user's id in an `X-User-Id` header. Add and update require a Manager or Employee; delete requires a Manager.
+
+    No or unknown X-User-Id -> HTTP 401
+    Role not allowed -> HTTP 403
+
 ## POST /api/transactions/add
 
 Adds the transaction row, then an `exchanged_cards` row for each entry in `cards`.

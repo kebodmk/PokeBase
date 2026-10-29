@@ -31,6 +31,8 @@ if ($routePart === 'add') {
         sendJson(405, ['success' => false, 'message' => 'Method not allowed.']);
     }
 
+    requireRole([ROLE_MANAGER, ROLE_EMPLOYEE]);
+
     $data = getJsonBody();
     [$fields, $errors] = validateTransactionFields($data, false);
 
@@ -134,6 +136,8 @@ if ($routePart === 'update') {
         sendJson(405, ['success' => false, 'message' => 'Method not allowed.']);
     }
 
+    requireRole([ROLE_MANAGER, ROLE_EMPLOYEE]);
+
     $transId = requireRouteId($subResource);
 
     if (getTransactionById($transId) === null) {
@@ -171,6 +175,8 @@ if ($routePart === 'delete') {
     if ($method !== 'DELETE') {
         sendJson(405, ['success' => false, 'message' => 'Method not allowed.']);
     }
+
+    requireRole([ROLE_MANAGER]);
 
     $transId = requireRouteId($subResource);
 

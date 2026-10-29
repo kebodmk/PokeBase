@@ -7,6 +7,34 @@ Relies on sendJson() from includes/json_functions.php
 ------------------------------------------------------------
 */
 
+// Role names as stored in users.role (compared case-insensitively)
+const ROLE_MANAGER = 'manager';
+const ROLE_EMPLOYEE = 'employee';
+
+// Call at the start of an endpoint. Reads the requesting user's id from the X-User-Id header,
+// looks up their role, and stops with 401 (not logged in) or 403 (role not allowed).
+// TODO: The header can be set by any client. Switch this to a session token (api_sessions) once login issues one.
+function requireRole(array $allowedRoles): void
+{
+    $userId = $_SERVER['HTTP_X_USER_ID'] ?? null;
+
+    if ($userId === null || !isPositiveInt($userId)) {
+        sendJson(401, ['success' => false, 'message' => 'You must be logged in to do that.']);
+    }
+
+    $rows = WFDatabase::getDataFromSQL('SELECT role FROM users WHERE user_id = :user_id', [':user_id' => (int)$userId]);
+
+    if (count($rows) === 0) {
+        sendJson(401, ['success' => false, 'message' => 'You must be logged in to do that.']);
+    }
+
+    $role = strtolower(trim((string)$rows[0]['role']));
+
+    if (!in_array($role, $allowedRoles, true)) {
+        sendJson(403, ['success' => false, 'message' => 'You do not have permission to do that.']);
+    }
+}
+
 function isValidDate($value): bool
 {
     if (!is_string($value)) {

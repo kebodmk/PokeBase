@@ -27,6 +27,8 @@ if ($routePart === 'add') {
         sendJson(405, ['success' => false, 'message' => 'Method not allowed.']);
     }
 
+    requireRole([ROLE_MANAGER, ROLE_EMPLOYEE]);
+
     $data = getJsonBody();
     [$fields, $errors] = validateInventoryFields($data, false);
 
@@ -60,6 +62,8 @@ if ($routePart === 'update') {
     if ($method !== 'PUT') {
         sendJson(405, ['success' => false, 'message' => 'Method not allowed.']);
     }
+
+    requireRole([ROLE_MANAGER, ROLE_EMPLOYEE]);
 
     $invId = requireRouteId($subResource);
 
@@ -97,6 +101,8 @@ if ($routePart === 'delete') {
     if ($method !== 'DELETE') {
         sendJson(405, ['success' => false, 'message' => 'Method not allowed.']);
     }
+
+    requireRole([ROLE_MANAGER]);
 
     $invId = requireRouteId($subResource);
 
