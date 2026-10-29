@@ -105,7 +105,7 @@ function getCardById(int $cardId): ?array
 
 function getCardByName(string $cardName): ?array
 {
-    $sql = 'select ' . CARD_SELECT_COLUMNS .' FROM cards WHERE name LIKE %:card_name%';
+    $sql = 'select ' . CARD_SELECT_COLUMNS .' FROM cards WHERE name LIKE :card_name%';
     $rows = PokeDatabase::getDataFromSQL($sql, [':card_name' => $cardName]);
 
     return $rows[0] ?? null;

@@ -21,7 +21,7 @@ $subResource = $cardsIndex !== false ? ($parts[$cardsIndex + 2] ?? null) : null;
 
 /*
 ------------------------------------------------------------
-GET /api/cards/search?name=&set=&set_num=&lang=&condition=&printing=&grade=&price_date=&price_min=&price_max=
+GET /api/cards/search?card_id=&name=&set=&set_num=&lang=&condition=&printing=&grade=&price_date=&price_min=&price_max=
 ------------------------------------------------------------
 */
 
@@ -31,7 +31,7 @@ if ($routePart === 'search') {
     }
 
     // name is a partial match, the other text columns are exact matches
-    $exactColumns = ['set', 'set_num', 'lang', 'condition', 'printing', 'grade'];
+    $exactColumns = ['card_id', 'set', 'set_num', 'lang', 'condition', 'printing', 'grade'];
     $conditions = [];
     $search_params = [];
 
