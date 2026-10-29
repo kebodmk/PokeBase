@@ -5,19 +5,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema pokebase
+-- Schema pokebase_db
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema pokebase
+-- Schema pokebase_db
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `pokebase` DEFAULT CHARACTER SET utf8 ;
-USE `pokebase` ;
+CREATE SCHEMA IF NOT EXISTS `pokebase_db` DEFAULT CHARACTER SET utf8 ;
+USE `pokebase_db` ;
 
 -- -----------------------------------------------------
--- Table `pokebase`.`cards`
+-- Table `pokebase_db`.`cards`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `pokebase`.`cards` (
+CREATE TABLE IF NOT EXISTS `pokebase_db`.`cards` (
   `card_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `set` VARCHAR(45) NOT NULL,
@@ -34,25 +34,26 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `pokebase`.`users`
+-- Table `pokebase_db`.`users`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `pokebase`.`users` (
+CREATE TABLE IF NOT EXISTS `pokebase_db`.`users` (
   `user_id` INT NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
   `role` VARCHAR(45) NOT NULL,
   `first_name` VARCHAR(45) NOT NULL,
   `last_name` VARCHAR(45) NOT NULL,
   `date_registered` DATE NOT NULL,
   PRIMARY KEY (`user_id`),
-  UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC))
+  UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `pokebase`.`transactions`
+-- Table `pokebase_db`.`transactions`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `pokebase`.`transactions` (
+CREATE TABLE IF NOT EXISTS `pokebase_db`.`transactions` (
   `trans_id` INT NOT NULL AUTO_INCREMENT,
   `date` DATE NOT NULL,
   `user_id` INT NOT NULL,
@@ -62,16 +63,16 @@ CREATE TABLE IF NOT EXISTS `pokebase`.`transactions` (
   INDEX `user_id_idx` (`user_id` ASC),
   CONSTRAINT `transactions_users_user_id`
     FOREIGN KEY (`user_id`)
-    REFERENCES `pokebase`.`users` (`user_id`)
+    REFERENCES `pokebase_db`.`users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `pokebase`.`exchanged_cards`
+-- Table `pokebase_db`.`exchanged_cards`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `pokebase`.`exchanged_cards` (
+CREATE TABLE IF NOT EXISTS `pokebase_db`.`exchanged_cards` (
   `exchange_id` INT NOT NULL AUTO_INCREMENT,
   `trans_id` INT NOT NULL,
   `card_id` INT NOT NULL,
@@ -82,21 +83,21 @@ CREATE TABLE IF NOT EXISTS `pokebase`.`exchanged_cards` (
   INDEX `trans_id_idx` (`trans_id` ASC),
   CONSTRAINT `exchanged_cards_card_id`
     FOREIGN KEY (`card_id`)
-    REFERENCES `pokebase`.`cards` (`card_id`)
+    REFERENCES `pokebase_db`.`cards` (`card_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `exchanged_transactions_trans_id`
     FOREIGN KEY (`trans_id`)
-    REFERENCES `pokebase`.`transactions` (`trans_id`)
+    REFERENCES `pokebase_db`.`transactions` (`trans_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `pokebase`.`api_sessions`
+-- Table `pokebase_db`.`api_sessions`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `pokebase`.`api_sessions` (
+CREATE TABLE IF NOT EXISTS `pokebase_db`.`api_sessions` (
   `session_id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   `token_hash` CHAR(64) NOT NULL,
@@ -107,16 +108,16 @@ CREATE TABLE IF NOT EXISTS `pokebase`.`api_sessions` (
   INDEX `user_id_idx` (`user_id` ASC),
   CONSTRAINT `api_sessions_users_user_id`
     FOREIGN KEY (`user_id`)
-    REFERENCES `pokebase`.`users` (`user_id`)
+    REFERENCES `pokebase_db`.`users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `pokebase`.`inventory_tracker`
+-- Table `pokebase_db`.`inventory_tracker`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `pokebase`.`inventory_tracker` (
+CREATE TABLE IF NOT EXISTS `pokebase_db`.`inventory_tracker` (
   `inv_id` INT NOT NULL AUTO_INCREMENT,
   `date` DATE NOT NULL,
   `total_value` FLOAT NOT NULL,
@@ -126,9 +127,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `pokebase`.`audits`
+-- Table `pokebase_db`.`audits`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `pokebase`.`audits` (
+CREATE TABLE IF NOT EXISTS `pokebase_db`.`audits` (
   `audit_id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   `date` DATE NOT NULL,
@@ -138,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `pokebase`.`audits` (
   INDEX `user_id_idx` (`user_id` ASC),
   CONSTRAINT `audits_users_user_id`
     FOREIGN KEY (`user_id`)
-    REFERENCES `pokebase`.`users` (`user_id`)
+    REFERENCES `pokebase_db`.`users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

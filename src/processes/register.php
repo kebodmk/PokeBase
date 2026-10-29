@@ -1,0 +1,104 @@
+<?php
+ini_set('display_errors', 0);
+error_reporting(E_ALL & ~E_NOTICE);
+session_start();
+
+require_once __DIR__ . '/../includes/config.php';
+
+
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    header("Location: ../login.php?page=register");
+    exit;
+}
+
+$firstName    = trim($_POST["first"] ?? "");
+$lastName     = trim($_POST["last"] ?? "");
+$email        = trim($_POST["email"] ?? "");
+$userpassword = $_POST["pass"] ?? "";
+
+if ($firstName === "" || $lastName === "" || $email === "" || $userpassword === "") {
+    $_SESSION["error"] = "All fields are required.";
+    header("Location: ../login.php?page=register");
+    exit;
+}
+
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $_SESSION["error"] = "Enter a valid email address.";
+    header("Location: ../login.php?page=register");
+    exit;
+}
+
+// Build request body
+$jsonData = json_encode([
+    "email"      => $email,
+    "password"   => $userpassword,
+    "first_name" => $firstName,
+    "last_name"  => $lastName,
+]);
+
+// Call POST /api/users/register
+
+$url = rtrim($mainURL, "/") . "/api/users/register";
+
+$options = [
+    "http" => [
+        "method"        => "POST",
+        "header"        => "Content-Type: application/json\r\n" .
+                           "Accept: application/json\r\n",
+        "content"       => $jsonData,
+        "timeout"       => 8,
+        "ignore_errors" => true       // lets us read the body on 4xx/5xx
+    ],
+    "ssl" => [
+        // Dev only. Remove these three lines once the API has a real certificate.
+        "verify_peer"       => false,
+        "verify_peer_name"  => false,
+        "allow_self_signed" => true
+    ]
+];
+
+$response = @file_get_contents($url, false, stream_context_create($options));
+
+// Error: no response at all
+
+if ($response === false) {
+    $_SESSION["error"] = "Unable to communicate with the registration service.";
+    header("Location: ../login.php?page=register");
+    exit;
+}
+
+// Read the HTTP status code from the response headers.
+$httpCode = 0;
+if (isset($http_response_header[0]) &&
+    preg_match('#HTTP/\S+\s+(\d{3})#', $http_response_header[0], $m)) {
+    $httpCode = (int) $m[1];
+}
+
+if ($httpCode >= 500) {
+    $_SESSION["error"] = "The server ran into a problem. Please try again later.";
+    header("Location: ../login.php?page=register");
+    exit;
+}
+
+// Convert JSON response into PHP array.
+
+$result = json_decode($response, true);
+
+if (!is_array($result)) {
+    $_SESSION["error"] = "Invalid response received from the registration service.";
+    header("Location: ../login.php?page=register");
+    exit;
+}
+
+// Successful registration, send them to log in
+
+if ($httpCode === 201 && ($result["success"] ?? false) === true) {
+    $_SESSION["message"] = "Registration successful. Please log in.";
+    header("Location: ../login.php?page=login");
+    exit;
+}
+
+// Registration rejected by API (400 validation, 409 email taken)
+$_SESSION["error"] = $result["message"] ?? "Registration failed.";
+header("Location: ../login.php?page=register");
+exit;

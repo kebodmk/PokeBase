@@ -22,7 +22,7 @@ function requireRole(array $allowedRoles): void
         sendJson(401, ['success' => false, 'message' => 'You must be logged in to do that.']);
     }
 
-    $rows = WFDatabase::getDataFromSQL('SELECT role FROM users WHERE user_id = :user_id', [':user_id' => (int)$userId]);
+    $rows = PokeDatabase::getDataFromSQL('SELECT role FROM users WHERE user_id = :user_id', [':user_id' => (int)$userId]);
 
     if (count($rows) === 0) {
         sendJson(401, ['success' => false, 'message' => 'You must be logged in to do that.']);

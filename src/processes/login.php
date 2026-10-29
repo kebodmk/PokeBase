@@ -3,7 +3,7 @@ ini_set('display_errors', 0);
 error_reporting(E_ALL & ~E_NOTICE);
 session_start();
 
-require_once __DIR__ . '/includes/config.php';   // adjust to wherever this file lives
+require_once __DIR__ . '/../includes/config.php';
 
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
@@ -104,22 +104,22 @@ if (!is_array($result)) {
  
 // Successful login
 
-if (($result["success"] ?? false) === true && !empty($result["token"])) {
- 
+if (($result["success"] ?? false) === true && !empty($result["user"])) {
+
     session_regenerate_id(true);       // new session id after login
- 
-    $_SESSION["api_token"]   = $result["token"];
-    $_SESSION["user"]        = $result["user"] ?? [];
+
+    $_SESSION["api_token"]   = $result["token"] ?? null;
+    $_SESSION["user"]        = $result["user"];
     $_SESSION["LoginStatus"] = "YES";
     $_SESSION["session_id"]  = session_id();
     $_SESSION["login_time"]  = date("Y-m-d H:i:s");
     $_SESSION["error"]       = "";
  
-    if (isset($result["user"]["userid"])) {
-        $_SESSION["user_id"] = $result["user"]["userid"];
+    if (isset($result["user"]["user_id"])) {
+        $_SESSION["user_id"] = $result["user"]["user_id"];
     }
- 
-    header("Location: ../profile.php");
+
+    header("Location: ../index.php");
     exit;
 }
  
