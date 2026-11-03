@@ -1,8 +1,8 @@
 # API: /inventory_tracker/
 
-Requests that change data must send the logged-in user's id in an `X-User-Id` header. Add and update require a Manager or Employee; delete requires a Manager.
+Requests that change data must come from a logged-in user: send the `pokebase_session` cookie issued by `POST /api/users/login` (browsers send it automatically). The `X-User-Id` header is no longer accepted. Add and update require a Manager or Employee; delete requires a Manager.
 
-    No or unknown X-User-Id -> HTTP 401
+    No, expired, or logged-out session -> HTTP 401
     Role not allowed -> HTTP 403
 
 ## POST /api/inventory_tracker/add

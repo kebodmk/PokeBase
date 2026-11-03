@@ -4,6 +4,7 @@ error_reporting(E_ALL & ~E_NOTICE);
 session_start();
 
 require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/auth_cookie.php';
 
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
@@ -104,11 +105,23 @@ if (!is_array($result)) {
  
 // Successful login
 
-if (($result["success"] ?? false) === true && !empty($result["user"])) {
+// The API issues the session as a cookie. This call came from the server, not the browser,
+// so read it from the response headers and pass it on to the browser.
+$sessionToken = null;
+foreach ($http_response_header ?? [] as $responseHeader) {
+    if (preg_match('/^Set-Cookie:\s*' . SESSION_COOKIE . '=([0-9a-f]{64})/i', $responseHeader, $m)) {
+        $sessionToken = $m[1];
+    }
+}
+
+if (($result["success"] ?? false) === true && !empty($result["user"]) && $sessionToken !== null) {
 
     session_regenerate_id(true);       // new session id after login
 
-    $_SESSION["api_token"]   = $result["token"] ?? null;
+    setSessionCookie($sessionToken, time() + SESSION_LIFETIME_SECONDS);
+
+    // Kept for server-side API calls: send it as "Cookie: pokebase_session=<token>"
+    $_SESSION["api_token"]   = $sessionToken;
     $_SESSION["user"]        = $result["user"];
     $_SESSION["LoginStatus"] = "YES";
     $_SESSION["session_id"]  = session_id();

@@ -1,8 +1,8 @@
 # API: /transactions/
 
-Requests that change data must send the logged-in user's id in an `X-User-Id` header. Add and update require a Manager or Employee; delete requires a Manager.
+Requests that change data must come from a logged-in user: send the `pokebase_session` cookie issued by `POST /api/users/login` (browsers send it automatically). The `X-User-Id` header is no longer accepted. Add and update require a Manager or Employee; delete requires a Manager.
 
-    No or unknown X-User-Id -> HTTP 401
+    No, expired, or logged-out session -> HTTP 401
     Role not allowed -> HTTP 403
 
 ## POST /api/transactions/add
@@ -12,7 +12,7 @@ Each card entry either points at an existing card with `card_id`, or includes th
 All input is validated before anything is written. If a database error happens partway through, the rows this request already inserted are removed.
 
 *date* **required, YYYY-MM-DD** <br>
-*user_id* **required, must exist** <br>
+*user_id* **not sent, set to the logged-in user** <br>
 *sold_for* **optional, non-negative number or null** <br>
 *cards* **optional, list of card entries**
 
@@ -24,7 +24,6 @@ Card entry:
 ```json
 {
   "date": "2026-10-22",
-  "user_id": 1,
   "sold_for": 20.00,
   "cards": [
     { "card_id": 12, "recieved": false },

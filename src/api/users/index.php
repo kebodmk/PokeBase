@@ -7,6 +7,7 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 require_once __DIR__ . "/../../includes/config.php";
 require_once __DIR__ . "/../../includes/PokeDatabase.php";
 require_once __DIR__ . "/../../includes/json_functions.php";
+require_once __DIR__ . '/../api_functions.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -111,15 +112,28 @@ if ($routePart === 'login') {
         ]);
     }
 
-    //TODO: Manage sessions in database
-    //$token 
-    
+    deleteExpiredSessions();
+
+    // Manage cookie session token
+    $token = bin2hex(random_bytes(32));
+
+    $insert_session_sql = 'INSERT INTO api_sessions
+    (user_id, token_hash, created_at, ended_at)
+    VALUES
+    (:user_id, :token_hash, NOW(), NOW() + INTERVAL ' . SESSION_LIFETIME_SECONDS . ' SECOND)';
+
+    PokeDatabase::executeSQL($insert_session_sql, [
+        ':user_id' => (int)$record['user_id'],
+        ':token_hash' => hashSessionToken($token),
+    ]);
+
+    setSessionCookie($token, time() + SESSION_LIFETIME_SECONDS);
+
     $user_data = getUserById((int)$record['user_id']);
-    
+
     sendJson(200, [
         'success' => true,
         'message' => 'Login successful.',
-        #'token' => $token,
         'user' => $user_data,
     ]);
 }
@@ -133,7 +147,18 @@ if ($routePart === 'logout') {
     if ($method !== 'POST') {
         sendJson(405, ['success' => false, 'message' => 'Method not allowed.']);
     }
-    //TODO: Manage revoking sessions in db
-    session_destroy();
+    // End the session by deleting it
+    $token = $_COOKIE[SESSION_COOKIE] ?? '';
+
+    if (is_string($token) && preg_match('/^[0-9a-f]{64}$/', $token)) {
+        PokeDatabase::executeSQL(
+            'DELETE FROM api_sessions WHERE token_hash = :token_hash',
+            [':token_hash' => hashSessionToken($token)]
+        );
+    }
+
+    deleteExpiredSessions();
+
+    setSessionCookie('', time() - 3600);
     sendJson(200, ['success' => true, 'message' => 'Logout successful.']);
 }

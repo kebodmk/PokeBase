@@ -27,9 +27,10 @@ if ($routePart === 'add') {
         sendJson(405, ['success' => false, 'message' => 'Method not allowed.']);
     }
 
-    requireRole([ROLE_MANAGER, ROLE_EMPLOYEE]);
+    $sessionUser = requireRole([ROLE_MANAGER, ROLE_EMPLOYEE]);
 
     $data = getJsonBody();
+    $data['user_id'] = $sessionUser['user_id'];
     [$fields, $errors] = validateAuditFields($data, false);
 
     if (count($errors) > 0) {
