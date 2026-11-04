@@ -7,23 +7,17 @@
     $linkName = "Profile";
   }
     */
-?>  
-    <button id = "enableNav">☰</button>
-    <h1 style = "text-align:center">Coming Soon!</h1>
-    <BR><BR>
+?>
+    <header>
+        <button id = "enableNav" aria-label = "Toggle menu">☰</button>
+        <a href = "./index.php"><img src = "./images/logo.jpg" alt = "Pokébase logo"></a>
+    </header>
     <div id = "navButtons" class = "invisible">
         <button id = "home">Home</button>
-        <BR>
-        <!-- Right-sided navbar links. Hide them on small screens -->
         <button id = "inventory">Inventory</button>
-        <BR>
         <button id = "sales">Sales</button>
-        <BR>
         <button id = "trades">Trades</button>
-        <BR>
         <button id = "login">Login</button>
-        <BR>
         <!-- SET THIS TO SHOW UP IF PYTHON SERVER IS AVAILABLE -->
         <button id = "scan">Scan Cards</button>
-        <BR>
     </div>

@@ -30,6 +30,7 @@ $card = $cards[0];
     $print = $card["printing"];
     $grade = $card["grade"] ?? null;
 
+    echo "<div id='main'>";
     echo "<h1>{$cardName}</h1>";
     echo "<h2>Price (Updated on {$priceDate}): \${$price}</h2>";
     echo "<h3>Card Set: {$cardSet}</h3>";
@@ -38,5 +39,6 @@ $card = $cards[0];
     echo "<h3>Card Condition: {$condition}</h3>";
     echo "<h3>PSA: {$grade}</h3>";
     echo "<h3>Card Language: {$language}</h3>";
+    echo "</div>";
 
 ?>

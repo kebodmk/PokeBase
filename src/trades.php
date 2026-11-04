@@ -1,5 +1,5 @@
 <?php
-    include "header.php";
+    include "includes/header.php";
     include "navigation.php"
 ?>
 <div id = "main">
@@ -10,5 +10,5 @@
     </div>
 </div>
 <?php
-    include "footer.php";
+    include "includes/footer.php";
 ?>

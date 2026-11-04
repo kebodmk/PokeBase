@@ -1,36 +1,56 @@
-#enableNav{
-    width: 15%;            /* Scales based on the parent container */
-    min-width: 60px;       /* Prevents it from getting too small on mobile */
-    max-width: 150px;      /* Prevents it from getting too huge on desktop */
-
-    /* Step 2: Force it to remain a perfect square */
-    aspect-ratio: 1 / 1;
-    font-size:600%;
+/* Let headings and media scale down on small screens */
+h1{
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+}
+h2{
+    font-size: clamp(1.2rem, 4.5vw, 1.75rem);
+}
+img{
+    max-width: 100%;
+    height: auto;
+}
+input, button{
+    font-size: 1rem;        /* 16px+ keeps mobile browsers from zooming into inputs */
+    max-width: 100%;
 }
 
-/* style breaks ability for things to compress when going invisible*/
+/* Hamburger + logo bar */
+header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem;
+}
+header img{
+    height: clamp(32px, 8vw, 56px);
+    width: auto;
+    display: block;
+}
+
+#enableNav{
+    font-size: clamp(1.1rem, 4vw, 1.6rem);
+    width: 1.8em;           /* em follows the font-size, so it stays square at every size */
+    aspect-ratio: 1 / 1;
+    line-height: 1;
+    padding: 0;
+}
+
 #navButtons {
-    width: 100%;
-    height: 80%;
     display: flex;
     flex-direction: column; /* Stacks the buttons vertically like a column */
     align-items: center;    /* Centers the buttons horizontally in column mode */
-    gap: 20px;              /* Replaces the <br> tag—sets the exact vertical space between buttons */
+    gap: 12px;              /* Sets the exact vertical space between buttons */
 }
 
 #navButtons > button {
-    font-size: 200%;
-    
-    /* Make the button fill a responsive portion of the parent flex wrapper */
-    width: 60%; 
+    font-size: clamp(1rem, 3vw, 1.25rem);
 
-    height: 25%;
-    
-    /* Use em for padding. 1em automatically adjusts perfectly to match your 200% font-size */
-    padding: 0.8em 1.5em; 
-    
-    /* Optional: ensures padding doesn't accidentally alter your width calculations */
-    box-sizing: border-box; 
+    /* Nearly full width on phones, capped on desktop */
+    width: min(90%, 300px);
+
+    padding: 0.5em 1em;
+    box-sizing: border-box;
 }
 
 #intro > h1, #intro > h2{

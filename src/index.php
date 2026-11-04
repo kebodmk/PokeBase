@@ -7,6 +7,7 @@
         <h1> Welcome to Pokébase! </h1>
         <h2> Pokébase is a tool used to keep inventory of your cards and see the value of each of them.</h2>
         <BR><BR>
+        <h1 style = "text-align:center">Coming Soon!</h1>
         <h2> Features </h2>
         <BR>
         <ol>
@@ -31,10 +32,6 @@
                 <li>Take a picture of a card to get information on a card without typing it in</li>
             </ul>
         </ol>
-    </div>
-    <br>
-    <div class = "logo-container">
-        <img src = "./images/logo.jpg" alt = "Pokébase logo">
     </div>
 </div>
 <?php

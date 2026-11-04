@@ -42,7 +42,7 @@ function init(){
 
 function showButtons(){
     document.getElementById("navButtons").classList.toggle("invisible");
-    document.getElementById("main").classList.toggle("invisible");
+    document.getElementById("main")?.classList.toggle("invisible");
 }
 
 //Checks what buttons can be displayed and adds event listeners to each.
