@@ -110,3 +110,16 @@ function getCardByName(string $cardName): ?array
 
     return $rows[0] ?? null;
 }
+
+function getCardByParams(string $cardName, string $set = null, string $print = null): ?array
+{
+    $sql = 'SELECT ' . CARD_SELECT_COLUMNS .' FROM cards WHERE name LIKE :card_name%';
+    if($set !== null){
+        $sql .= ' AND set = :set';
+    }
+    if($print !== null){
+        $sql .= ' AND printing = :grade';
+    }
+    $rows = PokeDatabase::getDataFromSQL($sql, [':card_name' => $cardName]);
+    return $rows[0] ?? null;
+}
