@@ -1,12 +1,6 @@
 <?PHP
   //Adjust the Login link depending on login status
-  /**
-  if(!isset($_SESSION["LoginStatus"]) || $_SESSION["LoginStatus"]!="YES"){
-    $linkName = "Login";
-  }else{
-    $linkName = "Profile";
-  }
-    */
+  $isLoggedIn = isset($_SESSION['user_id']);
 ?>
     <header>
         <button id = "enableNav" aria-label = "Toggle menu">☰</button>
@@ -17,7 +11,11 @@
         <button id = "inventory">Inventory</button>
         <button id = "sales">Sales</button>
         <button id = "trades">Trades</button>
-        <button id = "login">Login</button>
+        <?php if ($isLoggedIn): ?>
+            <button id="login">Login</button>
+        <?php else: ?>
+            <button id="login">Logout</button>
+        <?php endif; ?>
         <!-- SET THIS TO SHOW UP IF PYTHON SERVER IS AVAILABLE -->
         <button id = "scan">Scan Cards</button>
     </div>
