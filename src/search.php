@@ -28,7 +28,8 @@
                     echo "<div class='search-item'>
                         <a href='cards.php?card_id=" . urlencode($card["card_id"]) . "'>" .
                         htmlspecialchars($card['name']) . " || " .
-                        htmlspecialchars($card['set']) . " || " .
+                        htmlspecialchars($card['set']) . " " .
+                        htmlspecialchars($card['set_num']) . " || ".
                         htmlspecialchars($card['lang']) . " || " .
                         htmlspecialchars($card['condition']) . " || " .
                         htmlspecialchars($card['printing']) . " || $" .
