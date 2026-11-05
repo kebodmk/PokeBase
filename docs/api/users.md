@@ -27,3 +27,27 @@ Deletes the session in the `pokebase_session` cookie from `api_sessions` and cle
 
     Post -> HTTP 200
     Not Post -> HTTP 405
+
+## GET /api/users/list
+
+Requires a Manager (send the `pokebase_session` cookie). Returns every user's `user_id`, `email`, `first_name`, `last_name` and `role`.
+
+    Get -> HTTP 200
+    Not Get -> HTTP 405
+    No, expired, or logged-out session -> HTTP 401
+    Role not allowed -> HTTP 403
+
+## PUT /api/users/role/{user_id}
+
+Requires a Manager (send the `pokebase_session` cookie).
+
+JSON body:
+
+*role* **required, one of user, employee, manager**
+
+    Put -> HTTP 200
+    Not Put -> HTTP 405
+    Invalid id or role -> HTTP 400
+    No, expired, or logged-out session -> HTTP 401
+    Role not allowed -> HTTP 403
+    User not found -> HTTP 404

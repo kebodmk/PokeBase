@@ -68,6 +68,20 @@ header img{
     text-align:center;
 }
 
+#users-form{
+    text-align: center;
+    overflow-x: auto;       /* table scrolls on its own instead of widening the page on phones */
+}
+#users-table{
+    margin: 0 auto 1rem;
+    border-collapse: collapse;
+    text-align: left;
+}
+#users-table th, #users-table td{
+    padding: 0.4em 0.8em;
+    border-bottom: 1px solid #ccc;
+}
+
 .invisible{
     display: none;
 }

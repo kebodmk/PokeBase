@@ -12,6 +12,7 @@ require_once __DIR__ . '/../includes/auth_cookie.php';
 // Role names as stored in users.role (compared case-insensitively)
 const ROLE_MANAGER = 'manager';
 const ROLE_EMPLOYEE = 'employee';
+const ROLE_USER = 'user';
 
 // Returns ['user_id', 'role'] for the session in the request's cookie, or null when there is no
 // unexpired session. Identity only ever comes from a token issued by /api/users/login.
@@ -54,7 +55,7 @@ function requireRole(array $allowedRoles): array
     $role = strtolower(trim((string)$user['role']));
 
     if (!in_array($role, $allowedRoles, true)) {
-        sendJson(403, ['success' => false, 'message' => 'You do not have permission to do that.']);
+        sendJson(403, ['success' => false, 'message' => 'You do not have permission to perform that action or access this page.']);
     }
 
     return ['user_id' => (int)$user['user_id'], 'role' => $role];

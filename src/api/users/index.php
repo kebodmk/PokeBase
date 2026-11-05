@@ -162,3 +162,60 @@ if ($routePart === 'logout') {
     setSessionCookie('', time() - 3600);
     sendJson(200, ['success' => true, 'message' => 'Logout successful.']);
 }
+
+/*
+------------------------------------------------------------
+GET /api/users/list
+------------------------------------------------------------
+*/
+if ($routePart === 'list') {
+    if ($method !== 'GET') {
+        sendJson(405, ['success' => false, 'message' => 'Method not allowed.']);
+    }
+
+    requireRole([ROLE_MANAGER]);
+
+    $list_users_sql = 'SELECT user_id, email, first_name, last_name, role FROM users ORDER BY last_name, first_name';
+
+    sendJson(200, [
+        'success' => true,
+        'users' => PokeDatabase::getDataFromSQL($list_users_sql),
+    ]);
+}
+
+/*
+------------------------------------------------------------
+PUT /api/users/role/{user_id}
+------------------------------------------------------------
+*/
+if ($routePart === 'role') {
+    if ($method !== 'PUT') {
+        sendJson(405, ['success' => false, 'message' => 'Method not allowed.']);
+    }
+
+    requireRole([ROLE_MANAGER]);
+
+    $userId = requireRouteId($subResource);
+
+    if (getUserById($userId) === null) {
+        sendJson(404, ['success' => false, 'message' => 'User not found.']);
+    }
+
+    $data = getJsonBody();
+    $role = is_string($data['role'] ?? null) ? strtolower(trim($data['role'])) : '';
+
+    if (!in_array($role, [ROLE_USER, ROLE_EMPLOYEE, ROLE_MANAGER], true)) {
+        sendValidationErrors(['role must be one of: user, employee, manager.']);
+    }
+
+    PokeDatabase::executeSQL('UPDATE users SET role = :role WHERE user_id = :user_id', [
+        ':role' => $role,
+        ':user_id' => $userId,
+    ]);
+
+    sendJson(200, [
+        'success' => true,
+        'message' => 'User role updated.',
+        'user' => getUserById($userId),
+    ]);
+}
