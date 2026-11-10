@@ -2,198 +2,67 @@
 
 header('Content-Type: application/json; charset=UTF-8');
 
-require_once __DIR__ . "/../../includes/config.php";
+require_once __DIR__ . '/../../includes/config.php';
+
+// ------------------------------------------------------------
+// Response and input helpers.
+// ------------------------------------------------------------
 
 function sendJson($data, $status = 200)
 {
     http_response_code($status);
 
-    echo json_encode(
+    $json = json_encode(
         $data,
-        JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+        JSON_UNESCAPED_SLASHES
+        | JSON_UNESCAPED_UNICODE
+        | JSON_INVALID_UTF8_SUBSTITUTE
     );
 
+    if ($json === false) {
+        http_response_code(500);
+
+        echo '{"success":false,"error":"Could not encode the JSON response."}';
+        exit;
+    }
+
+    echo $json;
     exit;
 }
 
-// ------------------------------------------------------------
-// Read the requested route and HTTP method.
-// Example: index.php?route=update_sets
-// ------------------------------------------------------------
+function postString($key, $default = '')
+{
+    $value = $_POST[$key] ?? $default;
 
-$method = $_SERVER['REQUEST_METHOD'];
-
-$routePart = isset($_GET['route']) && is_string($_GET['route'])
-    ? $_GET['route']
-    : '';
-
-$allowedRoutes = [
-    'get_price' => 'GET',
-    'sets' => 'GET',
-    'update_sets' => 'POST',
-];
-
-if (!isset($allowedRoutes[$routePart])) {
-    sendJson([
-        "error" => "Endpoint not found.",
-        "route" => $routePart,
-    ], 404);
-}
-
-$expectedMethod = $allowedRoutes[$routePart];
-
-if ($method !== $expectedMethod) {
-    header('Allow: ' . $expectedMethod);
-
-    sendJson([
-        "error" => "Method not allowed.",
-        "route" => $routePart,
-        "receivedMethod" => $method,
-        "expectedMethod" => $expectedMethod,
-    ], 405);
+    return is_string($value) ? trim($value) : $default;
 }
 
 // ------------------------------------------------------------
-// Configure the JustTCG request.
+// Shared JustTCG request helper.
 // ------------------------------------------------------------
 
-// Add this to your existing API index.php before its default route handling.
-// Do not add a second opening PHP tag if the file is already inside PHP.
-
-if (($_GET['route'] ?? '') === 'search_cards') {
-    header('Content-Type: application/json; charset=utf-8');
-
-    $respond = static function (int $status, array $payload): void {
-        http_response_code($status);
-
-        echo json_encode(
-            $payload,
-            JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE
+function requestJustTcg($version, $endpoint, array $params, $apiKey)
+{
+    $url = 'https://api.justtcg.com/'
+        . $version
+        . '/'
+        . $endpoint
+        . '?'
+        . http_build_query(
+            $params,
+            '',
+            '&',
+            PHP_QUERY_RFC3986
         );
 
-        exit;
-    };
-
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        header('Allow: POST');
-
-        $respond(405, [
-            'success' => false,
-            'error' => 'Use POST for this endpoint.',
-        ]);
-    }
-
-    $read = static function (string $key): string {
-        $value = $_POST[$key] ?? '';
-
-        return is_string($value) ? trim($value) : '';
-    };
-
-    // Read the fields from your form.
-    $setId = $read('text1');
-    $setNumber = $read('text2');
-    $name = $read('text3');
-    $language = $read('extra1');
-    $condition = $read('extra2');
-    $cardType = $read('card_type');
-    $gradedVariantId = $read('graded_variant_id');
-    $printing = $read('printing');
-
-    if (!in_array($cardType, ['raw', 'graded'], true)) {
-        $respond(422, [
-            'success' => false,
-            'error' => 'Please select Raw or Graded.',
-        ]);
-    }
-
-    if ($setId === '') {
-        $respond(422, [
-            'success' => false,
-            'error' => 'Please select a set.',
-        ]);
-    }
-
-    if (
-        strlen($setId) > 200
-        || strlen($setNumber) > 100
-        || strlen($name) > 200
-        || strlen($printing) > 200
-        || strlen($gradedVariantId) > 250
-    ) {
-        $respond(422, [
-            'success' => false,
-            'error' => 'One or more search values are too long.',
-        ]);
-    }
-
-    $allowedConditions = [
-        'Near Mint',
-        'Lightly Played',
-        'Moderately Played',
-        'Heavily Played',
-        'Damaged',
-        'Sealed',
-    ];
-
-    if (
-        $cardType === 'raw'
-        && !in_array($condition, $allowedConditions, true)
-    ) {
-        $respond(422, [
-            'success' => false,
-            'error' => 'Please select a valid raw condition.',
-        ]);
-    }
-
-    /*
-     * Configure JUSTTCG_API_KEY in your server environment.
-     * Alternatively, load it from a private PHP configuration file
-     * outside your public htdocs directory.
-     */
-    $apiKey = getenv('JUSTTCG_API_KEY');
-
-    if (!is_string($apiKey) || $apiKey === '') {
-        $respond(500, [
-            'success' => false,
-            'error' => 'The JustTCG API key is not configured.',
-        ]);
-    }
-
-    if (!function_exists('curl_init')) {
-        $respond(500, [
-            'success' => false,
-            'error' => 'The PHP cURL extension is not enabled.',
-        ]);
-    }
-
-    /*
-     * Fetch raw and graded variants so the response can also
-     * populate your graded-options dropdown.
-     *
-     * Language, condition, printing and number are filtered below.
-     * This avoids guessing unsupported upstream parameter names
-     * or forwarding your local language codes unchanged.
-     */
-    $query = [
-        'game' => 'pokemon',
-        'graded' => 'include',
-    ];
-
-    if ($cardType === 'graded' && $gradedVariantId !== '') {
-        // A selected graded variant can be looked up directly.
-        $query['variant_id'] = $gradedVariantId;
-    } else {
-        $query['set'] = $setId;
-
-        if ($name !== '') {
-            $query['q'] = $name;
-        }
-    }
-
-    $url = 'https://api.justtcg.com/v2/cards?' .
-        http_build_query($query, '', '&', PHP_QUERY_RFC3986);
-
     $curl = curl_init($url);
+
+    if ($curl === false) {
+        sendJson([
+            'success' => false,
+            'error' => 'Could not initialize the JustTCG request.',
+        ], 500);
+    }
 
     curl_setopt_array($curl, [
         CURLOPT_RETURNTRANSFER => true,
@@ -205,53 +74,154 @@ if (($_GET['route'] ?? '') === 'search_cards') {
         ],
     ]);
 
-    $responseBody = curl_exec($curl);
+    $response = curl_exec($curl);
     $curlError = curl_error($curl);
-    $upstreamStatus = (int) curl_getinfo(
+    $statusCode = (int) curl_getinfo(
         $curl,
         CURLINFO_HTTP_CODE
     );
 
-    if ($responseBody === false) {
-        error_log('JustTCG request failed: ' . $curlError);
+    if ($response === false) {
+        error_log('JustTCG connection error: ' . $curlError);
 
-        $respond(502, [
+        sendJson([
             'success' => false,
-            'error' => 'Could not connect to JustTCG.',
-        ]);
+            'error' => 'Could not connect to JustTCG. Check the PHP error log.',
+        ], 502);
     }
 
-    $decoded = json_decode($responseBody, true);
+    $data = json_decode($response, true);
 
-    if (!is_array($decoded)) {
-        $respond(502, [
-            'success' => false,
-            'error' => 'JustTCG returned an invalid JSON response.',
-        ]);
+if ($statusCode < 200 || $statusCode >= 300) {
+    // Keep the response body in the server log for debugging.
+    // Do not log the API key or request headers.
+    error_log(
+        'JustTCG HTTP ' . $statusCode . ': '
+        . substr($response, 0, 4000)
+    );
+
+    $upstreamError = is_array($data)
+        ? $data
+        : ['message' => substr($response, 0, 1000)];
+
+    sendJson([
+        'success' => false,
+        'error' => 'JustTCG rejected the request.',
+        'upstreamStatus' => $statusCode,
+        'upstreamError' => $upstreamError,
+    ], 502);
     }
 
-    if ($upstreamStatus < 200 || $upstreamStatus >= 300) {
-        $respond(502, [
+    if (
+        json_last_error() !== JSON_ERROR_NONE
+        || !is_array($data)
+    ) {
+        sendJson([
             'success' => false,
-            'error' => 'JustTCG rejected the request.',
-            'upstreamStatus' => $upstreamStatus,
-            'details' => $decoded,
-        ]);
+            'error' => 'JustTCG returned invalid JSON.',
+        ], 502);
     }
 
-    $cards = $decoded['data'] ?? [];
+    return $data;
+}
 
-    if (!is_array($cards)) {
-        $respond(502, [
-            'success' => false,
-            'error' => 'JustTCG returned an unexpected data structure.',
-        ]);
-    }
+// ------------------------------------------------------------
+// Read and validate the route.
+// ------------------------------------------------------------
 
-    /*
-     * These aliases are local comparison rules, not claimed
-     * JustTCG request-parameter values.
-     */
+$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+
+$routePart = isset($_GET['route']) && is_string($_GET['route'])
+    ? trim($_GET['route'])
+    : '';
+
+$allowedRoutes = [
+    'get_price' => 'GET',
+    'sets' => 'GET',
+    'update_sets' => 'POST',
+    'search_cards' => 'POST',
+];
+
+if (!isset($allowedRoutes[$routePart])) {
+    sendJson([
+        'success' => false,
+        'error' => 'Endpoint not found.',
+        'route' => $routePart,
+    ], 404);
+}
+
+$expectedMethod = $allowedRoutes[$routePart];
+
+if ($method !== $expectedMethod) {
+    header('Allow: ' . $expectedMethod);
+
+    sendJson([
+        'success' => false,
+        'error' => 'Method not allowed.',
+        'route' => $routePart,
+        'receivedMethod' => $method,
+        'expectedMethod' => $expectedMethod,
+    ], 405);
+}
+
+// ------------------------------------------------------------
+// Load shared configuration.
+// Supports a constant in config.php or an environment variable.
+// ------------------------------------------------------------
+
+$apiKey = getenv('JUSTTCG_API_KEY') ?: (defined('JUSTTCG_API_KEY') ? JUSTTCG_API_KEY : null);
+
+if (!is_string($apiKey) || trim($apiKey) === '') {
+    sendJson([
+        'success' => false,
+        'error' => 'JUSTTCG_API_KEY is not configured.',
+    ], 500);
+}
+
+$apiKey = trim($apiKey);
+
+if (!function_exists('curl_init')) {
+    sendJson([
+        'success' => false,
+        'error' => 'The PHP cURL extension is not enabled.',
+    ], 500);
+}
+
+// ------------------------------------------------------------
+// POST index.php?route=search_cards
+//
+// Accepts the existing form's FormData fields.
+// Returns matching cards and the original upstream response.
+// ------------------------------------------------------------
+
+if ($routePart === 'search_cards') {
+    $setId = postString('text1');
+    $setNumber = postString('text2');
+    $name = postString('text3');
+    $language = postString('extra1', 'en');
+    $condition = postString('extra2');
+    $cardType = postString('card_type', 'raw');
+    $gradedVariantId = postString('graded_variant_id');
+    $printing = postString('printing');
+
+    // Normalize compatible values from your older form.
+    $legacyConditions = [
+        'mint' => 'Near Mint',
+        'near-mint' => 'Near Mint',
+    ];
+
+    $condition = $legacyConditions[$condition] ?? $condition;
+
+    $allowedConditions = [
+        'Near Mint',
+        'Lightly Played',
+        'Moderately Played',
+        'Heavily Played',
+        'Damaged',
+        'Sealed',
+    ];
+
+    // Local aliases used for comparing response values.
     $languageAliases = [
         'en' => ['en', 'eng', 'english'],
         'jap' => ['ja', 'jp', 'jpn', 'japanese'],
@@ -259,14 +229,104 @@ if (($_GET['route'] ?? '') === 'search_cards') {
         'kor' => ['ko', 'kr', 'kor', 'korean'],
     ];
 
+    if ($setId === '') {
+        sendJson([
+            'success' => false,
+            'error' => 'Please select a set.',
+        ], 422);
+    }
+
+    if (!in_array($cardType, ['raw', 'graded'], true)) {
+        sendJson([
+            'success' => false,
+            'error' => 'Please select Raw or Graded.',
+        ], 422);
+    }
+
     if (!array_key_exists($language, $languageAliases)) {
-        $respond(422, [
+        sendJson([
             'success' => false,
             'error' => 'Please select a valid language.',
-        ]);
+        ], 422);
+    }
+
+    if (
+        $cardType === 'raw'
+        && !in_array($condition, $allowedConditions, true)
+    ) {
+        sendJson([
+            'success' => false,
+            'error' => 'Please select a valid raw condition.',
+        ], 422);
+    }
+
+    if (
+        strlen($setId) > 200
+        || strlen($setNumber) > 100
+        || strlen($name) > 200
+        || strlen($printing) > 200
+        || strlen($gradedVariantId) > 250
+    ) {
+        sendJson([
+            'success' => false,
+            'error' => 'One or more search values are too long.',
+        ], 422);
+    }
+
+    $params = [
+    'game' => 'pokemon',
+];
+
+if ($cardType === 'graded' && $gradedVariantId !== '') {
+    // Direct lookup of a previously selected graded variant.
+    $params['variant_id'] = $gradedVariantId;
+    $params['graded'] = 'include';
+} else {
+    // Browse/search within the selected set.
+    $params['set'] = $setId;
+
+    if ($name !== '') {
+        $params['q'] = $name;
+    }
+
+    if ($cardType === 'graded') {
+        // Browse/search permits graded=only, not graded=include.
+        $params['graded'] = 'only';
+    }
+
+    // Raw searches omit the graded parameter.
+}
+
+    $upstream = requestJustTcg(
+        'v2',
+        'cards',
+        $params,
+        $apiKey
+    );
+
+    $cards = $upstream['data'] ?? null;
+
+    if (!is_array($cards)) {
+        sendJson([
+            'success' => false,
+            'error' => 'JustTCG returned an unexpected cards structure.',
+        ], 502);
     }
 
     $filteredCards = [];
+
+    $diagnostics = [
+        'returnedCards' => count($cards),
+        'matchingCards' => 0,
+        'matchingVariants' => 0,
+        'rejectedCardsBySet' => 0,
+        'rejectedCardsByNumber' => 0,
+        'rejectedVariantsByType' => 0,
+        'rejectedVariantsByCondition' => 0,
+        'rejectedVariantsById' => 0,
+        'rejectedVariantsByPrinting' => 0,
+        'rejectedVariantsByLanguage' => 0,
+    ];
 
     foreach ($cards as $card) {
         if (!is_array($card)) {
@@ -274,24 +334,29 @@ if (($_GET['route'] ?? '') === 'search_cards') {
         }
 
         $returnedSet = $card['set'] ?? null;
+
         $returnedSetId = is_array($returnedSet)
             ? ($returnedSet['id'] ?? '')
             : $returnedSet;
 
-        // Also verify the set when looking up a variant directly.
-        if ((string) $returnedSetId !== $setId) {
+        if (
+            !is_string($returnedSetId)
+            || $returnedSetId !== $setId
+        ) {
+            $diagnostics['rejectedCardsBySet']++;
             continue;
         }
 
         if (
-            $setNumber !== ''
-            && strcasecmp(
-                trim((string) ($card['number'] ?? '')),
-                $setNumber
-            ) !== 0
-        ) {
-            continue;
-        }
+    $setNumber !== ''
+    && !cardNumberMatches(
+        $setNumber,
+        $card['number'] ?? ''
+    )
+) {
+    $diagnostics['rejectedCardsByNumber']++;
+    continue;
+}
 
         $variants = $card['variants'] ?? [];
 
@@ -307,6 +372,7 @@ if (($_GET['route'] ?? '') === 'search_cards') {
             }
 
             if (($variant['type'] ?? '') !== $cardType) {
+                $diagnostics['rejectedVariantsByType']++;
                 continue;
             }
 
@@ -314,6 +380,7 @@ if (($_GET['route'] ?? '') === 'search_cards') {
                 $cardType === 'raw'
                 && ($variant['condition'] ?? '') !== $condition
             ) {
+                $diagnostics['rejectedVariantsByCondition']++;
                 continue;
             }
 
@@ -322,6 +389,7 @@ if (($_GET['route'] ?? '') === 'search_cards') {
                 && $gradedVariantId !== ''
                 && (string) ($variant['id'] ?? '') !== $gradedVariantId
             ) {
+                $diagnostics['rejectedVariantsById']++;
                 continue;
             }
 
@@ -329,15 +397,13 @@ if (($_GET['route'] ?? '') === 'search_cards') {
                 $printing !== ''
                 && ($variant['printing'] ?? '') !== $printing
             ) {
+                $diagnostics['rejectedVariantsByPrinting']++;
                 continue;
             }
 
-            /*
-             * A null language is not automatically English.
-             * Exclude unknown languages when applying a language filter.
-             */
             $returnedLanguage = $variant['language'] ?? null;
 
+            // Unknown language is not assumed to mean English.
             if (
                 !is_string($returnedLanguage)
                 || !in_array(
@@ -346,6 +412,7 @@ if (($_GET['route'] ?? '') === 'search_cards') {
                     true
                 )
             ) {
+                $diagnostics['rejectedVariantsByLanguage']++;
                 continue;
             }
 
@@ -355,160 +422,107 @@ if (($_GET['route'] ?? '') === 'search_cards') {
         if ($matchingVariants) {
             $card['variants'] = $matchingVariants;
             $filteredCards[] = $card;
+
+            $diagnostics['matchingVariants'] += count(
+                $matchingVariants
+            );
         }
     }
 
-    $respond(200, [
+    $diagnostics['matchingCards'] = count($filteredCards);
+
+    sendJson([
         'success' => true,
         'data' => $filteredCards,
 
-        // Keep the upstream response available for debugging and
-        // for building card/printing/grading selection controls.
-        'upstream' => $decoded,
+        'filters' => [
+            'set' => $setId,
+            'number' => $setNumber,
+            'name' => $name,
+            'language' => $language,
+            'cardType' => $cardType,
+            'condition' => $cardType === 'raw' ? $condition : null,
+            'gradedVariantId' => $cardType === 'graded'
+                ? $gradedVariantId
+                : null,
+            'printing' => $printing,
+        ],
+
+        'diagnostics' => $diagnostics,
+
+        // Retained so the frontend can inspect the original cards
+        // and build printing/grading dropdowns.
+        'upstream' => $upstream,
 
         'note' =>
             'Local filters apply only to this returned page. ' .
-            'Variants with an unknown language are excluded.',
+            'Variants with an unknown language are excluded. ' .
+            'Diagnostic rejection counts record the first failed ' .
+            'check for each card or variant.',
     ]);
-}
-
-// Your existing update_sets route and other routes continue below.
-
-switch ($routePart) {
-    case 'get_price':
-        $endpoint = 'cards';
-
-        $params = [
-            "cardId" => "pokemon-battle-academy-fire-energy-22-charizard-stamped-promo",
-            "condition" => "NM,LP",
-            "priceHistoryDuration" => "30d",
-        ];
-        break;
-
-    case 'sets':
-    case 'update_sets':
-        $endpoint = 'sets';
-
-        $params = [
-            "game" => "pokemon",
-            "orderBy" => "release_date",
-            "order" => "desc",
-        ];
-        break;
-}
-
-// ------------------------------------------------------------
-// Load the API key.
-// ------------------------------------------------------------
-
-$apiKey = 'tcg_689238b6d0f841ceb2f632c381a979d3';
-
-if (!$apiKey) {
-    sendJson([
-        "error" => "JUSTTCG_API_KEY is not configured.",
-    ], 500);
-}
-
-if (!function_exists('curl_init')) {
-    sendJson([
-        "error" => "The PHP cURL extension is not enabled.",
-    ], 500);
-}
-
-// ------------------------------------------------------------
-// Make the request to JustTCG.
-// ------------------------------------------------------------
-
-$url = "https://api.justtcg.com/v1/"
-    . $endpoint
-    . "?"
-    . http_build_query($params);
-
-$curl = curl_init($url);
-
-if ($curl === false) {
-    sendJson([
-        "error" => "Could not initialize the API request.",
-    ], 500);
-}
-
-curl_setopt_array($curl, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_HTTPHEADER => [
-        "x-api-key: " . $apiKey,
-        "Accept: application/json",
-    ],
-    CURLOPT_CONNECTTIMEOUT => 10,
-    CURLOPT_TIMEOUT => 30,
-]);
-
-$response = curl_exec($curl);
-$statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
-if ($response === false) {
-    $curlError = curl_error($curl);
-
-
-    error_log("JustTCG connection error: " . $curlError);
-
-    sendJson([
-        "error" => "Could not connect to JustTCG. Check the PHP error log.",
-    ], 502);
-}
-
-
-if ($statusCode < 200 || $statusCode >= 300) {
-    sendJson([
-        "error" => "JustTCG request failed.",
-        "upstreamStatus" => $statusCode,
-    ], 502);
-}
-
-// ------------------------------------------------------------
-// Decode the response before using its data.
-// ------------------------------------------------------------
-
-$data = json_decode($response, true);
-
-if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
-    sendJson([
-        "error" => "JustTCG returned invalid JSON.",
-    ], 502);
 }
 
 // ------------------------------------------------------------
 // GET index.php?route=get_price
+//
+// Preserves your existing fixed-card price lookup.
+// This is separate from the form-driven search route.
 // ------------------------------------------------------------
 
 if ($routePart === 'get_price') {
-    $price = $data["data"][0]["variants"][0]["price"] ?? null;
+    $data = requestJustTcg(
+        'v1',
+        'cards',
+        [
+            'cardId' =>
+                'pokemon-battle-academy-fire-energy-22-charizard-stamped-promo',
+            'condition' => 'NM,LP',
+            'priceHistoryDuration' => '30d',
+        ],
+        $apiKey
+    );
+
+    $price = $data['data'][0]['variants'][0]['price'] ?? null;
 
     if ($price === null) {
         sendJson([
-            "error" => "No price found.",
+            'success' => false,
+            'error' => 'No price found.',
         ], 404);
     }
 
     sendJson([
-        "price" => $price,
+        'success' => true,
+        'price' => $price,
     ]);
 }
 
 // ------------------------------------------------------------
-// Validate the returned sets list.
+// Shared request for sets and update_sets.
 // ------------------------------------------------------------
 
-$sets = $data["data"] ?? null;
+$data = requestJustTcg(
+    'v1',
+    'sets',
+    [
+        'game' => 'pokemon',
+        'orderBy' => 'release_date',
+        'order' => 'desc',
+    ],
+    $apiKey
+);
+
+$sets = $data['data'] ?? null;
 
 if (!is_array($sets)) {
     sendJson([
-        "error" => "JustTCG did not return a valid sets list.",
+        'success' => false,
+        'error' => 'JustTCG did not return a valid sets list.',
     ], 502);
 }
 
 // ------------------------------------------------------------
 // POST index.php?route=update_sets
-// Save the returned list to sets.txt.
 // ------------------------------------------------------------
 
 if ($routePart === 'update_sets') {
@@ -517,51 +531,102 @@ if ($routePart === 'update_sets') {
         JSON_PRETTY_PRINT
         | JSON_UNESCAPED_SLASHES
         | JSON_UNESCAPED_UNICODE
+        | JSON_INVALID_UTF8_SUBSTITUTE
     );
 
     if ($contents === false) {
         sendJson([
-            "error" => "Failed to encode the sets list.",
+            'success' => false,
+            'error' => 'Failed to encode the sets list.',
         ], 500);
     }
 
-    // Matches the sets.txt location used by your frontend.
     $filePath = __DIR__ . '/sets.txt';
+    $fileContents = $contents . PHP_EOL;
 
-    // Log filesystem warnings instead of mixing them into the JSON response.
     error_clear_last();
 
     $bytesWritten = @file_put_contents(
         $filePath,
-        $contents . PHP_EOL,
+        $fileContents,
         LOCK_EX
     );
 
-    if ($bytesWritten === false) {
+    if (
+        $bytesWritten === false
+        || $bytesWritten !== strlen($fileContents)
+    ) {
         $writeError = error_get_last();
 
         error_log(
-            "Failed to write " . $filePath . ": "
-            . ($writeError['message'] ?? 'Unknown filesystem error.')
+            'Failed to fully write ' . $filePath . ': '
+            . ($writeError['message'] ?? 'Incomplete file write.')
         );
 
         sendJson([
-            "success" => false,
-            "error" => "Could not write sets.txt. Check folder permissions and the PHP error log.",
+            'success' => false,
+            'error' =>
+                'Could not fully write sets.txt. ' .
+                'Check folder permissions and the PHP error log.',
         ], 500);
     }
 
     sendJson([
-        "success" => true,
-        "message" => "sets.txt updated successfully.",
-        "count" => count($sets),
-        "bytesWritten" => $bytesWritten,
+        'success' => true,
+        'message' => 'sets.txt updated successfully.',
+        'count' => count($sets),
+        'bytesWritten' => $bytesWritten,
     ]);
+}
+
+function normalizeCardNumberPart($value)
+{
+    $value = strtoupper(trim((string) $value));
+
+    // Ignore spaces around or within the number.
+    $value = preg_replace('/\s+/', '', $value);
+
+    // Normalize numeric values without removing letter prefixes.
+    // "004" becomes "4"; "TG04" remains "TG04".
+    if (preg_match('/^[0-9]+$/', $value)) {
+        $value = ltrim($value, '0');
+
+        return $value === '' ? '0' : $value;
+    }
+
+    return $value;
+}
+
+function cardNumberMatches($input, $returned)
+{
+    $inputParts = explode('/', trim((string) $input), 2);
+    $returnedParts = explode('/', trim((string) $returned), 2);
+
+    $inputNumber = normalizeCardNumberPart($inputParts[0]);
+    $returnedNumber = normalizeCardNumberPart($returnedParts[0]);
+
+    if ($inputNumber === '' || $inputNumber !== $returnedNumber) {
+        return false;
+    }
+
+    // If the user supplies a set total, validate that too.
+    if (isset($inputParts[1])) {
+        if (!isset($returnedParts[1])) {
+            return false;
+        }
+
+        $inputTotal = normalizeCardNumberPart($inputParts[1]);
+        $returnedTotal = normalizeCardNumberPart($returnedParts[1]);
+
+        return $inputTotal !== '' && $inputTotal === $returnedTotal;
+    }
+
+    return true;
 }
 
 // ------------------------------------------------------------
 // GET index.php?route=sets
-// Return the JustTCG response without updating the file.
+// Preserve the original JustTCG response structure.
 // ------------------------------------------------------------
 
 sendJson($data);

@@ -202,6 +202,33 @@ $validSubmission = $submitted && count($validationErrors) === 0;
             padding: 0 20px;
         }
 
+        #card-results {
+    overflow-x: auto;
+    margin-top: 16px;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.results-table th,
+.results-table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.results-table th {
+    background: #f5f5f5;
+}
+
+.results-table .market-price {
+    white-space: nowrap;
+    font-weight: 600;
+}
+
         .field {
             margin-bottom: 16px;
         }
@@ -463,9 +490,9 @@ $validSubmission = $submitted && count($validationErrors) === 0;
             </div>
 
             <div class="field">
-                <label for="extra3">Printing</label>
+                <label for="printing">Printing</label>
 
-                <select id="extra3" name="extra3">
+                <select id="printing" name="printing">
                     <option
                         value="normal"
                         <?= $printing_input === 'normal' ? 'selected' : '' ?>
@@ -501,12 +528,16 @@ $validSubmission = $submitted && count($validationErrors) === 0;
     </form>
 
     <section>
-        <h2>Card Results</h2>
+    <h2>Card Results</h2>
 
-        <p id="card-request-status" role="status" aria-live="polite"></p>
+    <p
+        id="card-request-status"
+        role="status"
+        aria-live="polite"
+    ></p>
 
-        <pre id="card-results" hidden></pre>
-    </section>
+    <div id="card-results"></div>
+</section>
 
     <?php if ($validSubmission): ?>
         <section>
@@ -555,6 +586,171 @@ $validSubmission = $submitted && count($validationErrors) === 0;
 
     <script>
 
+        function renderCardResults(result) {
+    const container = document.getElementById("card-results");
+    const status = document.getElementById("card-request-status");
+
+    container.replaceChildren();
+
+    const cards = Array.isArray(result.data) ? result.data : [];
+
+    if (cards.length === 0) {
+        status.className = "";
+        status.textContent =
+            "Search completed, but no cards matched all filters.";
+        return;
+    }
+
+    const table = document.createElement("table");
+    table.className = "results-table";
+
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+
+    const headers = [
+        "Card",
+        "Set",
+        "Number",
+        "Condition / Grade",
+        "Printing",
+        "Language",
+        "Market",
+        "Market Price",
+        "Price Status",
+        "Updated"
+    ];
+
+    for (const heading of headers) {
+        const th = document.createElement("th");
+        th.scope = "col";
+        th.textContent = heading;
+        headerRow.appendChild(th);
+    }
+
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+    let rowCount = 0;
+
+    function addCell(row, value, className = "") {
+        const td = document.createElement("td");
+        td.textContent =
+            value === null || value === undefined || value === ""
+                ? "—"
+                : String(value);
+
+        if (className) {
+            td.className = className;
+        }
+
+        row.appendChild(td);
+    }
+
+    function formatPrice(price, currency) {
+        if (
+            typeof price !== "number" ||
+            !Number.isFinite(price)
+        ) {
+            return "Unavailable";
+        }
+
+        if (!currency) {
+            return price.toFixed(2) + " (currency unspecified)";
+        }
+
+        try {
+            return new Intl.NumberFormat(undefined, {
+                style: "currency",
+                currency,
+                currencyDisplay: "code"
+            }).format(price);
+        } catch {
+            return price.toFixed(2) + " " + currency;
+        }
+    }
+
+    function formatUpdated(timestamp) {
+        if (
+            typeof timestamp !== "number" ||
+            !Number.isFinite(timestamp)
+        ) {
+            return "—";
+        }
+
+        const date = new Date(timestamp * 1000);
+
+        return Number.isNaN(date.getTime())
+            ? "—"
+            : date.toLocaleString();
+    }
+
+    for (const card of cards) {
+        const variants = Array.isArray(card.variants)
+            ? card.variants
+            : [];
+
+        const setName =
+            typeof card.set === "string"
+                ? card.set
+                : card.set?.name ?? "";
+
+        for (const variant of variants) {
+            const gradeOrCondition =
+                variant.type === "graded"
+                    ? variant.grading?.canonical ?? "Graded"
+                    : variant.condition ?? "";
+
+            const markets = Array.isArray(variant.markets)
+                ? variant.markets
+                : [];
+
+            // Still display a variant if it has no market data.
+            const marketRows = markets.length > 0
+                ? markets
+                : [null];
+
+            for (const market of marketRows) {
+                const row = document.createElement("tr");
+
+                addCell(row, card.name);
+                addCell(row, setName);
+                addCell(row, card.number);
+                addCell(row, gradeOrCondition);
+                addCell(row, variant.printing);
+                addCell(row, variant.language);
+                addCell(row, market?.region);
+
+                addCell(
+                    row,
+                    formatPrice(
+                        market?.price,
+                        market?.currency
+                    ),
+                    "market-price"
+                );
+
+                addCell(row, market?.price_status);
+                addCell(
+                    row,
+                    formatUpdated(market?.updated_at)
+                );
+
+                tbody.appendChild(row);
+                rowCount++;
+            }
+        }
+    }
+
+    table.appendChild(tbody);
+    container.appendChild(table);
+
+    status.className = "success";
+    status.textContent =
+        "Found " + cards.length + " card(s), showing " +
+        rowCount + " variant/market row(s).";
+}
+
         const cardForm = document.getElementById("card-form");
         const cardRequestStatus = document.getElementById("card-request-status");
         const cardResults = document.getElementById("card-results");
@@ -569,13 +765,13 @@ $validSubmission = $submitted && count($validationErrors) === 0;
             cardResults.textContent = "";
 
             try{
-                const formData = newFormData(cardForm);
+                const formData = new FormData(cardForm);
                 
                 const result = await requestJson(
                     apiUrl + "?route=search_cards",
                     {
                         method: "POST",
-                        body: formData
+                        body:  new FormData(cardForm)
                     }
 
                 );
@@ -587,10 +783,33 @@ $validSubmission = $submitted && count($validationErrors) === 0;
                     );
                 }
 
-                cardRequestStatus.className = "success";
-                cardRequestStatus.textContent = "Success! Card search completed.";
+                renderCardResults(result);
 
-                cardResults.textContent = JSON.stringify(result, null, 2);
+                const cards = Array.isArray(result.data) ? result.data : [];
+
+if (cards.length === 0) {
+    cardRequestStatus.textContent =
+        "Search completed, but no cards matched all filters.";
+} else {
+    cardRequestStatus.textContent =
+        "Found " + cards.length + " matching card(s).";
+}
+
+let output = document.getElementById("card-results");
+
+if (!output) {
+    output = document.createElement("pre");
+    output.id = "card-results";
+    cardForm.insertAdjacentElement("afterend", output);
+}
+
+output.hidden = false;
+output.style.display = "block";
+output.style.whiteSpace = "pre-wrap";
+output.style.overflowWrap = "anywhere";
+output.style.padding = "12px";
+output.style.border = "1px solid #ccc";
+
             } catch (error) {
                 console.error(error);
 
@@ -659,12 +878,22 @@ $validSubmission = $submitted && count($validationErrors) === 0;
                 );
             }
 
-            if (!response.ok) {
-                throw new Error(
-                    "HTTP " + response.status + ": " +
-                    (data?.error || "Request failed.")
-                );
-            }
+if (!response.ok) {
+    const upstreamStatus = data?.upstreamStatus
+        ? " | JustTCG HTTP " + data.upstreamStatus
+        : "";
+
+    const upstreamDetails = data?.upstreamError
+        ? " | " + JSON.stringify(data.upstreamError)
+        : "";
+
+    throw new Error(
+        "HTTP " + response.status + ": " +
+        (data?.error || "Request failed.") +
+        upstreamStatus +
+        upstreamDetails
+    );
+}
 
             return data;
         }
