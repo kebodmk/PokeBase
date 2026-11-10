@@ -1,7 +1,6 @@
 <?php
 ini_set('display_errors', 0);
 error_reporting(E_ALL & ~E_NOTICE);
-session_start();
 
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/auth_cookie.php';
@@ -15,15 +14,15 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 $roles = $_POST["roles"] ?? [];
 
 if (!is_array($roles) || count($roles) === 0) {
-    $_SESSION["error"] = "No role changes to save.";
+    setFlash("error", "No role changes to save.");
     header("Location: ../users.php");
     exit;
 }
 
-$sessionToken = $_SESSION["api_token"] ?? ($_COOKIE[SESSION_COOKIE] ?? "");
+$sessionToken = $_COOKIE[SESSION_COOKIE] ?? "";
 
 if (!is_string($sessionToken) || !preg_match('/^[0-9a-f]{64}$/', $sessionToken)) {
-    $_SESSION["error"] = "You must be logged in to do that.";
+    setFlash("error", "You must be logged in to do that.");
     header("Location: ../login.php?page=login");
     exit;
 }
@@ -61,9 +60,9 @@ foreach ($roles as $userId => $role) {
 }
 
 if (count($errors) > 0) {
-    $_SESSION["error"] = "Some roles were not saved: " . implode(" ", array_unique($errors));
+    setFlash("error", "Some roles were not saved: " . implode(" ", array_unique($errors)));
 } else {
-    $_SESSION["message"] = "Roles updated.";
+    setFlash("message", "Roles updated.");
 }
 
 header("Location: ../users.php");

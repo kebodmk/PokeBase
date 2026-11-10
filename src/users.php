@@ -1,16 +1,15 @@
 <?php
-session_start();
-require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/auth_cookie.php';
 
-$error = $_SESSION["error"]??"";
-$message = $_SESSION["message"]??"";
+requirePageRole([ROLE_MANAGER]);
 
 // Show each message once
-unset($_SESSION["error"], $_SESSION["message"]);
+$flash = takeFlash();
+$error = $flash["error"];
+$message = $flash["message"];
 
-// Call GET /api/users/list as the logged-in user. The API's RBAC decides who can see it.
-$sessionToken = $_SESSION["api_token"] ?? ($_COOKIE[SESSION_COOKIE] ?? "");
+// Call GET /api/users/list as the logged-in user
+$sessionToken = $_COOKIE[SESSION_COOKIE] ?? "";
 
 $requestHeaders = "Accept: application/json\r\n";
 if (is_string($sessionToken) && preg_match('/^[0-9a-f]{64}$/', $sessionToken)) {
@@ -45,7 +44,7 @@ if (isset($http_response_header[0]) &&
 
 // Not logged in, send them to log in
 if ($httpCode === 401) {
-    $_SESSION["error"] = $result["message"] ?? "You must be logged in to do that.";
+    setFlash("error", $result["message"] ?? "You must be logged in to do that.");
     header("Location: login.php?page=login");
     exit;
 }

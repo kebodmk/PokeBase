@@ -1,15 +1,14 @@
 <?php
-session_start();
-require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/auth_cookie.php';
+
+// Show each message once. Read before any output, since this clears the message cookie.
+$flash = takeFlash();
+$error = $flash["error"];
+$message = $flash["message"];
+$page = $_GET["page"]??"login";
 
 include "includes/header.php";
 include "navigation.php";
-$error = $_SESSION["error"]??"";
-$message = $_SESSION["message"]??"";
-$page = $_GET["page"]??"login";
-
-// Show each message once
-unset($_SESSION["error"], $_SESSION["message"]);
 
 echo "<div id='main'>";
 echo "<div class='gerror'>" . htmlspecialchars($error) . "</div>";

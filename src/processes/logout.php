@@ -1,7 +1,6 @@
 <?php
 ini_set('display_errors', 0);
 error_reporting(E_ALL & ~E_NOTICE);
-session_start();
 
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/auth_cookie.php';
@@ -12,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit;
 }
 
-$sessionToken = $_SESSION["api_token"] ?? ($_COOKIE[SESSION_COOKIE] ?? "");
+$sessionToken = $_COOKIE[SESSION_COOKIE] ?? "";
 
 if (is_string($sessionToken) && preg_match('/^[0-9a-f]{64}$/', $sessionToken)) {
     $url = rtrim($mainURL, "/") . "/api/users/logout";
@@ -36,10 +35,8 @@ if (is_string($sessionToken) && preg_match('/^[0-9a-f]{64}$/', $sessionToken)) {
     @file_get_contents($url, false, stream_context_create($options));
 }
 
-// Clear the browser's copy of the token and the website session either way
+// Clear the browser's copy of the token either way
 setSessionCookie("", time() - 3600);
-$_SESSION = [];
-session_destroy();
 
 header("Location: ../login.php?page=login");
 exit;

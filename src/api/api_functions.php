@@ -7,32 +7,8 @@ Relies on sendJson() from includes/json_functions.php
 ------------------------------------------------------------
 */
 
+// Session cookie, ROLE_* constants and getSessionUser() are shared with the website pages
 require_once __DIR__ . '/../includes/auth_cookie.php';
-
-// Role names as stored in users.role (compared case-insensitively)
-const ROLE_MANAGER = 'manager';
-const ROLE_EMPLOYEE = 'employee';
-const ROLE_USER = 'user';
-
-// Returns ['user_id', 'role'] for the session in the request's cookie, or null when there is no
-// unexpired session. Identity only ever comes from a token issued by /api/users/login.
-function getSessionUser(): ?array
-{
-    $token = $_COOKIE[SESSION_COOKIE] ?? '';
-
-    if (!is_string($token) || !preg_match('/^[0-9a-f]{64}$/', $token)) {
-        return null;
-    }
-
-    $sql = 'SELECT u.user_id, u.role
-    FROM api_sessions s
-    JOIN users u ON u.user_id = s.user_id
-    WHERE s.token_hash = :token_hash AND s.ended_at > NOW() AND u.archived = 0
-    LIMIT 1';
-
-    $rows = PokeDatabase::getDataFromSQL($sql, [':token_hash' => hashSessionToken($token)]);
-    return $rows[0] ?? null;
-}
 
 // Ended sessions are deleted, not kept. Nothing runs on a timer, so login and logout sweep out
 // expired rows. Until then getSessionUser() still rejects them through the ended_at check.

@@ -1,7 +1,6 @@
 <?php
 ini_set('display_errors', 0);
 error_reporting(E_ALL & ~E_NOTICE);
-session_start();
 
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/auth_cookie.php';
@@ -16,13 +15,13 @@ $username     = trim($_POST["user"] ?? "");
 $userpassword = $_POST["pass"] ?? "";
 
 if ($username === "" || $userpassword === "") {
-    $_SESSION["error"] = "All fields are required.";
+    setFlash("error", "All fields are required.");
     header("Location: ../login.php?page=login");
     exit;
 }
 
 if (!filter_var($username, FILTER_VALIDATE_EMAIL)) {
-    $_SESSION["error"] = "Enter a valid email address.";
+    setFlash("error", "Enter a valid email address.");
     header("Location: ../login.php?page=login");   // this was missing
     exit;
 }
@@ -60,7 +59,7 @@ $response = @file_get_contents($url, false, stream_context_create($options));
 // Error: no response at all
 
 if ($response === false) {
-    $_SESSION["error"] = "Unable to communicate with the login service.";
+    setFlash("error", "Unable to communicate with the login service.");
     header("Location: ../login.php?page=login");
     exit;
 }
@@ -82,13 +81,13 @@ Error: common HTTP failures.
 ------------------------------------------------------------
 */
 if ($httpCode === 429) {
-    $_SESSION["error"] = "Too many attempts. Please wait a moment and try again.";
+    setFlash("error", "Too many attempts. Please wait a moment and try again.");
     header("Location: ../login.php?page=login");
     exit;
 }
  
 if ($httpCode >= 500) {
-    $_SESSION["error"] = "The server ran into a problem. Please try again later.";
+    setFlash("error", "The server ran into a problem. Please try again later.");
     header("Location: ../login.php?page=login");
     exit;
 }
@@ -98,7 +97,7 @@ if ($httpCode >= 500) {
 $result = json_decode($response, true);
  
 if (!is_array($result)) {
-    $_SESSION["error"] = "Invalid response received from the login service.";
+    setFlash("error", "Invalid response received from the login service.");
     header("Location: ../login.php?page=login");
     exit;
 }
@@ -116,21 +115,8 @@ foreach ($http_response_header ?? [] as $responseHeader) {
 
 if (($result["success"] ?? false) === true && !empty($result["user"]) && $sessionToken !== null) {
 
-    session_regenerate_id(true);       // new session id after login
-
+    // The cookie is the whole login. Pages look the user up from it in the database.
     setSessionCookie($sessionToken, time() + SESSION_LIFETIME_SECONDS);
-
-    // Kept for server-side API calls: send it as "Cookie: pokebase_session=<token>"
-    $_SESSION["api_token"]   = $sessionToken;
-    $_SESSION["user"]        = $result["user"];
-    $_SESSION["LoginStatus"] = "YES";
-    $_SESSION["session_id"]  = session_id();
-    $_SESSION["login_time"]  = date("Y-m-d H:i:s");
-    $_SESSION["error"]       = "";
- 
-    if (isset($result["user"]["user_id"])) {
-        $_SESSION["user_id"] = $result["user"]["user_id"];
-    }
 
     header("Location: ../index.php");
     exit;
@@ -138,13 +124,12 @@ if (($result["success"] ?? false) === true && !empty($result["user"]) && $sessio
  
 // Login rejected by API
 if ($httpCode === 401) {
-    $_SESSION["error"] = "Incorrect email or password.";
+    setFlash("error", "Incorrect email or password.");
 } elseif ($httpCode === 403) {
-    $_SESSION["error"] = $result["message"] ?? "This account can't sign in right now.";
+    setFlash("error", $result["message"] ?? "This account can't sign in right now.");
 } else {
-    $_SESSION["error"] = $result["message"] ?? "Login failed.";
+    setFlash("error", $result["message"] ?? "Login failed.");
 }
  
-$_SESSION["LoginStatus"] = "NO";
 header("Location: ../login.php?page=login");
 exit;

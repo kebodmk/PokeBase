@@ -1,7 +1,6 @@
 <?php
 ini_set('display_errors', 0);
 error_reporting(E_ALL & ~E_NOTICE);
-session_start();
 
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/auth_cookie.php';
@@ -13,10 +12,10 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 
 $userId = $_POST["archive_user_id"] ?? "";
 
-$sessionToken = $_SESSION["api_token"] ?? ($_COOKIE[SESSION_COOKIE] ?? "");
+$sessionToken = $_COOKIE[SESSION_COOKIE] ?? "";
 
 if (!is_string($sessionToken) || !preg_match('/^[0-9a-f]{64}$/', $sessionToken)) {
-    $_SESSION["error"] = "You must be logged in to do that.";
+    setFlash("error", "You must be logged in to do that.");
     header("Location: ../login.php?page=login");
     exit;
 }
@@ -46,9 +45,9 @@ $response = @file_get_contents($url, false, stream_context_create($options));
 $result = json_decode((string)$response, true);
 
 if (is_array($result) && ($result["success"] ?? false) === true) {
-    $_SESSION["message"] = "User archived.";
+    setFlash("message", "User archived.");
 } else {
-    $_SESSION["error"] = $result["message"] ?? "Unable to communicate with the user service.";
+    setFlash("error", $result["message"] ?? "Unable to communicate with the user service.");
 }
 
 header("Location: ../users.php");

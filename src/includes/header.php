@@ -2,10 +2,8 @@
 /**if(!isset($url)) $url = url();
 session_start();*/
 
-// navigation.php reads the logged-in user's role from the session
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+// navigation.php looks up the logged-in user with getSessionUser()
+require_once __DIR__ . '/auth_cookie.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

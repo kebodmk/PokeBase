@@ -1,9 +1,9 @@
 <?php
 ini_set('display_errors', 0);
 error_reporting(E_ALL & ~E_NOTICE);
-session_start();
 
 require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/auth_cookie.php';
 
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
@@ -17,13 +17,13 @@ $email        = trim($_POST["email"] ?? "");
 $userpassword = $_POST["pass"] ?? "";
 
 if ($firstName === "" || $lastName === "" || $email === "" || $userpassword === "") {
-    $_SESSION["error"] = "All fields are required.";
+    setFlash("error", "All fields are required.");
     header("Location: ../login.php?page=register");
     exit;
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $_SESSION["error"] = "Enter a valid email address.";
+    setFlash("error", "Enter a valid email address.");
     header("Location: ../login.php?page=register");
     exit;
 }
@@ -62,7 +62,7 @@ $response = @file_get_contents($url, false, stream_context_create($options));
 // Error: no response at all
 
 if ($response === false) {
-    $_SESSION["error"] = "Unable to communicate with the registration service.";
+    setFlash("error", "Unable to communicate with the registration service.");
     header("Location: ../login.php?page=register");
     exit;
 }
@@ -75,7 +75,7 @@ if (isset($http_response_header[0]) &&
 }
 
 if ($httpCode >= 500) {
-    $_SESSION["error"] = "The server ran into a problem. Please try again later.";
+    setFlash("error", "The server ran into a problem. Please try again later.");
     header("Location: ../login.php?page=register");
     exit;
 }
@@ -85,7 +85,7 @@ if ($httpCode >= 500) {
 $result = json_decode($response, true);
 
 if (!is_array($result)) {
-    $_SESSION["error"] = "Invalid response received from the registration service.";
+    setFlash("error", "Invalid response received from the registration service.");
     header("Location: ../login.php?page=register");
     exit;
 }
@@ -93,12 +93,12 @@ if (!is_array($result)) {
 // Successful registration, send them to log in
 
 if ($httpCode === 201 && ($result["success"] ?? false) === true) {
-    $_SESSION["message"] = "Registration successful. Please log in.";
+    setFlash("message", "Registration successful. Please log in.");
     header("Location: ../login.php?page=login");
     exit;
 }
 
 // Registration rejected by API (400 validation, 409 email taken)
-$_SESSION["error"] = $result["message"] ?? "Registration failed.";
+setFlash("error", $result["message"] ?? "Registration failed.");
 header("Location: ../login.php?page=register");
 exit;

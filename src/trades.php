@@ -1,4 +1,7 @@
 <?php
+    require_once __DIR__ . "/includes/auth_cookie.php";
+    requirePageRole([ROLE_MANAGER, ROLE_EMPLOYEE]);
+
     include "includes/header.php";
     include "navigation.php"
 ?>
