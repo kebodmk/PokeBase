@@ -1,6 +1,11 @@
 <?php
 /**if(!isset($url)) $url = url();
 session_start();*/
+
+// navigation.php reads the logged-in user's role from the session
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

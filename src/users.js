@@ -19,4 +19,13 @@ function checkForChanges() {
 
 roleSelects.forEach(select => select.addEventListener('change', checkForChanges));
 
+// Archive asks first, cancelling stops the form from submitting
+document.querySelectorAll('.archive-button').forEach(button => {
+    button.addEventListener('click', event => {
+        if (!confirm('Remove ' + button.dataset.name + '? Their account will be archived and they will no longer be able to log in.')) {
+            event.preventDefault();
+        }
+    });
+});
+
 checkForChanges();

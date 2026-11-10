@@ -101,7 +101,8 @@ if ($routePart === 'login') {
     $email = trim((string)($data['email'] ?? ''));
     $userpassword = (string)($data['password'] ?? '');
 
-    $user_login_sql = 'SELECT user_id, password FROM users WHERE email = :email LIMIT 1';
+    // archived is a BIT column, which PDO returns as a binary string, so compare it in SQL
+    $user_login_sql = 'SELECT user_id, password, archived = 1 AS archived FROM users WHERE email = :email LIMIT 1';
     $login_params = [':email' => $email];
     $records = PokeDatabase::getDataFromSQL($user_login_sql,$login_params);
     $record = $records[0] ?? null;
@@ -110,6 +111,10 @@ if ($routePart === 'login') {
             'success' => false,
             'message' => 'Invalid email or password.'
         ]);
+    }
+
+    if ((int)$record['archived'] === 1) {
+        sendJson(403, ['success' => false, 'message' => 'This account has been archived.']);
     }
 
     deleteExpiredSessions();
@@ -175,7 +180,7 @@ if ($routePart === 'list') {
 
     requireRole([ROLE_MANAGER]);
 
-    $list_users_sql = 'SELECT user_id, email, first_name, last_name, role FROM users ORDER BY last_name, first_name';
+    $list_users_sql = 'SELECT user_id, email, first_name, last_name, role FROM users WHERE archived = 0 ORDER BY last_name, first_name';
 
     sendJson(200, [
         'success' => true,
@@ -216,6 +221,44 @@ if ($routePart === 'role') {
     sendJson(200, [
         'success' => true,
         'message' => 'User role updated.',
+        'user' => getUserById($userId),
+    ]);
+}
+
+/*
+------------------------------------------------------------
+PUT /api/users/archive/{user_id}
+------------------------------------------------------------
+*/
+if ($routePart === 'archive') {
+    if ($method !== 'PUT') {
+        sendJson(405, ['success' => false, 'message' => 'Method not allowed.']);
+    }
+
+    requireRole([ROLE_MANAGER]);
+
+    $userId = requireRouteId($subResource);
+
+    if (getUserById($userId) === null) {
+        sendJson(404, ['success' => false, 'message' => 'User not found.']);
+    }
+
+    $data = getJsonBody();
+    $archived = parseBoolFlag($data['archived'] ?? null);
+
+    if ($archived === null) {
+        sendValidationErrors(['archived must be true/false or 1/0.']);
+    }
+
+    // CAST so the BIT column gets the number, not the character '1' that PDO binds
+    PokeDatabase::executeSQL('UPDATE users SET archived = CAST(:archived AS UNSIGNED) WHERE user_id = :user_id', [
+        ':archived' => $archived,
+        ':user_id' => $userId,
+    ]);
+
+    sendJson(200, [
+        'success' => true,
+        'message' => $archived === 1 ? 'User archived.' : 'User unarchived.',
         'user' => getUserById($userId),
     ]);
 }

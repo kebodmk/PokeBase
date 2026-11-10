@@ -6,6 +6,7 @@ let scannerBtn;
 let tradesBtn;
 let loginBtn;
 let logoutBtn;
+let usersBtn;
 
 const currentUrl = window.location.href;
 window.addEventListener("load", init)
@@ -31,23 +32,17 @@ function init(){
     url = "./trades.php";
     enableButtons(tradesBtn, url);
 
+    usersBtn = document.getElementById("users");
+    url = "./users.php";
+    if (usersBtn) enableButtons(usersBtn, url);
+
     loginBtn = document.getElementById("login");
     url = "./login.php";
-    enableButtons(loginBtn, url);
+    if (loginBtn) enableButtons(loginBtn, url);
 
     logoutBtn = document.getElementById("logout");
     url = "./logout.php";
-    enableButtons(logoutBtn, url);
-
-    loginBtn = document.getElementById("login");
-    if (loginBtn) {
-        enableButtons(loginBtn, "./login.php");
-    }
-
-    logoutBtn = document.getElementById("logout");
-    if (logoutBtn) {
-        enableButtons(logoutBtn, "./logout.php");
-    }
+    if (logoutBtn) enableButtons(logoutBtn, url);
 
     scannerBtn = document.getElementById("scan");
     url = "./scanner.php";

@@ -51,3 +51,18 @@ JSON body:
     No, expired, or logged-out session -> HTTP 401
     Role not allowed -> HTTP 403
     User not found -> HTTP 404
+
+## PUT /api/users/archive/{user_id}
+
+Requires a Manager (send the `pokebase_session` cookie). Users are never deleted, archiving sets `users.archived` to 1. Archived users can't log in, their existing sessions stop working, and they are left out of `GET /api/users/list`.
+
+JSON body:
+
+*archived* **required, true/false or 1/0**
+
+    Put -> HTTP 200
+    Not Put -> HTTP 405
+    Invalid id or archived value -> HTTP 400
+    No, expired, or logged-out session -> HTTP 401
+    Role not allowed -> HTTP 403
+    User not found -> HTTP 404

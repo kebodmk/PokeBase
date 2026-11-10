@@ -43,7 +43,13 @@ header img{
     gap: 12px;              /* Sets the exact vertical space between buttons */
 }
 
-#navButtons > button {
+/* The logout form disappears from the layout so its button lines up with the others */
+#logoutForm {
+    display: contents;
+}
+
+#navButtons > button,
+#logoutForm > button {
     font-size: clamp(1rem, 3vw, 1.25rem);
 
     /* Nearly full width on phones, capped on desktop */

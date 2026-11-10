@@ -27,7 +27,7 @@ function getSessionUser(): ?array
     $sql = 'SELECT u.user_id, u.role
     FROM api_sessions s
     JOIN users u ON u.user_id = s.user_id
-    WHERE s.token_hash = :token_hash AND s.ended_at > NOW()
+    WHERE s.token_hash = :token_hash AND s.ended_at > NOW() AND u.archived = 0
     LIMIT 1';
 
     $rows = PokeDatabase::getDataFromSQL($sql, [':token_hash' => hashSessionToken($token)]);

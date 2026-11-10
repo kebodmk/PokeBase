@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS `pokebase_db`.`users` (
   `first_name` VARCHAR(45) NOT NULL,
   `last_name` VARCHAR(45) NOT NULL,
   `date_registered` DATE NOT NULL,
+  `archived` TINYINT NOT NULL DEFAULT b'0',
   PRIMARY KEY (`user_id`),
   UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC))

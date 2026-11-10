@@ -75,6 +75,7 @@ include "navigation.php";
                 <th>Last Name</th>
                 <th>Email</th>
                 <th>Role</th>
+                <th></th>
             </tr>
             <?php foreach ($users as $user):
                 $currentRole = strtolower(trim($user["role"])); ?>
@@ -89,6 +90,9 @@ include "navigation.php";
                             echo "<option value=\"{$role}\"{$selected}>" . ucfirst($role) . "</option>";
                         } ?>
                     </select>
+                </td>
+                <td>
+                    <button type = "submit" class = "archive-button" formaction = "processes/archive_user.php" name = "archive_user_id" value = "<?php echo (int)$user["user_id"]; ?>" data-name = "<?php echo htmlspecialchars($user["first_name"] . " " . $user["last_name"]); ?>">Archive</button>
                 </td>
             </tr>
             <?php endforeach; ?>
