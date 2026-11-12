@@ -41,7 +41,7 @@ function postString($key, $default = '')
 // Shared JustTCG request helper.
 // ------------------------------------------------------------
 
-function requestJustTcg($version, $endpoint, array $params, $apiKey)
+function requestJustTcg($version, $endpoint, array $params, $tcgApiKey)
 {
     $url = 'https://api.justtcg.com/'
         . $version
@@ -70,7 +70,7 @@ function requestJustTcg($version, $endpoint, array $params, $apiKey)
         CURLOPT_TIMEOUT => 30,
         CURLOPT_HTTPHEADER => [
             'Accept: application/json',
-            'x-api-key: ' . $apiKey,
+            'x-api-key: ' . $tcgApiKey,
         ],
     ]);
 
@@ -169,16 +169,14 @@ if ($method !== $expectedMethod) {
 // Supports a constant in config.php or an environment variable.
 // ------------------------------------------------------------
 
-$apiKey = getenv('JUSTTCG_API_KEY') ?: (defined('JUSTTCG_API_KEY') ? JUSTTCG_API_KEY : null);
-
-if (!is_string($apiKey) || trim($apiKey) === '') {
+if (!is_string($tcgApiKey) || trim($tcgApiKey) === '') {
     sendJson([
         'success' => false,
         'error' => 'JUSTTCG_API_KEY is not configured.',
     ], 500);
 }
 
-$apiKey = trim($apiKey);
+$tcgApiKey = trim($tcgApiKey);
 
 if (!function_exists('curl_init')) {
     sendJson([
@@ -203,6 +201,7 @@ if ($routePart === 'search_cards') {
     $cardType = postString('card_type', 'raw');
     $gradedVariantId = postString('graded_variant_id');
     $printing = postString('printing');
+    $gradingCompany = postString('grading_company');
 
     // Normalize compatible values from your older form.
     $legacyConditions = [
@@ -228,6 +227,32 @@ if ($routePart === 'search_cards') {
         'ch' => ['zh', 'zh-cn', 'zh-tw', 'chinese'],
         'kor' => ['ko', 'kr', 'kor', 'korean'],
     ];
+
+    $allowedGradingCompanies = [
+        'PSA',
+        'BGS',
+        'CGC',
+        'BCCG',
+        'BVG',
+        'SGC',
+    ];
+
+    if ($cardType === 'raw') {
+    // Ignore grading-company input for raw searches.
+    $gradingCompany = '';
+} elseif (
+    $gradingCompany !== ''
+    && !in_array(
+        $gradingCompany,
+        $allowedGradingCompanies,
+        true
+    )
+) {
+    sendJson([
+        'success' => false,
+        'error' => 'Please select a valid grading company.',
+    ], 422);
+}
 
     if ($setId === '') {
         sendJson([
@@ -273,12 +298,12 @@ if ($routePart === 'search_cards') {
         ], 422);
     }
 
-    $params = [
+$params = [
     'game' => 'pokemon',
 ];
 
 if ($cardType === 'graded' && $gradedVariantId !== '') {
-    // Direct lookup of a previously selected graded variant.
+    // Direct lookup of the selected graded variant.
     $params['variant_id'] = $gradedVariantId;
     $params['graded'] = 'include';
 } else {
@@ -290,18 +315,19 @@ if ($cardType === 'graded' && $gradedVariantId !== '') {
     }
 
     if ($cardType === 'graded') {
-        // Browse/search permits graded=only, not graded=include.
         $params['graded'] = 'only';
     }
+}
 
-    // Raw searches omit the graded parameter.
+if ($cardType === 'graded' && $gradingCompany !== '') {
+    $params['grading_company'] = $gradingCompany;
 }
 
     $upstream = requestJustTcg(
         'v2',
         'cards',
         $params,
-        $apiKey
+        $tcgApiKey
     );
 
     $cards = $upstream['data'] ?? null;
@@ -401,6 +427,15 @@ if ($cardType === 'graded' && $gradedVariantId !== '') {
                 continue;
             }
 
+            if (
+                $cardType === 'graded'
+                && $gradingCompany !== ''
+                && ($variant['grading_company'] ?? '') !== $gradingCompany
+            ) {
+                $diagnostics['rejectedVariantsByGradingCompany']++;
+                continue;
+            }
+
             $returnedLanguage = $variant['language'] ?? null;
 
             // Unknown language is not assumed to mean English.
@@ -479,7 +514,7 @@ if ($routePart === 'get_price') {
             'condition' => 'NM,LP',
             'priceHistoryDuration' => '30d',
         ],
-        $apiKey
+        $tcgApiKey
     );
 
     $price = $data['data'][0]['variants'][0]['price'] ?? null;
@@ -509,7 +544,7 @@ $data = requestJustTcg(
         'orderBy' => 'release_date',
         'order' => 'desc',
     ],
-    $apiKey
+    $tcgApiKey
 );
 
 $sets = $data['data'] ?? null;

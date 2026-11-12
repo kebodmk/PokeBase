@@ -3,7 +3,7 @@
 function postString($key, $default = '')
 {
     return isset($_POST[$key]) && is_string($_POST[$key])
-        ? $_POST[$key]
+        ? trim($_POST[$key])
         : $default;
 }
 
@@ -20,14 +20,24 @@ $set_input = postString('text1');
 $set_number_input = postString('text2');
 $name_input = postString('text3');
 $language_input = postString('extra1', 'en');
-$condition_input = postString('extra2');
+$condition_input = postString('extra2', 'Near Mint');
 $card_type_input = postString('card_type', 'raw');
-$graded_variant_input = postString('graded_variant_id');
-$printing_input = postString('extra3');
+$printing_input = postString('printing');
 
-$submitted = $_SERVER['REQUEST_METHOD'] === 'POST';
+if (!in_array($card_type_input, ['raw', 'graded'], true)) {
+    $card_type_input = 'raw';
+}
 
-$validationErrors = [];
+$languages = [
+    'en' => 'English',
+    'jap' => 'Japanese',
+    'ch' => 'Chinese',
+    'kor' => 'Korean',
+];
+
+if (!isset($languages[$language_input])) {
+    $language_input = 'en';
+}
 
 $rawConditions = [
     'Near Mint',
@@ -38,7 +48,6 @@ $rawConditions = [
     'Sealed',
 ];
 
-// Normalize compatible values from the previous form.
 $legacyConditions = [
     'mint' => 'Near Mint',
     'near-mint' => 'Near Mint',
@@ -47,73 +56,32 @@ $legacyConditions = [
 $condition_input = $legacyConditions[$condition_input]
     ?? $condition_input;
 
-if (!in_array($card_type_input, ['raw', 'graded'], true)) {
-    if ($submitted) {
-        $validationErrors[] = 'Please select a valid card type.';
-    }
-
-    $card_type_input = 'raw';
+if (!in_array($condition_input, $rawConditions, true)) {
+    $condition_input = 'Near Mint';
 }
 
-/*
- * GRADED VARIANTS INTEGRATION
- *
- * Populate this array on the server with the selected card's
- * JustTCG v2 variants before building $gradedOptions.
- *
- * For example, after your backend has fetched the selected card:
- *
- * $justtcgVariants = $card['variants'] ?? [];
- *
- * Request graded variants in your backend using graded=include.
- *
- * Your current file only loads sets.txt; it does not fetch a card.
- * No card-fetching API route is assumed or invented here.
- */
-$justtcgVariants = $justtcgVariants ?? [];
+$printingOptions = [
+    'Normal',
+    'Holofoil',
+    '1st Edition Holofoil',
+    'Unlimited Holofoil',
+];
 
-if (!is_array($justtcgVariants)) {
-    $justtcgVariants = [];
+if (
+    $printing_input !== ''
+    && !in_array($printing_input, $printingOptions, true)
+) {
+    $printingOptions[] = $printing_input;
 }
 
-$gradedOptions = [];
-
-foreach ($justtcgVariants as $variant) {
-    if (
-        !is_array($variant)
-        || ($variant['type'] ?? '') !== 'graded'
-    ) {
-        continue;
-    }
-
-    $id = $variant['id'] ?? null;
-    $grading = $variant['grading'] ?? [];
-    $label = is_array($grading)
-        ? ($grading['canonical'] ?? null)
-        : null;
-
-    if (
-        (is_string($id) || is_int($id))
-        && is_string($label)
-        && $label !== ''
-    ) {
-        $gradedOptions[(string) $id] = $label;
-    }
-}
-
-asort($gradedOptions, SORT_NATURAL | SORT_FLAG_CASE);
-
-$selectedGradingLabel = $gradedOptions[$graded_variant_input] ?? '';
-
-// This must match the location used by your API.
 $setsFile = 'C:/xampp/htdocs/PokeBase/src/api/just_tcg/sets.txt';
 
 $sets = [];
 $setsError = '';
-$selectedSetName = '';
 
 if (!is_file($setsFile) || !is_readable($setsFile)) {
-    $setsError = 'No readable sets.txt found. Click Update Sets to create it.';
+    $setsError =
+        'No readable sets.txt found. Click Update Sets to create it.';
 } else {
     $contents = file_get_contents($setsFile);
 
@@ -122,10 +90,12 @@ if (!is_file($setsFile) || !is_readable($setsFile)) {
     } else {
         $decoded = json_decode($contents, true);
 
-        if (json_last_error() !== JSON_ERROR_NONE || !is_array($decoded)) {
+        if (
+            json_last_error() !== JSON_ERROR_NONE
+            || !is_array($decoded)
+        ) {
             $setsError = 'sets.txt does not contain valid JSON.';
         } else {
-            // Accept either the list itself or a full API response.
             $savedSets = $decoded['data'] ?? $decoded;
 
             if (!is_array($savedSets)) {
@@ -142,48 +112,16 @@ if (!is_file($setsFile) || !is_readable($setsFile)) {
                     }
 
                     $sets[] = $set;
-
-                    if ($set_input === $set['id']) {
-                        $selectedSetName = $set['name'];
-                    }
                 }
 
-                if (count($sets) === 0) {
-                    $setsError = 'The saved file contains no usable sets.';
+                if (!$sets) {
+                    $setsError =
+                        'The saved file contains no usable sets.';
                 }
             }
         }
     }
 }
-
-if ($submitted) {
-    if ($set_input === '' || $selectedSetName === '') {
-        $validationErrors[] = 'Please select a valid set.';
-    }
-
-    if ($card_type_input === 'raw') {
-        if (!in_array($condition_input, $rawConditions, true)) {
-            $validationErrors[] = 'Please select a valid raw condition.';
-        }
-
-        // Ignore inactive graded input.
-        $graded_variant_input = '';
-        $selectedGradingLabel = '';
-    } else {
-        if (
-            $graded_variant_input === ''
-            || !array_key_exists($graded_variant_input, $gradedOptions)
-        ) {
-            $validationErrors[] =
-                'Please select a graded option returned for the selected card.';
-        }
-
-        // Graded cards do not use a raw condition.
-        $condition_input = '';
-    }
-}
-
-$validSubmission = $submitted && count($validationErrors) === 0;
 
 ?>
 <!DOCTYPE html>
@@ -192,42 +130,21 @@ $validSubmission = $submitted && count($validationErrors) === 0;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Just TCG</title>
+    <title>Just TCG Card List</title>
 
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 750px;
+            max-width: 1300px;
             margin: 40px auto;
             padding: 0 20px;
+            color: #222;
         }
 
-        #card-results {
-    overflow-x: auto;
-    margin-top: 16px;
-}
-
-.results-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-}
-
-.results-table th,
-.results-table td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    vertical-align: top;
-}
-
-.results-table th {
-    background: #f5f5f5;
-}
-
-.results-table .market-price {
-    white-space: nowrap;
-    font-weight: 600;
-}
+        #card-form,
+        .sets-section {
+            max-width: 750px;
+        }
 
         .field {
             margin-bottom: 16px;
@@ -251,7 +168,7 @@ $validSubmission = $submitted && count($validationErrors) === 0;
         }
 
         button:disabled {
-            cursor: wait;
+            cursor: not-allowed;
             opacity: 0.6;
         }
 
@@ -262,6 +179,10 @@ $validSubmission = $submitted && count($validationErrors) === 0;
         summary {
             cursor: pointer;
             margin-bottom: 16px;
+        }
+
+        section {
+            margin-bottom: 28px;
         }
 
         .error {
@@ -277,6 +198,54 @@ $validSubmission = $submitted && count($validationErrors) === 0;
             margin-top: 6px;
             color: #555;
             font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 16px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            vertical-align: top;
+        }
+
+        .data-table th {
+            background: #f5f5f5;
+        }
+
+        .market-price {
+            white-space: nowrap;
+            font-weight: 600;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .result-group {
+            margin-bottom: 28px;
+        }
+
+        .result-group h3 {
+            margin-bottom: 8px;
+        }
+
+        .result-description {
+            color: #555;
+            font-size: 0.9rem;
         }
 
         [hidden] {
@@ -287,17 +256,20 @@ $validSubmission = $submitted && count($validationErrors) === 0;
 <body>
     <h1>Just TCG</h1>
 
-    <section>
-
-
+    <section class="sets-section">
         <button id="update-sets-button" type="button">
             Update Sets
         </button>
 
-        <p id="update-sets-status" role="status" aria-live="polite"></p>
+        <p
+            id="update-sets-status"
+            role="status"
+            aria-live="polite"
+        ></p>
 
         <p>
-            <span id="sets-count"><?= count($sets) ?></span> sets loaded.
+            <span id="sets-count"><?= count($sets) ?></span>
+            sets loaded.
         </p>
 
         <p
@@ -307,19 +279,9 @@ $validSubmission = $submitted && count($validationErrors) === 0;
         ><?= escape($setsError) ?></p>
     </section>
 
-    <?php if ($submitted && $validationErrors): ?>
-        <section class="error" role="alert">
-            <h2>Please check your selections</h2>
+    <form id="card-form" method="post">
+        <h2>Add a Card</h2>
 
-            <ul>
-                <?php foreach ($validationErrors as $error): ?>
-                    <li><?= escape($error) ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </section>
-    <?php endif; ?>
-
-    <form id="card-form" method="POST" action="<?= escape($_SERVER['REQUEST_URI']) ?>">
         <div class="field">
             <label for="text1">Set</label>
 
@@ -329,7 +291,9 @@ $validSubmission = $submitted && count($validationErrors) === 0;
                 <?php foreach ($sets as $set): ?>
                     <option
                         value="<?= escape($set['id']) ?>"
-                        <?= $set_input === $set['id'] ? 'selected' : '' ?>
+                        <?= $set_input === $set['id']
+                            ? 'selected'
+                            : '' ?>
                     >
                         <?= escape($set['name']) ?>
                     </option>
@@ -345,6 +309,7 @@ $validSubmission = $submitted && count($validationErrors) === 0;
                 id="text2"
                 name="text2"
                 value="<?= escape($set_number_input) ?>"
+                placeholder="For example: 4 or 004/102"
             >
         </div>
 
@@ -356,43 +321,27 @@ $validSubmission = $submitted && count($validationErrors) === 0;
                 id="text3"
                 name="text3"
                 value="<?= escape($name_input) ?>"
+                placeholder="For example: Charizard"
             >
         </div>
 
-        <details <?= $submitted ? 'open' : '' ?>>
+        <details open>
             <summary>More options</summary>
 
             <div class="field">
                 <label for="extra1">Language</label>
 
                 <select id="extra1" name="extra1">
-                    <option
-                        value="en"
-                        <?= $language_input === 'en' ? 'selected' : '' ?>
-                    >
-                        English
-                    </option>
-
-                    <option
-                        value="jap"
-                        <?= $language_input === 'jap' ? 'selected' : '' ?>
-                    >
-                        Japanese
-                    </option>
-
-                    <option
-                        value="ch"
-                        <?= $language_input === 'ch' ? 'selected' : '' ?>
-                    >
-                        Chinese
-                    </option>
-
-                    <option
-                        value="kor"
-                        <?= $language_input === 'kor' ? 'selected' : '' ?>
-                    >
-                        Korean
-                    </option>
+                    <?php foreach ($languages as $value => $label): ?>
+                        <option
+                            value="<?= escape($value) ?>"
+                            <?= $language_input === $value
+                                ? 'selected'
+                                : '' ?>
+                        >
+                            <?= escape($label) ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
 
@@ -402,14 +351,18 @@ $validSubmission = $submitted && count($validationErrors) === 0;
                 <select id="card_type" name="card_type" required>
                     <option
                         value="raw"
-                        <?= $card_type_input === 'raw' ? 'selected' : '' ?>
+                        <?= $card_type_input === 'raw'
+                            ? 'selected'
+                            : '' ?>
                     >
                         Raw
                     </option>
 
                     <option
                         value="graded"
-                        <?= $card_type_input === 'graded' ? 'selected' : '' ?>
+                        <?= $card_type_input === 'graded'
+                            ? 'selected'
+                            : '' ?>
                     >
                         Graded
                     </option>
@@ -430,8 +383,6 @@ $validSubmission = $submitted && count($validationErrors) === 0;
                         ? 'required'
                         : 'disabled' ?>
                 >
-                    <option value="">-- Select a condition --</option>
-
                     <?php foreach ($rawConditions as $condition): ?>
                         <option
                             value="<?= escape($condition) ?>"
@@ -456,36 +407,17 @@ $validSubmission = $submitted && count($validationErrors) === 0;
                     id="graded_variant_id"
                     name="graded_variant_id"
                     aria-describedby="graded-help"
-                    <?= $card_type_input === 'graded'
-                        ? 'required'
-                        : 'disabled' ?>
+                    <?= $card_type_input === 'raw' ? 'disabled' : '' ?>
                 >
                     <option value="">
-                        <?= $gradedOptions
-                            ? '-- Select a grading option --'
-                            : '-- No graded options loaded --' ?>
+                        -- All available grades --
                     </option>
-
-                    <?php foreach ($gradedOptions as $id => $label): ?>
-                        <option
-                            value="<?= escape($id) ?>"
-                            <?= (string) $graded_variant_input === (string) $id
-                                ? 'selected'
-                                : '' ?>
-                        >
-                            <?= escape($label) ?>
-                        </option>
-                    <?php endforeach; ?>
                 </select>
 
                 <small id="graded-help" class="help-text">
-                    <?php if ($gradedOptions): ?>
-                        Select a grading option available for this card.
-                    <?php else: ?>
-                        No graded variants are currently loaded.
-                        Your backend must load the selected card's
-                        JustTCG variants to populate this list.
-                    <?php endif; ?>
+                    Grade choices load only after you query the list.
+                    Select a returned grade and add a new entry to
+                    queue that specific variant.
                 </small>
             </div>
 
@@ -493,343 +425,138 @@ $validSubmission = $submitted && count($validationErrors) === 0;
                 <label for="printing">Printing</label>
 
                 <select id="printing" name="printing">
-                    <option
-                        value="normal"
-                        <?= $printing_input === 'normal' ? 'selected' : '' ?>
-                    >
-                        Normal
-                    </option>
+                    <option value="">-- Any printing --</option>
 
-                    <option
-                        value="Holofoil"
-                        <?= $printing_input === 'Holofoil' ? 'selected' : '' ?>
-                    >
-                        Holofoil
-                    </option>
-
-                    <option
-                        value="1st"
-                        <?= $printing_input === '1st' ? 'selected' : '' ?>
-                    >
-                        First Edition
-                    </option>
-
-                    <option
-                        value="1st_Holofoil"
-                        <?= $printing_input === '1st_Holofoil' ? 'selected' : '' ?>
-                    >
-                        First Edition Holofoil
-                    </option>
+                    <?php foreach ($printingOptions as $printing): ?>
+                        <option
+                            value="<?= escape($printing) ?>"
+                            <?= $printing_input === $printing
+                                ? 'selected'
+                                : '' ?>
+                        >
+                            <?= escape($printing) ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
+
+                <small class="help-text">
+                    Use Any printing for the broadest search.
+                </small>
             </div>
         </details>
 
-        <button type="submit">Save</button>
+        <button id="add-card-button" type="submit">
+            Add to List
+        </button>
+
+        <p class="help-text">
+            Adding a card does not call JustTCG.
+            Queries run only when you press Query Listed Cards.
+        </p>
+
+        <p
+            id="add-card-status"
+            role="status"
+            aria-live="polite"
+        ></p>
     </form>
 
+    <noscript>
+        <p class="error">
+            Enable JavaScript to queue and query cards.
+        </p>
+    </noscript>
+
     <section>
-    <h2>Card Results</h2>
+        <h2>
+            Queued Cards
+            (<span id="queue-count">0</span>/20)
+        </h2>
 
-    <p
-        id="card-request-status"
-        role="status"
-        aria-live="polite"
-    ></p>
+        <p id="empty-queue-message">No cards added yet.</p>
 
-    <div id="card-results"></div>
-</section>
+        <div class="table-container">
+            <table id="queue-table" class="data-table" hidden>
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Card</th>
+                        <th scope="col">Set</th>
+                        <th scope="col">Number</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Condition / Grade</th>
+                        <th scope="col">Printing</th>
+                        <th scope="col">Language</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
 
-    <?php if ($validSubmission): ?>
-        <section>
-            <h2>Selected Options</h2>
+                <tbody id="queue-body"></tbody>
+            </table>
+        </div>
 
-            <ul>
-                <li>
-                    Set:
-                    <?= escape($selectedSetName) ?>
-                </li>
+        <div class="actions">
+            <button id="query-list-button" type="button" disabled>
+                Query Listed Cards
+            </button>
 
-                <li>Set ID: <?= escape($set_input) ?></li>
-                <li>Set Number: <?= escape($set_number_input) ?></li>
-                <li>Name: <?= escape($name_input) ?></li>
-                <li>Language: <?= escape($language_input) ?></li>
+            <button id="clear-list-button" type="button" disabled>
+                Clear List
+            </button>
+        </div>
 
-                <li>
-                    Card Type:
-                    <?= $card_type_input === 'graded' ? 'Graded' : 'Raw' ?>
-                </li>
+        <p class="help-text">
+            Entries store a snapshot of your selections.
+            Changing the form does not change entries already queued.
+            Refreshing this page clears the list.
+        </p>
+    </section>
 
-                <?php if ($card_type_input === 'raw'): ?>
-                    <li>
-                        Condition: <?= escape($condition_input) ?>
-                    </li>
-                <?php else: ?>
-                    <li>
-                        Grading Option:
-                        <?= escape($selectedGradingLabel) ?>
-                    </li>
+    <section>
+        <h2>Card Results</h2>
 
-                    <li>
-                        Graded Variant ID:
-                        <?= escape($graded_variant_input) ?>
-                    </li>
-                <?php endif; ?>
+        <p
+            id="card-request-status"
+            role="status"
+            aria-live="polite"
+        ></p>
 
-                <li>
-                    Printing:
-                    <?= escape($printing_input) ?>
-                </li>
-
-            </ul>
-        </section>
-    <?php endif; ?>
+        <div id="card-results"></div>
+    </section>
 
     <script>
-
-        function renderCardResults(result) {
-    const container = document.getElementById("card-results");
-    const status = document.getElementById("card-request-status");
-
-    container.replaceChildren();
-
-    const cards = Array.isArray(result.data) ? result.data : [];
-
-    if (cards.length === 0) {
-        status.className = "";
-        status.textContent =
-            "Search completed, but no cards matched all filters.";
-        return;
-    }
-
-    const table = document.createElement("table");
-    table.className = "results-table";
-
-    const thead = document.createElement("thead");
-    const headerRow = document.createElement("tr");
-
-    const headers = [
-        "Card",
-        "Set",
-        "Number",
-        "Condition / Grade",
-        "Printing",
-        "Language",
-        "Market",
-        "Market Price",
-        "Price Status",
-        "Updated"
-    ];
-
-    for (const heading of headers) {
-        const th = document.createElement("th");
-        th.scope = "col";
-        th.textContent = heading;
-        headerRow.appendChild(th);
-    }
-
-    thead.appendChild(headerRow);
-    table.appendChild(thead);
-
-    const tbody = document.createElement("tbody");
-    let rowCount = 0;
-
-    function addCell(row, value, className = "") {
-        const td = document.createElement("td");
-        td.textContent =
-            value === null || value === undefined || value === ""
-                ? "—"
-                : String(value);
-
-        if (className) {
-            td.className = className;
-        }
-
-        row.appendChild(td);
-    }
-
-    function formatPrice(price, currency) {
-        if (
-            typeof price !== "number" ||
-            !Number.isFinite(price)
-        ) {
-            return "Unavailable";
-        }
-
-        if (!currency) {
-            return price.toFixed(2) + " (currency unspecified)";
-        }
-
-        try {
-            return new Intl.NumberFormat(undefined, {
-                style: "currency",
-                currency,
-                currencyDisplay: "code"
-            }).format(price);
-        } catch {
-            return price.toFixed(2) + " " + currency;
-        }
-    }
-
-    function formatUpdated(timestamp) {
-        if (
-            typeof timestamp !== "number" ||
-            !Number.isFinite(timestamp)
-        ) {
-            return "—";
-        }
-
-        const date = new Date(timestamp * 1000);
-
-        return Number.isNaN(date.getTime())
-            ? "—"
-            : date.toLocaleString();
-    }
-
-    for (const card of cards) {
-        const variants = Array.isArray(card.variants)
-            ? card.variants
-            : [];
-
-        const setName =
-            typeof card.set === "string"
-                ? card.set
-                : card.set?.name ?? "";
-
-        for (const variant of variants) {
-            const gradeOrCondition =
-                variant.type === "graded"
-                    ? variant.grading?.canonical ?? "Graded"
-                    : variant.condition ?? "";
-
-            const markets = Array.isArray(variant.markets)
-                ? variant.markets
-                : [];
-
-            // Still display a variant if it has no market data.
-            const marketRows = markets.length > 0
-                ? markets
-                : [null];
-
-            for (const market of marketRows) {
-                const row = document.createElement("tr");
-
-                addCell(row, card.name);
-                addCell(row, setName);
-                addCell(row, card.number);
-                addCell(row, gradeOrCondition);
-                addCell(row, variant.printing);
-                addCell(row, variant.language);
-                addCell(row, market?.region);
-
-                addCell(
-                    row,
-                    formatPrice(
-                        market?.price,
-                        market?.currency
-                    ),
-                    "market-price"
-                );
-
-                addCell(row, market?.price_status);
-                addCell(
-                    row,
-                    formatUpdated(market?.updated_at)
-                );
-
-                tbody.appendChild(row);
-                rowCount++;
-            }
-        }
-    }
-
-    table.appendChild(tbody);
-    container.appendChild(table);
-
-    status.className = "success";
-    status.textContent =
-        "Found " + cards.length + " card(s), showing " +
-        rowCount + " variant/market row(s).";
-}
+        const apiUrl = "/PokeBase/src/api/just_tcg/index.php";
+        const MAX_CARDS = 20;
 
         const cardForm = document.getElementById("card-form");
-        const cardRequestStatus = document.getElementById("card-request-status");
+        const addButton = document.getElementById("add-card-button");
+        const addStatus = document.getElementById("add-card-status");
+        const queryButton = document.getElementById("query-list-button");
+        const clearButton = document.getElementById("clear-list-button");
+
+        const queueCount = document.getElementById("queue-count");
+        const queueTable = document.getElementById("queue-table");
+        const queueBody = document.getElementById("queue-body");
+        const emptyQueueMessage =
+            document.getElementById("empty-queue-message");
+
+        const cardRequestStatus =
+            document.getElementById("card-request-status");
         const cardResults = document.getElementById("card-results");
 
-        cardForm.addEventListener("submit", async function (event) {
-            event.preventDefault();
-            
-            const submitButton = cardForm.querySelector('button[type="submit"]');
-            submitButton.disabled = true;
-            cardRequestStatus.className = "";
-            cardRequestStatus.textContent = "Processing your request...";
-            cardResults.textContent = "";
-
-            try{
-                const formData = new FormData(cardForm);
-                
-                const result = await requestJson(
-                    apiUrl + "?route=search_cards",
-                    {
-                        method: "POST",
-                        body:  new FormData(cardForm)
-                    }
-
-                );
-
-                if (result.success !== true){
-                    throw new Error(
-                        result.error ||
-                        "API did not confirm the card search."
-                    );
-                }
-
-                renderCardResults(result);
-
-                const cards = Array.isArray(result.data) ? result.data : [];
-
-if (cards.length === 0) {
-    cardRequestStatus.textContent =
-        "Search completed, but no cards matched all filters.";
-} else {
-    cardRequestStatus.textContent =
-        "Found " + cards.length + " matching card(s).";
-}
-
-let output = document.getElementById("card-results");
-
-if (!output) {
-    output = document.createElement("pre");
-    output.id = "card-results";
-    cardForm.insertAdjacentElement("afterend", output);
-}
-
-output.hidden = false;
-output.style.display = "block";
-output.style.whiteSpace = "pre-wrap";
-output.style.overflowWrap = "anywhere";
-output.style.padding = "12px";
-output.style.border = "1px solid #ccc";
-
-            } catch (error) {
-                console.error(error);
-
-                cardRequestStatus.className = "error";
-                cardRequestStatus.textContent = "Error: " + error.message;
-            } finally {
-                submitButton.disabled = false;
-            }
-
-        });
-
-
-        const apiUrl = "/PokeBase/src/api/just_tcg/index.php";
-
-        const updateButton = document.getElementById("update-sets-button");
-        const updateStatus = document.getElementById("update-sets-status");
+        const updateButton =
+            document.getElementById("update-sets-button");
+        const updateStatus =
+            document.getElementById("update-sets-status");
         const setSelect = document.getElementById("text1");
         const setsCount = document.getElementById("sets-count");
-        const setsFileError = document.getElementById("sets-file-error");
+        const setsFileError =
+            document.getElementById("sets-file-error");
 
+        const numberInput = document.getElementById("text2");
+        const nameInput = document.getElementById("text3");
+        const languageSelect = document.getElementById("extra1");
         const cardTypeSelect = document.getElementById("card_type");
         const rawConditionField =
             document.getElementById("raw-condition-field");
@@ -838,33 +565,44 @@ output.style.border = "1px solid #ccc";
         const rawConditionSelect = document.getElementById("extra2");
         const gradedVariantSelect =
             document.getElementById("graded_variant_id");
+        const gradedHelp = document.getElementById("graded-help");
+        const printingSelect = document.getElementById("printing");
 
-        function updateConditionFields() {
-            const isGraded = cardTypeSelect.value === "graded";
+        // Local queue. No network request is made when adding entries.
+        const cardQueue = [];
 
-            rawConditionField.hidden = isGraded;
-            rawConditionSelect.disabled = isGraded;
-            rawConditionSelect.required = !isGraded;
+        let nextEntryId = 1;
+        let queryInProgress = false;
+        let setsUpdateInProgress = false;
+        let gradingOptionsCache = new Map();
 
-            gradedConditionField.hidden = !isGraded;
-            gradedVariantSelect.disabled = !isGraded;
-            gradedVariantSelect.required = isGraded;
+        function selectedText(select) {
+            return select.selectedOptions[0]?.textContent.trim() ?? "";
         }
 
-        cardTypeSelect.addEventListener(
-            "change",
-            updateConditionFields
-        );
+        function formSearchKey() {
+            return JSON.stringify([
+                setSelect.value,
+                numberInput.value.trim(),
+                nameInput.value.trim(),
+                languageSelect.value,
+                printingSelect.value
+            ]);
+        }
 
-        updateConditionFields();
+        function entrySearchKey(entry) {
+            return JSON.stringify([
+                entry.fields.text1,
+                entry.fields.text2,
+                entry.fields.text3,
+                entry.fields.extra1,
+                entry.fields.printing
+            ]);
+        }
 
         async function requestJson(url, options = {}) {
             const response = await fetch(url, options);
             const rawResponse = await response.text();
-
-            console.log("Request URL:", url);
-            console.log("HTTP status:", response.status);
-            console.log("API response:", rawResponse);
 
             let data;
 
@@ -873,33 +611,670 @@ output.style.border = "1px solid #ccc";
             } catch {
                 throw new Error(
                     "HTTP " + response.status +
-                    ": Expected JSON but received: " +
-                    rawResponse.slice(0, 500)
+                    ": Expected a JSON response."
                 );
             }
 
-if (!response.ok) {
-    const upstreamStatus = data?.upstreamStatus
-        ? " | JustTCG HTTP " + data.upstreamStatus
-        : "";
+            if (!response.ok) {
+                const upstreamStatus = data?.upstreamStatus
+                    ? " | JustTCG HTTP " + data.upstreamStatus
+                    : "";
 
-    const upstreamDetails = data?.upstreamError
-        ? " | " + JSON.stringify(data.upstreamError)
-        : "";
+                const upstreamDetails = data?.upstreamError
+                    ? " | " + JSON.stringify(data.upstreamError)
+                    : "";
 
-    throw new Error(
-        "HTTP " + response.status + ": " +
-        (data?.error || "Request failed.") +
-        upstreamStatus +
-        upstreamDetails
-    );
-}
+                throw new Error(
+                    "HTTP " + response.status + ": " +
+                    (data?.error || "Request failed.") +
+                    upstreamStatus +
+                    upstreamDetails
+                );
+            }
 
             return data;
         }
 
-        updateButton.addEventListener("click", async function () {
-            updateButton.disabled = true;
+        function updateConditionFields() {
+            const isGraded = cardTypeSelect.value === "graded";
+
+            rawConditionField.hidden = isGraded;
+            rawConditionSelect.disabled = queryInProgress || isGraded;
+            rawConditionSelect.required = !isGraded;
+
+            gradedConditionField.hidden = !isGraded;
+            gradedVariantSelect.disabled =
+                queryInProgress || !isGraded;
+            gradedVariantSelect.required = false;
+        }
+
+        function refreshButtons() {
+            addButton.disabled =
+                queryInProgress || cardQueue.length >= MAX_CARDS;
+
+            queryButton.disabled =
+                queryInProgress ||
+                setsUpdateInProgress ||
+                cardQueue.length === 0;
+
+            clearButton.disabled =
+                queryInProgress || cardQueue.length === 0;
+
+            updateButton.disabled =
+                queryInProgress || setsUpdateInProgress;
+
+            queryButton.textContent = queryInProgress
+                ? "Querying..."
+                : "Query Listed Cards";
+        }
+
+        function resetGradingOptions() {
+            gradingOptionsCache.clear();
+
+            gradedVariantSelect.replaceChildren(
+                new Option("-- All available grades --", "")
+            );
+
+            gradedHelp.textContent =
+                "Grade choices load only after you query the list. " +
+                "Select a returned grade and add a new entry to " +
+                "queue that specific variant.";
+        }
+
+        function populateGradingOptions(result, entry) {
+            // Only populate choices for the card currently in the form.
+            if (formSearchKey() !== entrySearchKey(entry)) {
+                return;
+            }
+
+            if (!entry.fields.graded_variant_id) {
+                gradingOptionsCache.clear();
+            }
+
+            const cards = Array.isArray(result.data)
+                ? result.data
+                : [];
+
+            for (const card of cards) {
+                const variants = Array.isArray(card.variants)
+                    ? card.variants
+                    : [];
+
+                for (const variant of variants) {
+                    if (
+                        variant.type !== "graded" ||
+                        !variant.id ||
+                        !variant.grading?.canonical
+                    ) {
+                        continue;
+                    }
+
+                    const label = [
+                        card.name,
+                        card.number,
+                        variant.grading.canonical,
+                        variant.printing,
+                        variant.language
+                    ].filter(Boolean).join(" — ");
+
+                    gradingOptionsCache.set(
+                        String(variant.id),
+                        label
+                    );
+                }
+            }
+
+            const previousSelection = gradedVariantSelect.value;
+
+            const options = [...gradingOptionsCache.entries()].sort(
+                (a, b) => a[1].localeCompare(
+                    b[1],
+                    undefined,
+                    { numeric: true }
+                )
+            );
+
+            gradedVariantSelect.replaceChildren(
+                new Option("-- All available grades --", "")
+            );
+
+            for (const [id, label] of options) {
+                gradedVariantSelect.add(new Option(label, id));
+            }
+
+            if (gradingOptionsCache.has(previousSelection)) {
+                gradedVariantSelect.value = previousSelection;
+            }
+
+            gradedHelp.textContent = options.length > 0
+                ? options.length +
+                  " grading option(s) loaded. Choose one and add " +
+                  "a new entry to queue that specific variant."
+                : "No graded choices matched this entry.";
+        }
+
+        function addReturnedPrintingOptions(result) {
+            const existing = new Set(
+                Array.from(
+                    printingSelect.options,
+                    option => option.value
+                )
+            );
+
+            const cards = Array.isArray(result.data)
+                ? result.data
+                : [];
+
+            for (const card of cards) {
+                const variants = Array.isArray(card.variants)
+                    ? card.variants
+                    : [];
+
+                for (const variant of variants) {
+                    const printing = variant.printing;
+
+                    if (
+                        typeof printing !== "string" ||
+                        printing === "" ||
+                        existing.has(printing)
+                    ) {
+                        continue;
+                    }
+
+                    printingSelect.add(
+                        new Option(printing, printing)
+                    );
+
+                    existing.add(printing);
+                }
+            }
+        }
+
+        function addCell(row, value, className = "") {
+            const cell = document.createElement("td");
+
+            cell.textContent =
+                value === null ||
+                value === undefined ||
+                value === ""
+                    ? "—"
+                    : String(value);
+
+            if (className) {
+                cell.className = className;
+            }
+
+            row.appendChild(cell);
+            return cell;
+        }
+
+        function renderQueue() {
+            queueBody.replaceChildren();
+            queueCount.textContent = cardQueue.length;
+            queueTable.hidden = cardQueue.length === 0;
+            emptyQueueMessage.hidden = cardQueue.length !== 0;
+
+            cardQueue.forEach((entry, index) => {
+                const row = document.createElement("tr");
+
+                addCell(row, index + 1);
+                addCell(row, entry.fields.text3 || "Number lookup");
+                addCell(row, entry.setName);
+                addCell(row, entry.fields.text2);
+                addCell(
+                    row,
+                    entry.fields.card_type === "graded"
+                        ? "Graded"
+                        : "Raw"
+                );
+                addCell(row, entry.conditionLabel);
+                addCell(row, entry.fields.printing || "Any");
+                addCell(row, entry.languageLabel);
+                addCell(row, entry.status);
+
+                const actionsCell = document.createElement("td");
+                const removeButton = document.createElement("button");
+
+                removeButton.type = "button";
+                removeButton.textContent = "Remove";
+                removeButton.disabled = queryInProgress;
+
+                removeButton.addEventListener("click", () => {
+                    const position = cardQueue.findIndex(
+                        item => item.id === entry.id
+                    );
+
+                    if (position !== -1) {
+                        cardQueue.splice(position, 1);
+                    }
+
+                    renderQueue();
+                });
+
+                actionsCell.appendChild(removeButton);
+                row.appendChild(actionsCell);
+                queueBody.appendChild(row);
+            });
+
+            refreshButtons();
+        }
+
+        function formatPrice(price, currency) {
+            if (
+                typeof price !== "number" ||
+                !Number.isFinite(price)
+            ) {
+                return "Unavailable";
+            }
+
+            if (!currency) {
+                return price.toFixed(2) +
+                    " (currency unspecified)";
+            }
+
+            try {
+                return new Intl.NumberFormat(undefined, {
+                    style: "currency",
+                    currency,
+                    currencyDisplay: "code"
+                }).format(price);
+            } catch {
+                return price.toFixed(2) + " " + currency;
+            }
+        }
+
+        function formatUpdated(timestamp) {
+            if (
+                typeof timestamp !== "number" ||
+                !Number.isFinite(timestamp)
+            ) {
+                return "—";
+            }
+
+            const date = new Date(timestamp * 1000);
+
+            return Number.isNaN(date.getTime())
+                ? "—"
+                : date.toLocaleString();
+        }
+
+        function createResultSection(entry, index) {
+            const section = document.createElement("section");
+            section.className = "result-group";
+
+            const heading = document.createElement("h3");
+            heading.textContent =
+                (index + 1) + ". " +
+                (entry.fields.text3 || "Card number " + entry.fields.text2);
+
+            const description = document.createElement("p");
+            description.className = "result-description";
+
+            description.textContent = [
+                entry.setName,
+                entry.fields.text2,
+                entry.conditionLabel,
+                entry.fields.printing || "Any printing",
+                entry.languageLabel
+            ].filter(Boolean).join(" — ");
+
+            const content = document.createElement("div");
+
+            section.append(heading, description, content);
+            cardResults.appendChild(section);
+
+            return content;
+        }
+
+        function renderCardResults(container, result) {
+            container.replaceChildren();
+
+            const cards = Array.isArray(result.data)
+                ? result.data
+                : [];
+
+            if (cards.length === 0) {
+                const message = document.createElement("p");
+                message.textContent =
+                    "No cards matched this entry's filters.";
+
+                container.appendChild(message);
+
+                return 0;
+            }
+
+            const wrapper = document.createElement("div");
+            wrapper.className = "table-container";
+
+            const table = document.createElement("table");
+            table.className = "data-table";
+
+            const thead = document.createElement("thead");
+            const headerRow = document.createElement("tr");
+
+            for (const heading of [
+                "Card",
+                "Set",
+                "Number",
+                "Condition / Grade",
+                "Printing",
+                "Language",
+                "Market",
+                "Market Price",
+                "Price Status",
+                "Updated",
+                "Action"
+            ]) {
+                const th = document.createElement("th");
+                th.scope = "col";
+                th.textContent = heading;
+                headerRow.appendChild(th);
+            }
+
+            thead.appendChild(headerRow);
+
+            const tbody = document.createElement("tbody");
+            let rowCount = 0;
+
+            for (const card of cards) {
+                const variants = Array.isArray(card.variants)
+                    ? card.variants
+                    : [];
+
+                const setName = typeof card.set === "string"
+                    ? card.set
+                    : card.set?.name ?? "";
+
+                for (const variant of variants) {
+                    const conditionOrGrade =
+                        variant.type === "graded"
+                            ? variant.grading?.canonical ?? "Graded"
+                            : variant.condition ?? "";
+
+                    const markets = Array.isArray(variant.markets)
+                        ? variant.markets
+                        : [];
+
+                    for (const market of markets.length ? markets : [null]) {
+                        const row = document.createElement("tr");
+
+                        addCell(row, card.name);
+                        addCell(row, setName);
+                        addCell(row, card.number);
+                        addCell(row, conditionOrGrade);
+                        addCell(row, variant.printing);
+                        addCell(row, variant.language);
+                        addCell(row, market?.region);
+
+                        addCell(
+                            row,
+                            formatPrice(
+                                market?.price,
+                                market?.currency
+                            ),
+                            "market-price"
+                        );
+
+                        addCell(row, market?.price_status);
+
+                        addCell(
+    row,
+    formatUpdated(market?.updated_at)
+);
+
+addDatabaseButton(row, card, variant, market);
+
+tbody.appendChild(row);
+rowCount++;
+                    }
+                }
+            }
+
+            table.append(thead, tbody);
+            wrapper.appendChild(table);
+            container.appendChild(wrapper);
+
+            return rowCount;
+        }
+
+        // Add to the local array only. No fetch() is called here.
+        cardForm.addEventListener("submit", event => {
+            event.preventDefault();
+
+            if (queryInProgress) {
+                return;
+            }
+
+            addStatus.className = "";
+            addStatus.textContent = "";
+
+            if (cardQueue.length >= MAX_CARDS) {
+                addStatus.className = "error";
+                addStatus.textContent =
+                    "The list is full. Remove an entry before adding another.";
+                return;
+            }
+
+            if (!cardForm.reportValidity()) {
+                return;
+            }
+
+            if (
+                numberInput.value.trim() === "" &&
+                nameInput.value.trim() === ""
+            ) {
+                addStatus.className = "error";
+                addStatus.textContent =
+                    "Enter a card name or set number.";
+                return;
+            }
+
+            const data = new FormData(cardForm);
+
+            const fields = {
+                text1: String(data.get("text1") ?? "").trim(),
+                text2: String(data.get("text2") ?? "").trim(),
+                text3: String(data.get("text3") ?? "").trim(),
+                extra1: String(data.get("extra1") ?? "en"),
+                extra2: String(data.get("extra2") ?? ""),
+                card_type: String(data.get("card_type") ?? "raw"),
+                graded_variant_id: String(
+                    data.get("graded_variant_id") ?? ""
+                ),
+                printing: String(data.get("printing") ?? "")
+            };
+
+            cardQueue.push({
+                id: nextEntryId++,
+                fields,
+                setName: selectedText(setSelect),
+                languageLabel: selectedText(languageSelect),
+                conditionLabel: fields.card_type === "graded"
+                    ? (
+                        fields.graded_variant_id
+                            ? selectedText(gradedVariantSelect)
+                            : "All available grades"
+                    )
+                    : fields.extra2,
+                status: "Not queried"
+            });
+
+            addStatus.className = "success";
+            addStatus.textContent =
+                "Added to list. No API request has been made.";
+
+            renderQueue();
+        });
+
+        clearButton.addEventListener("click", () => {
+            if (queryInProgress) {
+                return;
+            }
+
+            cardQueue.length = 0;
+            cardResults.replaceChildren();
+            cardRequestStatus.textContent = "";
+            addStatus.textContent = "";
+
+            renderQueue();
+        });
+
+        // Only this button sends queued card searches to your API.
+        queryButton.addEventListener("click", async () => {
+            if (
+                queryInProgress ||
+                setsUpdateInProgress ||
+                cardQueue.length === 0
+            ) {
+                return;
+            }
+
+            queryInProgress = true;
+            cardResults.replaceChildren();
+            addStatus.textContent = "";
+
+            for (const entry of cardQueue) {
+                entry.status = "Waiting";
+            }
+
+            const formControls = Array.from(
+                cardForm.querySelectorAll("input, select, button")
+            );
+
+            const previousStates = formControls.map(
+                control => control.disabled
+            );
+
+            formControls.forEach(control => {
+                control.disabled = true;
+            });
+
+            let successfulRequests = 0;
+            let failedRequests = 0;
+            let emptyResults = 0;
+            let totalRows = 0;
+
+            renderQueue();
+
+            try {
+                for (let index = 0; index < cardQueue.length; index++) {
+                    const entry = cardQueue[index];
+
+                    entry.status = "Querying";
+                    renderQueue();
+
+                    cardRequestStatus.className = "";
+                    cardRequestStatus.textContent =
+                        "Querying entry " + (index + 1) +
+                        " of " + cardQueue.length + "...";
+
+                    const output = createResultSection(entry, index);
+                    const formData = new FormData();
+
+                    for (const [key, value] of Object.entries(entry.fields)) {
+                        formData.append(key, value);
+                    }
+
+                    try {
+                        const result = await requestJson(
+                            apiUrl + "?route=search_cards",
+                            {
+                                method: "POST",
+                                body: formData
+                            }
+                        );
+
+                        if (result.success !== true) {
+                            throw new Error(
+                                result.error || "The card search failed."
+                            );
+                        }
+
+                        const cards = Array.isArray(result.data)
+                            ? result.data
+                            : [];
+
+                        totalRows += renderCardResults(output, result);
+                        successfulRequests++;
+
+                        if (cards.length === 0) {
+                            emptyResults++;
+                            entry.status = "No matches";
+                        } else {
+                            entry.status =
+                                "Found " + cards.length + " card(s)";
+                        }
+
+                        addReturnedPrintingOptions(result);
+
+                        if (entry.fields.card_type === "graded") {
+                            populateGradingOptions(result, entry);
+                        }
+                    } catch (error) {
+                        console.error(error);
+
+                        failedRequests++;
+                        entry.status = "Failed";
+
+                        const message = document.createElement("p");
+                        message.className = "error";
+                        message.textContent = error.message;
+                        output.appendChild(message);
+                    }
+
+                    renderQueue();
+                }
+
+                cardRequestStatus.className =
+                    failedRequests > 0 ? "error" : "success";
+
+                cardRequestStatus.textContent =
+                    "Finished. " +
+                    successfulRequests + " successful request(s), " +
+                    failedRequests + " failed request(s), " +
+                    emptyResults + " with no matches. " +
+                    "Showing " + totalRows +
+                    " variant/market row(s).";
+            } finally {
+                queryInProgress = false;
+
+                formControls.forEach((control, index) => {
+                    control.disabled = previousStates[index];
+                });
+
+                updateConditionFields();
+                renderQueue();
+            }
+        });
+
+        cardTypeSelect.addEventListener(
+            "change",
+            updateConditionFields
+        );
+
+        for (const id of [
+            "text1",
+            "text2",
+            "text3",
+            "extra1",
+            "printing"
+        ]) {
+            const element = document.getElementById(id);
+
+            element.addEventListener(
+                element.tagName === "SELECT" ? "change" : "input",
+                resetGradingOptions
+            );
+        }
+
+        updateButton.addEventListener("click", async () => {
+            if (queryInProgress || setsUpdateInProgress) {
+                return;
+            }
+
+            setsUpdateInProgress = true;
+            refreshButtons();
+
             updateStatus.className = "";
             updateStatus.textContent =
                 "Fetching sets and updating sets.txt...";
@@ -921,21 +1296,24 @@ if (!response.ok) {
 
                 saved = true;
 
-                // Reload the page in the background to read sets.txt,
-                // preserving the user's current form entries.
-                const pageResponse = await fetch(window.location.href, {
-                    cache: "no-store"
-                });
+                const pageResponse = await fetch(
+                    window.location.href,
+                    { cache: "no-store" }
+                );
 
                 if (!pageResponse.ok) {
-                    throw new Error("Could not reload the saved sets.");
+                    throw new Error(
+                        "Could not reload the saved sets."
+                    );
                 }
 
                 const pageHtml = await pageResponse.text();
-                const refreshedPage = new DOMParser().parseFromString(
-                    pageHtml,
-                    "text/html"
-                );
+
+                const refreshedPage =
+                    new DOMParser().parseFromString(
+                        pageHtml,
+                        "text/html"
+                    );
 
                 const refreshedSelect =
                     refreshedPage.getElementById("text1");
@@ -957,10 +1335,12 @@ if (!response.ok) {
 
                 const previousSelection = setSelect.value;
 
-                // Copy only option text and values.
                 const options = Array.from(
                     refreshedSelect.options,
-                    option => new Option(option.text, option.value)
+                    option => new Option(
+                        option.text,
+                        option.value
+                    )
                 );
 
                 setSelect.replaceChildren(...options);
@@ -973,6 +1353,10 @@ if (!response.ok) {
                     setSelect.value = previousSelection;
                 }
 
+                if (setSelect.value !== previousSelection) {
+                    resetGradingOptions();
+                }
+
                 setsCount.textContent =
                     Math.max(0, options.length - 1);
 
@@ -982,26 +1366,123 @@ if (!response.ok) {
                 updateStatus.className = "success";
                 updateStatus.textContent =
                     "Success! Saved " + result.count +
-                    " sets and refreshed the dropdown." +
-                    (
-                        result.bytesWritten !== undefined
-                            ? " " + result.bytesWritten +
-                              " bytes written."
-                            : ""
-                    );
+                    " sets and refreshed the dropdown.";
             } catch (error) {
                 console.error(error);
 
                 updateStatus.className = "error";
                 updateStatus.textContent = saved
-                    ? "The API reported that sets.txt was saved, " +
-                      "but refreshing the dropdown failed: " +
+                    ? "Sets were saved, but refreshing failed: " +
                       error.message
                     : "Error: " + error.message;
             } finally {
-                updateButton.disabled = false;
+                setsUpdateInProgress = false;
+                refreshButtons();
             }
         });
+
+        updateConditionFields();
+        renderQueue();
+
+        function addDatabaseButton(row, card, variant, market) {
+    const cell = document.createElement("td");
+    const button = document.createElement("button");
+    const message = document.createElement("small");
+
+    button.type = "button";
+    button.textContent = "Add to Database";
+
+    message.className = "help-text";
+    message.setAttribute("role", "status");
+
+    const validPrice =
+        typeof market?.price === "number" &&
+        Number.isFinite(market.price) &&
+        market.price >= 0;
+
+    const validTimestamp =
+        typeof market?.updated_at === "number" &&
+        Number.isFinite(market.updated_at);
+
+    const priceDate = validTimestamp
+        ? new Date(market.updated_at * 1000)
+        : null;
+
+    const validDate =
+        priceDate !== null &&
+        !Number.isNaN(priceDate.getTime());
+
+    if (!validPrice || !validDate) {
+        button.disabled = true;
+        message.textContent =
+            "A price and update date are required to save.";
+    }
+
+    button.addEventListener("click", async () => {
+        const setName = typeof card.set === "string"
+            ? card.set
+            : card.set?.name ?? "";
+
+        const payload = {
+            name: card.name ?? "",
+            set: setName,
+            set_num: card.number ?? "",
+            lang: variant.language ?? "",
+            price: market.price,
+            price_date: priceDate.toISOString().slice(0, 10),
+
+            condition: variant.type === "graded"
+                ? null
+                : variant.condition ?? null,
+
+            printing: variant.printing ?? null,
+
+            grade: variant.type === "graded"
+                ? variant.grading?.canonical ?? null
+                : null
+        };
+
+        button.disabled = true;
+        button.textContent = "Saving...";
+        message.className = "help-text";
+        message.textContent = "";
+
+        try {
+            const result = await requestJson(
+                apiUrl + "?route=save_card",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                }
+            );
+
+            if (result.success !== true) {
+                throw new Error(
+                    result.error || "The card could not be saved."
+                );
+            }
+
+            button.textContent = "Added";
+            message.className = "help-text success";
+            message.textContent =
+                "Database card ID: " + result.card_id;
+        } catch (error) {
+            console.error(error);
+
+            button.disabled = false;
+            button.textContent = "Retry Save";
+            message.className = "help-text error";
+            message.textContent = error.message;
+        }
+    });
+
+    cell.append(button, message);
+    row.appendChild(cell);
+}
+
     </script>
 </body>
 </html>
