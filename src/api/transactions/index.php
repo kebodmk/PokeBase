@@ -168,6 +168,24 @@ if ($routePart === 'update') {
 
 /*
 ------------------------------------------------------------
+GET /api/inventory_tracker/get
+------------------------------------------------------------
+*/
+if ($routePart === 'get') {
+    if ($method !== 'GET') {
+        sendJson(405, ['success' => false, 'message' => 'Method not allowed.']);
+    }
+
+    $transaction = getAllTransactions();
+
+    sendJson(200, [
+        'success' => true,
+        'transaction' => $transaction,
+    ]);
+}
+
+/*
+------------------------------------------------------------
 DELETE /api/transactions/delete/{trans_id}
 Removes the transaction and its exchanged_cards rows. The cards themselves are kept.
 ------------------------------------------------------------
@@ -276,4 +294,10 @@ function getTransactionWithCards(int $transId): ?array
     $transaction['cards'] = PokeDatabase::getDataFromSQL($cards_sql, [':trans_id' => $transId]);
 
     return $transaction;
+}
+
+function getAllTransactions(): array
+{
+    $sql = 'SELECT trans_id, `date`, user_id, sold_for FROM transactions';
+    return PokeDatabase::getDataFromSQL($sql, []);
 }
