@@ -8,7 +8,7 @@ let loginBtn;
 let logoutBtn;
 let usersBtn;
 
-const currentUrl = window.location.href;
+const currentUrl = window.location.pathname;
 window.addEventListener("load", init)
 function init(){
     let url;
@@ -17,7 +17,7 @@ function init(){
     navBtn.addEventListener("click", showButtons);
 
     homeBtn = document.getElementById("home");
-    url = "./index.php";
+    url = "./";
     enableButtons(homeBtn, url);
 
     inventoryBtn = document.getElementById("inventory");
@@ -52,23 +52,33 @@ function init(){
 
 function showButtons(){
     document.getElementById("navButtons").classList.toggle("invisible");
-    document.getElementById("main")?.classList.toggle("invisible");
+    document.getElementById("main").classList.toggle("invisible");
 }
 
-//Checks what buttons can be displayed and adds event listeners to each.
-function enableButtons(btn, url){
-    if(!checkURL(url)){
-        btn.addEventListener("click", function(){window.location.href = url;});
+// Returns the file name of a path, treating "" / index.* as "home"
+function getPage(path) {
+    const page = path.substring(path.lastIndexOf("/") + 1);
+    if (page === "" || page === "index.php" || page === "index.html") {
+        return "home";
     }
-    else{
+    return page;
+}
+
+// True if the given url points to the page we're  on
+function checkURL(url) {
+    const target = new URL(url, window.location.href).pathname;
+    return getPage(window.location.pathname) === getPage(target);
+}
+
+// Show the button unless we're already on that page
+function enableButtons(btn, url) {
+    if (!btn) return;
+
+    if (!checkURL(url)) {
+        btn.addEventListener("click", function () {
+            window.location.href = url;
+        });
+    } else {
         btn.classList.add("invisible");
     }
-}
-
-//Checks to see if already on page
-function checkURL(url){
-    if (currentUrl.includes(url.substring(1))){
-        return true;
-    }
-    return false;
 }

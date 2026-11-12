@@ -94,6 +94,24 @@ if ($routePart === 'update') {
 
 /*
 ------------------------------------------------------------
+GET /api/inventory_tracker/get
+------------------------------------------------------------
+*/
+if ($routePart === 'get') {
+    if ($method !== 'GET') {
+        sendJson(405, ['success' => false, 'message' => 'Method not allowed.']);
+    }
+
+    $inventory = getAllInventory();
+
+    sendJson(200, [
+        'success' => true,
+        'inventory' => $inventory,
+    ]);
+}
+
+/*
+------------------------------------------------------------
 DELETE /api/inventory_tracker/delete/{inv_id}
 ------------------------------------------------------------
 */
@@ -158,4 +176,10 @@ function getInventoryById(int $invId): ?array
     $rows = PokeDatabase::getDataFromSQL($sql, [':inv_id' => $invId]);
 
     return $rows[0] ?? null;
+}
+
+function getAllInventory(): array
+{
+    $sql = 'SELECT inv_id, `date`, total_value FROM inventory_tracker';
+    return PokeDatabase::getDataFromSQL($sql, []);
 }
