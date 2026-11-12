@@ -241,8 +241,8 @@ function validateTransactionFields(array $data, bool $partial): array
     if (array_key_exists('sold_for', $data)) {
         if ($data['sold_for'] === null) {
             $fields['sold_for'] = null;
-        } elseif (!is_numeric($data['sold_for']) || (float)$data['sold_for'] < 0) {
-            $errors[] = 'sold_for must be a non-negative number or null.';
+        } elseif (!is_numeric($data['sold_for'])) {
+            $errors[] = 'sold_for must be a number or null.';
         } else {
             $fields['sold_for'] = (float)$data['sold_for'];
         }

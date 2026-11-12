@@ -98,6 +98,69 @@ header img{
 #trades{
     text-align:center;
 }
+#trades-top{
+    display: flex;
+    justify-content: flex-end;
+}
+#trade-grid{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 1rem;
+    margin: 1rem 0;
+}
+#trade-divider{
+    width: 2px;
+    background: #999;
+    justify-self: center;
+}
+.card-list{
+    text-align: left;
+}
+.add-card{
+    font-size: 1.5rem;
+    width: 2em;
+    aspect-ratio: 1 / 1;
+    padding: 0;
+}
+.trade-card{
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    padding: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+.trade-card.editing{
+    border: 3px solid #333;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+.trade-card label{
+    display: block;
+    margin-bottom: 0.5rem;
+}
+.trade-card label select, .trade-card label input{
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+.trade-card p{
+    white-space: pre-line;
+    margin: 0 0 0.5rem;
+}
+.trade-card [hidden]{
+    display: none;
+}
+.money input{
+    display: block;
+    width: min(100%, 12em);
+    margin: 0.25rem auto 0;
+    box-sizing: border-box;
+}
+#cards-only{
+    align-self: end;
+    white-space: nowrap;
+}
+#trade-status{
+    white-space: pre-line;
+}
 
 #users-form{
     text-align: center;

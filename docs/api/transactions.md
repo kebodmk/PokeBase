@@ -13,7 +13,7 @@ All input is validated before anything is written. If a database error happens p
 
 *date* **required, YYYY-MM-DD** <br>
 *user_id* **not sent, set to the logged-in user** <br>
-*sold_for* **optional, non-negative number or null** <br>
+*sold_for* **optional, number or null: positive for money received, negative for money paid out** <br>
 *cards* **optional, list of card entries**
 
 Card entry:
