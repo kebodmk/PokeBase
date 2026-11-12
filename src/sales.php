@@ -7,44 +7,42 @@
     // 1. Fetch inventory
     $invDataURL  = $mainURL . "/api/inventory_tracker/get";
     $invResponse = getJSONFromURL($invDataURL);
-    $inv         = $invResponse["inventory_tracker"] ?? [];
+    $inv         = $invResponse["inventory"] ?? [];
+    
 
-    // 2. Filters (safe defaults, no more undefined $date)
     $date      = trim($_GET['date'] ?? date('Y-m-d'));
     $total_val = trim($_GET['total_value'] ?? '');
 
-    // Monday-Sunday week containing the selected date
-    $ts        = strtotime($date) ?: time();
-    $weekStart = strtotime('monday this week', $ts);
-    $weekEnd   = strtotime('sunday this week 23:59:59', $ts);
+    // First and last moment of the month containing the selected date
+    $ts         = strtotime($date) ?: time();
+    $monthStart = strtotime(date('Y-m-d 00:00:00', $ts));
+    $monthEnd   = strtotime('+1 month 23:59:59', $monthStart); 
 
-    // 3. Build chart data from the inventory: sum total_value per weekday
-    $days   = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-    $totals = array_fill_keys($days, 0);
+    // Sum total_value per logged date (days with no rows never get a key)
+    $totals = [];
 
     foreach ($inv as $row) {
         $rowTs = strtotime($row['date'] ?? '');
-        if (!$rowTs || $rowTs < $weekStart || $rowTs > $weekEnd) {
+        if (!$rowTs || $rowTs < $monthStart || $rowTs > $monthEnd) {
             continue;
         }
         $rowVal = (float)($row['total_value'] ?? 0);
         if ($total_val !== '' && $rowVal < (float)$total_val) {
-            continue; // only include rows >= the minimum total value
+            continue;
         }
-        $totals[date('l', $rowTs)] += $rowVal;
+        $key = date('Y-m-d', $rowTs);
+        $totals[$key] = ($totals[$key] ?? 0) + $rowVal;
     }
 
-    $dataPoints = [];
-    foreach ($totals as $label => $value) {
-        $dataPoints[] = ["label" => $label, "value" => $value];
-    }
+    ksort($totals); // chronological order
 
-    // 4. Format for HTML data attributes
-    $labels     = array_column($dataPoints, 'label');
-    $values     = array_column($dataPoints, 'value');
+    $labels = array_map(fn($d) => date('M j', strtotime($d)), array_keys($totals));
+    $values = array_values($totals);
+
     $jsonLabels = htmlspecialchars(json_encode($labels), ENT_QUOTES, 'UTF-8');
-    $jsonValues = htmlspecialchars(json_encode($values, JSON_NUMERIC_CHECK), ENT_QUOTES, 'UTF-8');
+    $jsonValues = htmlspecialchars(json_encode($values), ENT_QUOTES, 'UTF-8');
 ?>
+
 
 <div id="main">
     <h2 style="text-align:center">Recent sales</h2>
