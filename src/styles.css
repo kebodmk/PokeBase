@@ -71,3 +71,8 @@ header img{
 .invisible{
     display: none;
 }
+.chart-container {
+    width: 80%;
+    max-width: 700px;
+    margin: 50px auto;
+}

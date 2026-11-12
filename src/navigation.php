@@ -14,7 +14,7 @@
         <?php if ($isLoggedIn): ?>
             <button id="login">Login</button>
         <?php else: ?>
-            <button id="login">Logout</button>
+            <button id="logout">Logout</button>
         <?php endif; ?>
         <!-- SET THIS TO SHOW UP IF PYTHON SERVER IS AVAILABLE -->
         <button id = "scan">Scan Cards</button>
