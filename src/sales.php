@@ -4,6 +4,11 @@
     include "includes/functions.php";
     require_once __DIR__ . "/includes/config.php";
 
+    // Fetch transactions
+    $transDataUrl = $mainURL . "/api/transactions/get";
+    $transResponse = getJSONFromURL($transDataUrl);
+    $transaction = $transResponse['transaction'] ?? [];
+
     // 1. Fetch inventory
     $invDataURL  = $mainURL . "/api/inventory_tracker/get";
     $invResponse = getJSONFromURL($invDataURL);
@@ -60,6 +65,43 @@
                 data-values="<?php echo $jsonValues; ?>">
         </canvas>
     </div>
+    
+    <div class="table-container">
+        <table id="transactionTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Employee ID</th>
+                    <th>Sold For</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($transaction as $row): ?>
+
+                    <tr>
+                        <td>
+                            <?= htmlspecialchars($row['trans_id']) ?>
+                        </td>
+                        <td>
+                            <?= htmlspecialchars($row['date']) ?>
+                        </td>
+                        <td>
+                            <?= htmlspecialchars($row['user_id']) ?>
+                        </td>
+                        <td>
+                            <?= htmlspecialchars($row['sold_for']) ?>
+                        </td>
+                    </tr>
+
+                <?php endforeach; ?>
+
+            </tbody>
+
+        </table>
+    </div>
+    
 </div>
 
 <!-- Chart.js first, then your script (defer keeps the order) -->
