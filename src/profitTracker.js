@@ -7,6 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const chartLabels = JSON.parse(canvas.getAttribute('data-labels'));
     const chartData = JSON.parse(canvas.getAttribute('data-values'));
 
+    const money = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+    });
     // 3. Initialize the Chart.js line graph
     const ctx = canvas.getContext('2d');
     new Chart(ctx, {
@@ -14,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         data: {
             labels: chartLabels,
             datasets: [{
-                label: 'Weekly Website Visits',
+                label: 'Profit',
                 data: chartData,
                 borderColor: 'rgba(54, 162, 235, 1)',
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
@@ -27,7 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
             responsive: true,
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: {
+                        callback: value => money.format(value)
+                    }
                 }
             }
         }
