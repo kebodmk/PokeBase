@@ -40,6 +40,13 @@ The response includes the transaction and its cards.
     Invalid transaction or card fields -> HTTP 400 (errors for card entries are prefixed with cards[index])
     Database error while saving -> HTTP 500
 
+## GET /api/transactions/get/{trans_id}
+
+    Get -> HTTP 200
+    Not Get -> HTTP 405
+    Invalid id or fields / no fields sent -> HTTP 400
+    Transaction not found -> HTTP 404
+
 ## PUT /api/transactions/update/{trans_id}
 
 JSON body: any of *date*, *user_id*, *sold_for*. Only the fields sent are changed. Use `/api/exchanged_cards` to change the cards on a transaction.
