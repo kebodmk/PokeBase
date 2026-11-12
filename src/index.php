@@ -5,6 +5,8 @@
 <div id = "main">
     <div id = "intro">
         <h1> Welcome to Pokébase! </h1>
+        <a href = "Just_TCG/tcg.php">View Just TCG Data</a>
+        <BR><BR>
         <h2> Pokébase is a tool used to keep inventory of your cards and see the value of each of them.</h2>
         <BR><BR>
         <h1 style = "text-align:center">Coming Soon!</h1>

@@ -527,6 +527,7 @@ if (!is_file($setsFile) || !is_readable($setsFile)) {
 
     <script>
         const apiUrl = "/PokeBase/src/api/just_tcg/index.php";
+        const cardsAddUrl = "/PokeBase/src/api/cards/add";
         const MAX_CARDS = 20;
 
         const cardForm = document.getElementById("card-form");
@@ -1449,18 +1450,20 @@ rowCount++;
 
         try {
             const result = await requestJson(
-                apiUrl + "?route=save_card",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(payload)
-                }
-            );
+    cardsAddUrl,
+    {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+    }
+);
 
             if (result.success !== true) {
                 throw new Error(
+                    result.message ||
                     result.error || "The card could not be saved."
                 );
             }
@@ -1468,7 +1471,7 @@ rowCount++;
             button.textContent = "Added";
             message.className = "help-text success";
             message.textContent =
-                "Database card ID: " + result.card_id;
+                "Database card ID: " + result.card.card_id;
         } catch (error) {
             console.error(error);
 

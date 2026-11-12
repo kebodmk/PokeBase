@@ -21,7 +21,6 @@ function sendJson($data, $status = 200)
 
     if ($json === false) {
         http_response_code(500);
-
         echo '{"success":false,"error":"Could not encode the JSON response."}';
         exit;
     }
@@ -38,11 +37,63 @@ function postString($key, $default = '')
 }
 
 // ------------------------------------------------------------
-// Shared JustTCG request helper.
+// Card-number matching.
 // ------------------------------------------------------------
 
-function requestJustTcg($version, $endpoint, array $params, $tcgApiKey)
+function normalizeCardNumberPart($value)
 {
+    $value = strtoupper(trim((string) $value));
+    $value = preg_replace('/\s+/', '', $value);
+
+    if (preg_match('/^[0-9]+$/', $value)) {
+        $value = ltrim($value, '0');
+
+        return $value === '' ? '0' : $value;
+    }
+
+    return $value;
+}
+
+function cardNumberMatches($input, $returned)
+{
+    $inputParts = explode('/', trim((string) $input), 2);
+    $returnedParts = explode('/', trim((string) $returned), 2);
+
+    $inputNumber = normalizeCardNumberPart($inputParts[0]);
+    $returnedNumber = normalizeCardNumberPart($returnedParts[0]);
+
+    if (
+        $inputNumber === ''
+        || $inputNumber !== $returnedNumber
+    ) {
+        return false;
+    }
+
+    if (isset($inputParts[1])) {
+        if (!isset($returnedParts[1])) {
+            return false;
+        }
+
+        $inputTotal = normalizeCardNumberPart($inputParts[1]);
+        $returnedTotal = normalizeCardNumberPart($returnedParts[1]);
+
+        return $inputTotal !== ''
+            && $inputTotal === $returnedTotal;
+    }
+
+    return true;
+}
+
+// ------------------------------------------------------------
+// JustTCG request helper.
+// ------------------------------------------------------------
+
+function requestJustTcg(
+    $version,
+    $endpoint,
+    array $params,
+    $tcgApiKey
+) {
     $url = 'https://api.justtcg.com/'
         . $version
         . '/'
@@ -86,30 +137,26 @@ function requestJustTcg($version, $endpoint, array $params, $tcgApiKey)
 
         sendJson([
             'success' => false,
-            'error' => 'Could not connect to JustTCG. Check the PHP error log.',
+            'error' => 'Could not connect to JustTCG.',
         ], 502);
     }
 
     $data = json_decode($response, true);
 
-if ($statusCode < 200 || $statusCode >= 300) {
-    // Keep the response body in the server log for debugging.
-    // Do not log the API key or request headers.
-    error_log(
-        'JustTCG HTTP ' . $statusCode . ': '
-        . substr($response, 0, 4000)
-    );
+    if ($statusCode < 200 || $statusCode >= 300) {
+        error_log(
+            'JustTCG HTTP ' . $statusCode . ': '
+            . substr($response, 0, 4000)
+        );
 
-    $upstreamError = is_array($data)
-        ? $data
-        : ['message' => substr($response, 0, 1000)];
-
-    sendJson([
-        'success' => false,
-        'error' => 'JustTCG rejected the request.',
-        'upstreamStatus' => $statusCode,
-        'upstreamError' => $upstreamError,
-    ], 502);
+        sendJson([
+            'success' => false,
+            'error' => 'JustTCG rejected the request.',
+            'upstreamStatus' => $statusCode,
+            'upstreamError' => is_array($data)
+                ? $data
+                : ['message' => substr($response, 0, 1000)],
+        ], 502);
     }
 
     if (
@@ -140,6 +187,7 @@ $allowedRoutes = [
     'sets' => 'GET',
     'update_sets' => 'POST',
     'search_cards' => 'POST',
+    'save_card' => 'POST',
 ];
 
 if (!isset($allowedRoutes[$routePart])) {
@@ -165,14 +213,250 @@ if ($method !== $expectedMethod) {
 }
 
 // ------------------------------------------------------------
-// Load shared configuration.
-// Supports a constant in config.php or an environment variable.
+// POST index.php?route=save_card
+//
+// Database-only route. Does not call JustTCG.
+// Uses the same table fields and database method as your helpers.
 // ------------------------------------------------------------
 
-if (!is_string($tcgApiKey) || trim($tcgApiKey) === '') {
+if ($routePart === 'save_card') {
+    $body = file_get_contents('php://input');
+
+    if ($body === false || trim($body) === '') {
+        sendJson([
+            'success' => false,
+            'error' => 'A JSON request body is required.',
+        ], 400);
+    }
+
+    // Decode as an object to distinguish JSON objects from arrays.
+    $inputObject = json_decode($body);
+
+    if (
+        json_last_error() !== JSON_ERROR_NONE
+        || !($inputObject instanceof stdClass)
+    ) {
+        sendJson([
+            'success' => false,
+            'error' => 'A valid JSON object is required.',
+        ], 400);
+    }
+
+    $input = (array) $inputObject;
+    $fields = [];
+    $errors = [];
+
+    $requiredTextFields = [
+        'name',
+        'set',
+        'set_num',
+        'lang',
+    ];
+
+    $optionalTextFields = [
+        'condition',
+        'printing',
+        'grade',
+    ];
+
+    $maxTextLength = 45;
+
+    foreach ($requiredTextFields as $field) {
+        if (
+            !array_key_exists($field, $input)
+            || !is_string($input[$field])
+        ) {
+            $errors[] = $field . ' is required and must be text.';
+            continue;
+        }
+
+        $value = trim($input[$field]);
+
+        if ($value === '') {
+            $errors[] = $field . ' cannot be empty.';
+        } elseif (strlen($value) > $maxTextLength) {
+            $errors[] = $field . ' must be '
+                . $maxTextLength . ' characters or fewer.';
+        } else {
+            $fields[$field] = $value;
+        }
+    }
+
+    foreach ($optionalTextFields as $field) {
+        $value = $input[$field] ?? null;
+
+        if ($value === null) {
+            $fields[$field] = null;
+            continue;
+        }
+
+        if (!is_string($value)) {
+            $errors[] = $field . ' must be text or null.';
+            continue;
+        }
+
+        $value = trim($value);
+
+        if (strlen($value) > $maxTextLength) {
+            $errors[] = $field . ' must be '
+                . $maxTextLength . ' characters or fewer.';
+        } else {
+            $fields[$field] = $value !== '' ? $value : null;
+        }
+    }
+
+    $price = $input['price'] ?? null;
+
+    if (
+        !is_int($price)
+        && !is_float($price)
+        && !is_string($price)
+    ) {
+        $errors[] = 'price is required and must be a number.';
+    } elseif (
+        !is_numeric($price)
+        || !is_finite((float) $price)
+        || (float) $price < 0
+    ) {
+        $errors[] = 'price must be a finite non-negative number.';
+    } else {
+        $fields['price'] = (float) $price;
+    }
+
+    $priceDate = $input['price_date'] ?? null;
+
+    if (
+        !is_string($priceDate)
+        || !preg_match(
+            '/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/',
+            $priceDate,
+            $dateParts
+        )
+        || !checkdate(
+            (int) $dateParts[2],
+            (int) $dateParts[3],
+            (int) $dateParts[1]
+        )
+    ) {
+        $errors[] = 'price_date must be a valid YYYY-MM-DD date.';
+    } else {
+        $fields['price_date'] = $priceDate;
+    }
+
+    if ($errors) {
+        sendJson([
+            'success' => false,
+            'error' => implode(' ', $errors),
+            'errors' => $errors,
+        ], 422);
+    }
+
+    if (!class_exists('PokeDatabase')) {
     sendJson([
         'success' => false,
-        'error' => 'JUSTTCG_API_KEY is not configured.',
+        'error' =>
+            'PokeDatabase is not loaded. '
+            . 'Load the database class or its autoloader.',
+    ], 500);
+}
+
+if (!is_callable(['PokeDatabase', 'executeSQL'])) {
+    sendJson([
+        'success' => false,
+        'error' =>
+            'PokeDatabase exists, but executeSQL cannot be '
+            . 'called as a public static method.',
+    ], 500);
+}
+
+    try {
+        $sql = 'INSERT INTO cards
+            (
+                `name`,
+                `set`,
+                set_num,
+                lang,
+                price,
+                price_date,
+                `condition`,
+                printing,
+                grade
+            )
+            VALUES
+            (
+                :name,
+                :set,
+                :set_num,
+                :lang,
+                :price,
+                :price_date,
+                :condition,
+                :printing,
+                :grade
+            )';
+
+        $params = [
+            ':name' => $fields['name'],
+            ':set' => $fields['set'],
+            ':set_num' => $fields['set_num'],
+            ':lang' => $fields['lang'],
+            ':price' => $fields['price'],
+            ':price_date' => $fields['price_date'],
+            ':condition' => $fields['condition'],
+            ':printing' => $fields['printing'],
+            ':grade' => $fields['grade'],
+        ];
+
+        $cardId = (int) PokeDatabase::executeSQL(
+            $sql,
+            $params,
+            true
+        );
+
+        if ($cardId <= 0) {
+            throw new RuntimeException(
+                'The database did not return a valid inserted card ID.'
+            );
+        }
+
+        sendJson([
+            'success' => true,
+            'message' => 'Card added to database.',
+            'card_id' => $cardId,
+        ], 201);
+    } catch (Throwable $error) {
+        error_log(
+            'Save card failed: ' . $error->getMessage()
+        );
+
+        sendJson([
+            'success' => false,
+            'error' =>
+                'Could not save the card. Check the PHP error log.',
+        ], 500);
+    }
+}
+
+// ------------------------------------------------------------
+// JustTCG configuration.
+//
+// Prefer the existing $tcgApiKey from config.php.
+// Otherwise accept a constant or environment variable.
+// ------------------------------------------------------------
+
+if (!isset($tcgApiKey)) {
+    $tcgApiKey = defined('JUSTTCG_API_KEY')
+        ? constant('JUSTTCG_API_KEY')
+        : getenv('JUSTTCG_API_KEY');
+}
+
+if (
+    !is_string($tcgApiKey)
+    || trim($tcgApiKey) === ''
+) {
+    sendJson([
+        'success' => false,
+        'error' => 'The JustTCG API key is not configured.',
     ], 500);
 }
 
@@ -187,9 +471,6 @@ if (!function_exists('curl_init')) {
 
 // ------------------------------------------------------------
 // POST index.php?route=search_cards
-//
-// Accepts the existing form's FormData fields.
-// Returns matching cards and the original upstream response.
 // ------------------------------------------------------------
 
 if ($routePart === 'search_cards') {
@@ -201,9 +482,8 @@ if ($routePart === 'search_cards') {
     $cardType = postString('card_type', 'raw');
     $gradedVariantId = postString('graded_variant_id');
     $printing = postString('printing');
-    $gradingCompany = postString('grading_company');
+    $gradingCompany = strtoupper(postString('grading_company'));
 
-    // Normalize compatible values from your older form.
     $legacyConditions = [
         'mint' => 'Near Mint',
         'near-mint' => 'Near Mint',
@@ -220,7 +500,6 @@ if ($routePart === 'search_cards') {
         'Sealed',
     ];
 
-    // Local aliases used for comparing response values.
     $languageAliases = [
         'en' => ['en', 'eng', 'english'],
         'jap' => ['ja', 'jp', 'jpn', 'japanese'],
@@ -236,23 +515,6 @@ if ($routePart === 'search_cards') {
         'BVG',
         'SGC',
     ];
-
-    if ($cardType === 'raw') {
-    // Ignore grading-company input for raw searches.
-    $gradingCompany = '';
-} elseif (
-    $gradingCompany !== ''
-    && !in_array(
-        $gradingCompany,
-        $allowedGradingCompanies,
-        true
-    )
-) {
-    sendJson([
-        'success' => false,
-        'error' => 'Please select a valid grading company.',
-    ], 422);
-}
 
     if ($setId === '') {
         sendJson([
@@ -285,6 +547,23 @@ if ($routePart === 'search_cards') {
         ], 422);
     }
 
+    if ($cardType === 'raw') {
+        $gradingCompany = '';
+        $gradedVariantId = '';
+    } elseif (
+        $gradingCompany !== ''
+        && !in_array(
+            $gradingCompany,
+            $allowedGradingCompanies,
+            true
+        )
+    ) {
+        sendJson([
+            'success' => false,
+            'error' => 'Please select a valid grading company.',
+        ], 422);
+    }
+
     if (
         strlen($setId) > 200
         || strlen($setNumber) > 100
@@ -298,30 +577,28 @@ if ($routePart === 'search_cards') {
         ], 422);
     }
 
-$params = [
-    'game' => 'pokemon',
-];
+    $params = [
+        'game' => 'pokemon',
+    ];
 
-if ($cardType === 'graded' && $gradedVariantId !== '') {
-    // Direct lookup of the selected graded variant.
-    $params['variant_id'] = $gradedVariantId;
-    $params['graded'] = 'include';
-} else {
-    // Browse/search within the selected set.
-    $params['set'] = $setId;
+    if ($cardType === 'graded' && $gradedVariantId !== '') {
+        $params['variant_id'] = $gradedVariantId;
+        $params['graded'] = 'include';
+    } else {
+        $params['set'] = $setId;
 
-    if ($name !== '') {
-        $params['q'] = $name;
+        if ($name !== '') {
+            $params['q'] = $name;
+        }
+
+        if ($cardType === 'graded') {
+            $params['graded'] = 'only';
+        }
     }
 
-    if ($cardType === 'graded') {
-        $params['graded'] = 'only';
+    if ($cardType === 'graded' && $gradingCompany !== '') {
+        $params['grading_company'] = $gradingCompany;
     }
-}
-
-if ($cardType === 'graded' && $gradingCompany !== '') {
-    $params['grading_company'] = $gradingCompany;
-}
 
     $upstream = requestJustTcg(
         'v2',
@@ -341,19 +618,6 @@ if ($cardType === 'graded' && $gradingCompany !== '') {
 
     $filteredCards = [];
 
-    $diagnostics = [
-        'returnedCards' => count($cards),
-        'matchingCards' => 0,
-        'matchingVariants' => 0,
-        'rejectedCardsBySet' => 0,
-        'rejectedCardsByNumber' => 0,
-        'rejectedVariantsByType' => 0,
-        'rejectedVariantsByCondition' => 0,
-        'rejectedVariantsById' => 0,
-        'rejectedVariantsByPrinting' => 0,
-        'rejectedVariantsByLanguage' => 0,
-    ];
-
     foreach ($cards as $card) {
         if (!is_array($card)) {
             continue;
@@ -369,20 +633,18 @@ if ($cardType === 'graded' && $gradingCompany !== '') {
             !is_string($returnedSetId)
             || $returnedSetId !== $setId
         ) {
-            $diagnostics['rejectedCardsBySet']++;
             continue;
         }
 
         if (
-    $setNumber !== ''
-    && !cardNumberMatches(
-        $setNumber,
-        $card['number'] ?? ''
-    )
-) {
-    $diagnostics['rejectedCardsByNumber']++;
-    continue;
-}
+            $setNumber !== ''
+            && !cardNumberMatches(
+                $setNumber,
+                $card['number'] ?? ''
+            )
+        ) {
+            continue;
+        }
 
         $variants = $card['variants'] ?? [];
 
@@ -398,7 +660,6 @@ if ($cardType === 'graded' && $gradingCompany !== '') {
             }
 
             if (($variant['type'] ?? '') !== $cardType) {
-                $diagnostics['rejectedVariantsByType']++;
                 continue;
             }
 
@@ -406,7 +667,6 @@ if ($cardType === 'graded' && $gradingCompany !== '') {
                 $cardType === 'raw'
                 && ($variant['condition'] ?? '') !== $condition
             ) {
-                $diagnostics['rejectedVariantsByCondition']++;
                 continue;
             }
 
@@ -415,7 +675,6 @@ if ($cardType === 'graded' && $gradingCompany !== '') {
                 && $gradedVariantId !== ''
                 && (string) ($variant['id'] ?? '') !== $gradedVariantId
             ) {
-                $diagnostics['rejectedVariantsById']++;
                 continue;
             }
 
@@ -423,22 +682,29 @@ if ($cardType === 'graded' && $gradingCompany !== '') {
                 $printing !== ''
                 && ($variant['printing'] ?? '') !== $printing
             ) {
-                $diagnostics['rejectedVariantsByPrinting']++;
                 continue;
             }
 
             if (
                 $cardType === 'graded'
                 && $gradingCompany !== ''
-                && ($variant['grading_company'] ?? '') !== $gradingCompany
             ) {
-                $diagnostics['rejectedVariantsByGradingCompany']++;
-                continue;
+                $grading = $variant['grading'] ?? [];
+
+                $returnedCompany = is_array($grading)
+                    ? ($grading['company'] ?? '')
+                    : '';
+
+                if (
+                    !is_string($returnedCompany)
+                    || strtoupper(trim($returnedCompany)) !== $gradingCompany
+                ) {
+                    continue;
+                }
             }
 
             $returnedLanguage = $variant['language'] ?? null;
 
-            // Unknown language is not assumed to mean English.
             if (
                 !is_string($returnedLanguage)
                 || !in_array(
@@ -447,7 +713,6 @@ if ($cardType === 'graded' && $gradingCompany !== '') {
                     true
                 )
             ) {
-                $diagnostics['rejectedVariantsByLanguage']++;
                 continue;
             }
 
@@ -457,51 +722,19 @@ if ($cardType === 'graded' && $gradingCompany !== '') {
         if ($matchingVariants) {
             $card['variants'] = $matchingVariants;
             $filteredCards[] = $card;
-
-            $diagnostics['matchingVariants'] += count(
-                $matchingVariants
-            );
         }
     }
 
-    $diagnostics['matchingCards'] = count($filteredCards);
-
+    // Return only the fields needed by your results UI.
     sendJson([
         'success' => true,
         'data' => $filteredCards,
-
-        'filters' => [
-            'set' => $setId,
-            'number' => $setNumber,
-            'name' => $name,
-            'language' => $language,
-            'cardType' => $cardType,
-            'condition' => $cardType === 'raw' ? $condition : null,
-            'gradedVariantId' => $cardType === 'graded'
-                ? $gradedVariantId
-                : null,
-            'printing' => $printing,
-        ],
-
-        'diagnostics' => $diagnostics,
-
-        // Retained so the frontend can inspect the original cards
-        // and build printing/grading dropdowns.
-        'upstream' => $upstream,
-
-        'note' =>
-            'Local filters apply only to this returned page. ' .
-            'Variants with an unknown language are excluded. ' .
-            'Diagnostic rejection counts record the first failed ' .
-            'check for each card or variant.',
     ]);
 }
 
 // ------------------------------------------------------------
 // GET index.php?route=get_price
-//
-// Preserves your existing fixed-card price lookup.
-// This is separate from the form-driven search route.
+// Preserves your existing fixed-card lookup.
 // ------------------------------------------------------------
 
 if ($routePart === 'get_price') {
@@ -533,8 +766,15 @@ if ($routePart === 'get_price') {
 }
 
 // ------------------------------------------------------------
-// Shared request for sets and update_sets.
+// Only sets/update_sets should reach this point.
 // ------------------------------------------------------------
+
+if (!in_array($routePart, ['sets', 'update_sets'], true)) {
+    sendJson([
+        'success' => false,
+        'error' => 'No handler was found for this route.',
+    ], 500);
+}
 
 $data = requestJustTcg(
     'v1',
@@ -601,8 +841,8 @@ if ($routePart === 'update_sets') {
         sendJson([
             'success' => false,
             'error' =>
-                'Could not fully write sets.txt. ' .
-                'Check folder permissions and the PHP error log.',
+                'Could not fully write sets.txt. '
+                . 'Check folder permissions and the PHP error log.',
         ], 500);
     }
 
@@ -614,54 +854,8 @@ if ($routePart === 'update_sets') {
     ]);
 }
 
-function normalizeCardNumberPart($value)
-{
-    $value = strtoupper(trim((string) $value));
-
-    // Ignore spaces around or within the number.
-    $value = preg_replace('/\s+/', '', $value);
-
-    // Normalize numeric values without removing letter prefixes.
-    // "004" becomes "4"; "TG04" remains "TG04".
-    if (preg_match('/^[0-9]+$/', $value)) {
-        $value = ltrim($value, '0');
-
-        return $value === '' ? '0' : $value;
-    }
-
-    return $value;
-}
-
-function cardNumberMatches($input, $returned)
-{
-    $inputParts = explode('/', trim((string) $input), 2);
-    $returnedParts = explode('/', trim((string) $returned), 2);
-
-    $inputNumber = normalizeCardNumberPart($inputParts[0]);
-    $returnedNumber = normalizeCardNumberPart($returnedParts[0]);
-
-    if ($inputNumber === '' || $inputNumber !== $returnedNumber) {
-        return false;
-    }
-
-    // If the user supplies a set total, validate that too.
-    if (isset($inputParts[1])) {
-        if (!isset($returnedParts[1])) {
-            return false;
-        }
-
-        $inputTotal = normalizeCardNumberPart($inputParts[1]);
-        $returnedTotal = normalizeCardNumberPart($returnedParts[1]);
-
-        return $inputTotal !== '' && $inputTotal === $returnedTotal;
-    }
-
-    return true;
-}
-
 // ------------------------------------------------------------
 // GET index.php?route=sets
-// Preserve the original JustTCG response structure.
 // ------------------------------------------------------------
 
 sendJson($data);
