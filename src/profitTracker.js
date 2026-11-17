@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         data: {
             labels: chartLabels,
             datasets: [{
-                label: 'Profit',
+                label: 'Total Card Value',
                 data: chartData,
                 borderColor: 'rgba(54, 162, 235, 1)',
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
@@ -40,3 +40,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+const addBtn = document.getElementById('updateInventoryBtn');
+if (addBtn) {
+    addBtn.addEventListener('click', async () => {
+        addBtn.disabled = true;
+
+        try {
+            const res = await fetch('/api/inventory_tracker/add', { method: 'POST' });
+            if (!res.ok) {
+                const data = await res.json().catch(() => ({}));
+                console.error('Add entry failed:', data.error || res.status);
+                return;
+            }
+            window.location.reload();
+        } catch (err) {
+            console.error('Add entry failed:', err);
+        } finally {
+            addBtn.disabled = false;
+        }
+    });
+}
