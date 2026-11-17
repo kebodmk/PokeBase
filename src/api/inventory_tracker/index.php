@@ -27,7 +27,7 @@ if ($routePart === 'add') {
         sendJson(405, ['success' => false, 'message' => 'Method not allowed.']);
     }
 
-    requireRole([ROLE_MANAGER, ROLE_EMPLOYEE]);
+    requireRole([ROLE_MANAGER]);
 
     $data = getJsonBody();
     [$fields, $errors] = validateInventoryFields($data, false);
@@ -41,9 +41,13 @@ if ($routePart === 'add') {
     VALUES
     (:date, :total_value)';
 
+    $total_val_sql = 'SELECT SUM(price) AS total_value FROM cards';
+    $total_value = PokeDatabase::getDataFromSQL($total_val_sql, [])[0]['total_value'] ?? 0;
+    $date = PokeDatabase::getDataFromSQL('SELECT CURDATE() AS today', [])[0]['today'] ?? date('Y-m-d');
+
     $invId = (int)PokeDatabase::executeSQL($insert_inventory_sql, [
-        ':date' => $fields['date'],
-        ':total_value' => $fields['total_value'],
+        ':date' => $date,
+        ':total_value' => $total_value,
     ], true);
 
     sendJson(201, [
@@ -63,7 +67,7 @@ if ($routePart === 'update') {
         sendJson(405, ['success' => false, 'message' => 'Method not allowed.']);
     }
 
-    requireRole([ROLE_MANAGER, ROLE_EMPLOYEE]);
+    requireRole([ROLE_MANAGER]);
 
     $invId = requireRouteId($subResource);
 
@@ -101,7 +105,7 @@ if ($routePart === 'get') {
     if ($method !== 'GET') {
         sendJson(405, ['success' => false, 'message' => 'Method not allowed.']);
     }
-
+    requireRole([ROLE_MANAGER]);
     $inventory = getAllInventory();
 
     sendJson(200, [

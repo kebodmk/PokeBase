@@ -68,6 +68,8 @@
                 data-values="<?php echo $jsonValues; ?>">
         </canvas>
     </div>
+    <!-- temporary button to update rows for inventory_tracker -->
+    <button id="updateInventoryBtn">Update Inventory</button>
     
     <div class="table-container">
         <table id="transactionTable">
