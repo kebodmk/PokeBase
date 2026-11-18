@@ -19,6 +19,24 @@ $subResource = $auditsIndex !== false ? ($parts[$auditsIndex + 2] ?? null) : nul
 
 /*
 ------------------------------------------------------------
+GET /api/inventory_tracker/get
+------------------------------------------------------------
+*/
+if ($routePart === 'get') {
+    if ($method !== 'GET') {
+        sendJson(405, ['success' => false, 'message' => 'Method not allowed.']);
+    }
+    requireRole([ROLE_MANAGER]);
+    $audits = get50Audits();
+
+    sendJson(200, [
+        'success' => true,
+        'audits' => $audits,
+    ]);
+}
+
+/*
+------------------------------------------------------------
 POST /api/audits/add
 ------------------------------------------------------------
 */
@@ -175,4 +193,10 @@ function getAuditById(int $auditId): ?array
     $rows = PokeDatabase::getDataFromSQL($sql, [':audit_id' => $auditId]);
 
     return $rows[0] ?? null;
+}
+
+function get50Audits(): array
+{
+    $sql = 'SELECT a.audit_id, concat(u.first_name, " ", u.last_name) AS "User", a.date, a.notes FROM audits a JOIN users u ON u.user_id = a.user_id ORDER BY a.date DESC LIMIT 50;';
+    return PokeDatabase::getDataFromSQL($sql, []);
 }

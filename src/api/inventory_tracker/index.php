@@ -29,13 +29,6 @@ if ($routePart === 'add') {
 
     requireRole([ROLE_MANAGER]);
 
-    $data = getJsonBody();
-    [$fields, $errors] = validateInventoryFields($data, false);
-
-    if (count($errors) > 0) {
-        sendValidationErrors($errors);
-    }
-
     $insert_inventory_sql = 'INSERT INTO inventory_tracker
     (`date`, total_value)
     VALUES
@@ -49,6 +42,11 @@ if ($routePart === 'add') {
         ':date' => $date,
         ':total_value' => $total_value,
     ], true);
+
+    if ($invId === 0) {
+        error_log('Inventory insert failed');
+        sendJson(500, ['success' => false, 'message' => 'Insert failed.']);
+    }
 
     sendJson(201, [
         'success' => true,

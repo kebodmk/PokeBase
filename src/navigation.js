@@ -1,12 +1,11 @@
 let navBtn;
 let homeBtn;
 let inventoryBtn;
-let salesBtn;
 let scannerBtn;
 let tradesBtn;
 let loginBtn;
 let logoutBtn;
-let usersBtn;
+let managerBtn;
 
 const currentUrl = window.location.pathname;
 window.addEventListener("load", init)
@@ -24,17 +23,13 @@ function init(){
     url = "./inventory.php";
     enableButtons(inventoryBtn, url);
 
-    salesBtn = document.getElementById("sales");
-    url = "./sales.php";
-    enableButtons(salesBtn, url);
-
     tradesBtn = document.getElementById("trades");
     url = "./trades.php";
     enableButtons(tradesBtn, url);
 
-    usersBtn = document.getElementById("users");
-    url = "./users.php";
-    if (usersBtn) enableButtons(usersBtn, url);
+    managerBtn = document.getElementById("manager");
+    url = "./manager.php";
+    if (managerBtn) enableButtons(managerBtn, url);
 
     loginBtn = document.getElementById("login");
     url = "./login.php";
@@ -72,8 +67,6 @@ function checkURL(url) {
 
 // Show the button unless we're already on that page
 function enableButtons(btn, url) {
-    if (!btn) return;
-
     if (!checkURL(url)) {
         btn.addEventListener("click", function () {
             window.location.href = url;

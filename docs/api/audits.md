@@ -5,6 +5,13 @@ Requests that change data must come from a logged-in user: send the `pokebase_se
     No, expired, or logged-out session -> HTTP 401
     Role not allowed -> HTTP 403
 
+## GET /api/inventory_tracker/get
+
+Gets all information from the audits table
+
+Get -> HTTP 200
+Fail to Get -> HTTP 405
+
 ## POST /api/audits/add
 
 JSON body:

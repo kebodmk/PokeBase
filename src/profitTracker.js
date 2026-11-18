@@ -43,20 +43,29 @@ document.addEventListener('DOMContentLoaded', () => {
 const addBtn = document.getElementById('updateInventoryBtn');
 if (addBtn) {
     addBtn.addEventListener('click', async () => {
-        addBtn.disabled = true;
-
+        const url = new URL('./api/inventory_tracker/add', window.location.href).href;
         try {
-            const res = await fetch('/api/inventory_tracker/add', { method: 'POST' });
+            const res = await fetch(url, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({})
+            });
+
+            const data = await res.json().catch(() => ({}));
+
             if (!res.ok) {
-                const data = await res.json().catch(() => ({}));
-                console.error('Add entry failed:', data.error || res.status);
+                console.error('Add entry failed:', res.status, data);
                 return;
             }
+
+            console.log('Added:', data);
             window.location.reload();
         } catch (err) {
             console.error('Add entry failed:', err);
-        } finally {
-            addBtn.disabled = false;
         }
     });
 }

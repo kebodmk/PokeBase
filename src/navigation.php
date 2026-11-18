@@ -30,10 +30,9 @@
     <div id = "navButtons" class = "invisible">
         <button id = "home">Home</button>
         <button id = "inventory">Inventory</button>
-        <button id = "sales">Sales</button>
         <button id = "trades">Trades</button>
         <?php if ($isManager): ?>
-        <button id = "users">Users</button>
+        <button id = "manager">Manager View</button>
         <?php endif; ?>
         <?php if ($isLoggedIn): ?>
             <form id = "logoutForm" method = "post" action = "./processes/logout.php">
