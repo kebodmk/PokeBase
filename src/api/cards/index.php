@@ -106,7 +106,14 @@ if ($routePart === 'add') {
     }
 
     $cardId = insertCard($fields);
-
+    
+    $audit_sql = "INSERT INTO audits (user_id, `date`, notes) VALUES (:user_id, :date, :notes)";
+    $userInserting = getSessionUser();
+    PokeDatabase::executeSQL($audit_sql, [
+        ':user_id' => $userInserting['user_id'] ?? "System",
+        ':date' => date('Y-m-d'),
+        ':notes' => "{$fields['name']} card added.",
+    ]);
     sendJson(201, [
         'success' => true,
         'message' => 'Card added.',
@@ -144,7 +151,16 @@ if ($routePart === 'update') {
     }
 
     [$update_sql, $update_params] = buildUpdateQuery('cards', 'card_id', $cardId, $fields);
+
     PokeDatabase::executeSQL($update_sql, $update_params);
+
+    $audit_sql = "INSERT INTO audits (user_id, `date`, notes) VALUES (:user_id, :date, :notes)";
+    $userInserting = getSessionUser();
+    PokeDatabase::executeSQL($audit_sql, [
+        ':user_id' => $userInserting['user_id'] ?? "System",
+        ':date' => date('Y-m-d'),
+        ':notes' => "{$fields['name']} card updated.",
+    ]);
 
     sendJson(200, [
         'success' => true,
@@ -166,8 +182,9 @@ if ($routePart === 'delete') {
     requireRole([ROLE_MANAGER]);
 
     $cardId = requireRouteId($subResource);
+    $card = getCardById($cardId);
 
-    if (getCardById($cardId) === null) {
+    if ($card === null) {
         sendJson(404, ['success' => false, 'message' => 'Card not found.']);
     }
 
@@ -177,6 +194,14 @@ if ($routePart === 'delete') {
     if (count($exchanges) > 0) {
         sendJson(409, ['success' => false, 'message' => 'Card is part of a transaction and cannot be deleted.']);
     }
+
+    $audit_sql = "INSERT INTO audits (user_id, `date`, notes) VALUES (:user_id, :date, :notes)";
+    $userInserting = getSessionUser();
+    PokeDatabase::executeSQL($audit_sql, [
+        ':user_id' => $userInserting['user_id'] ?? "System",
+        ':date' => date('Y-m-d'),
+        ':notes' => "{$card['name']} card deleted.",
+    ]);
 
     PokeDatabase::executeSQL('DELETE FROM cards WHERE card_id = :card_id', [':card_id' => $cardId]);
 

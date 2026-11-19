@@ -48,6 +48,14 @@ if ($routePart === 'add') {
         sendJson(500, ['success' => false, 'message' => 'Insert failed.']);
     }
 
+    $audit_sql = "INSERT INTO audits (user_id, `date`, notes) VALUES (:user_id, :date, :notes)";
+    $userInserting = getSessionUser();
+    PokeDatabase::executeSQL($audit_sql, [
+        ':user_id' => $userInserting['user_id'] ?? "System",
+        ':date' => date('Y-m-d'),
+        ':notes' => "New entry added to inventory tracker.",
+    ]);
+
     sendJson(201, [
         'success' => true,
         'message' => 'Inventory snapshot added.',
@@ -86,6 +94,14 @@ if ($routePart === 'update') {
 
     [$update_sql, $update_params] = buildUpdateQuery('inventory_tracker', 'inv_id', $invId, $fields);
     PokeDatabase::executeSQL($update_sql, $update_params);
+
+    $audit_sql = "INSERT INTO audits (user_id, `date`, notes) VALUES (:user_id, :date, :notes)";
+    $userInserting = getSessionUser();
+    PokeDatabase::executeSQL($audit_sql, [
+        ':user_id' => $userInserting['user_id'] ?? "System",
+        ':date' => date('Y-m-d'),
+        ':notes' => "Inventory snapshot updated for inv_id {$invId}.",
+    ]);
 
     sendJson(200, [
         'success' => true,
@@ -132,8 +148,17 @@ if ($routePart === 'delete') {
 
     PokeDatabase::executeSQL('DELETE FROM inventory_tracker WHERE inv_id = :inv_id', [':inv_id' => $invId]);
 
+    $audit_sql = "INSERT INTO audits (user_id, `date`, notes) VALUES (:user_id, :date, :notes)";
+    $userInserting = getSessionUser();
+    PokeDatabase::executeSQL($audit_sql, [
+        ':user_id' => $userInserting['user_id'] ?? "System",
+        ':date' => date('Y-m-d'),
+        ':notes' => "Inventory snapshot deleted for inv_id {$invId}.",
+    ]);
+
     sendJson(200, ['success' => true, 'message' => 'Inventory snapshot deleted.']);
 }
+
 
 sendJson(404, ['success' => false, 'message' => 'Endpoint not found.']);
 

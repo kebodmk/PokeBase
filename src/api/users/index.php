@@ -75,6 +75,13 @@ if ($routePart === 'register') {
     ];
 
     $userId = (int)PokeDatabase::executeSQL($insert_user_sql, $insert_params, true);
+
+    $audit_sql = "INSERT INTO audits (user_id, `date`, notes) VALUES (:user_id, :date, :notes)";
+    PokeDatabase::executeSQL($audit_sql, [
+        ':user_id' => $userId,
+        ':date' => date('Y-m-d'),
+        ':notes' => "New user registered: {$firstName} {$lastName} ({$email})",
+    ]);
     #TODO: Manage session tokens in the DB eventually
 
     $user_data = getUserById($userId);
@@ -218,6 +225,14 @@ if ($routePart === 'role') {
         ':user_id' => $userId,
     ]);
 
+    $audit_sql = "INSERT INTO audits (user_id, `date`, notes) VALUES (:user_id, :date, :notes)";
+    $userInserting = getSessionUser();
+    PokeDatabase::executeSQL($audit_sql, [
+        ':user_id' => $userInserting['user_id'] ?? "System",
+        ':date' => date('Y-m-d'),
+        ':notes' => "User ID:{$userID}'s role updated to {$role} by manager.",
+    ]);
+
     sendJson(200, [
         'success' => true,
         'message' => 'User role updated.',
@@ -254,6 +269,14 @@ if ($routePart === 'archive') {
     PokeDatabase::executeSQL('UPDATE users SET archived = CAST(:archived AS UNSIGNED) WHERE user_id = :user_id', [
         ':archived' => $archived,
         ':user_id' => $userId,
+    ]);
+
+    $audit_sql = "INSERT INTO audits (user_id, `date`, notes) VALUES (:user_id, :date, :notes)";
+    $userInserting = getSessionUser();
+    PokeDatabase::executeSQL($audit_sql, [
+        ':user_id' => $userInserting['user_id'] ?? "System",
+        ':date' => date('Y-m-d'),
+        ':notes' => "User account " . ($archived ? 'archived' : 'unarchived') . " by manager.",
     ]);
 
     sendJson(200, [

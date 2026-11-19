@@ -138,8 +138,6 @@
                    value="<?= htmlspecialchars($_GET['set'] ?? '') ?>">
             <input type="text" name="set_num" placeholder="Set #"
                    value="<?= htmlspecialchars($_GET['set_num'] ?? '') ?>">
-            <input type="text" name="rarity" placeholder="Rarity"
-                   value="<?= htmlspecialchars($_GET['rarity'] ?? '') ?>">
             <input type="text" name="condition" placeholder="Condition"
                    value="<?= htmlspecialchars($_GET['condition'] ?? '') ?>">
             <input type="text" name="lang" placeholder="Language"
@@ -164,7 +162,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Date</th>
-                    <th>Emp. ID</th>
+                    <th>Name</th>
                     <th>Cards</th>
                     <th>Value</th>
                     <th>Received</th>

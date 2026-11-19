@@ -197,6 +197,6 @@ function getAuditById(int $auditId): ?array
 
 function get50Audits(): array
 {
-    $sql = 'SELECT a.audit_id, concat(u.first_name, " ", u.last_name) AS "User", a.date, a.notes FROM audits a JOIN users u ON u.user_id = a.user_id ORDER BY a.date DESC LIMIT 50;';
+    $sql = 'SELECT a.audit_id, concat(u.first_name, " ", u.last_name) AS "User", a.date, a.notes FROM audits a JOIN users u ON u.user_id = a.user_id ORDER BY a.audit_id DESC LIMIT 50;';
     return PokeDatabase::getDataFromSQL($sql, []);
 }
