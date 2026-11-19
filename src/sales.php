@@ -60,7 +60,18 @@
         $error = $result["message"] ?? "Unable to load inventory tracker data.";
     }
 
-    $transDataUrl = $mainURL . "/api/transactions/get";
+    $searchFields = ['name', 'set', 'set_num', 'rarity', 'condition', 'lang'];
+
+    $filters = [];
+    foreach ($searchFields as $field) {
+        $value = trim($_GET[$field] ?? '');
+        if ($value !== '') {
+            $filters[$field] = $value;
+        }
+    }
+
+    $transDataUrl = $mainURL . "/api/transactions/get"
+        . ($filters ? '?' . http_build_query($filters) : '');
     $transResponse = getJSONFromURL($transDataUrl);
     $transaction = $transResponse['transaction'] ?? [];
     
@@ -118,13 +129,45 @@
     <!-- temporary button to update rows for inventory_tracker -->
     <button id="updateInventoryBtn">Update Inventory</button>
     
+    <!-- Card search, just above the table -->
+    <form method="get" id="searchForm">
+        <div class="search-row">
+            <input type="text" name="name" placeholder="Card name"
+                   value="<?= htmlspecialchars($_GET['name'] ?? '') ?>">
+            <input type="text" name="set" placeholder="Set"
+                   value="<?= htmlspecialchars($_GET['set'] ?? '') ?>">
+            <input type="text" name="set_num" placeholder="Set #"
+                   value="<?= htmlspecialchars($_GET['set_num'] ?? '') ?>">
+            <input type="text" name="rarity" placeholder="Rarity"
+                   value="<?= htmlspecialchars($_GET['rarity'] ?? '') ?>">
+            <input type="text" name="condition" placeholder="Condition"
+                   value="<?= htmlspecialchars($_GET['condition'] ?? '') ?>">
+            <input type="text" name="lang" placeholder="Language"
+                   value="<?= htmlspecialchars($_GET['lang'] ?? '') ?>">
+        </div>
+
+        <div class="search-row">
+            <?php if ($date !== ''): ?>
+                <input type="hidden" name="date" value="<?= htmlspecialchars($date) ?>">
+            <?php endif; ?>
+            <?php if ($total_val !== ''): ?>
+                <input type="hidden" name="total_value" value="<?= htmlspecialchars($total_val) ?>">
+            <?php endif; ?>
+            <button type="submit">Search</button>
+            <a class="clear-link" href="<?= htmlspecialchars(strtok($_SERVER['REQUEST_URI'], '?')) ?>">Clear</a>
+        </div>
+    </form>
+
     <div class="table-container">
         <table id="transactionTable">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Date</th>
-                    <th>Employee ID</th>
+                    <th>Emp. ID</th>
+                    <th>Cards</th>
+                    <th>Value</th>
+                    <th>Received</th>
                     <th>Sold For</th>
                 </tr>
             </thead>
@@ -141,6 +184,15 @@
                         </td>
                         <td>
                             <?= htmlspecialchars($row['user_id']) ?>
+                        </td>
+                        <td>
+                            <?= htmlspecialchars($row['card_count']) ?>
+                        </td>
+                        <td>
+                            <?= htmlspecialchars($row['total_card_value']) ?>
+                        </td>
+                        <td>
+                            <?= htmlspecialchars($row['received_count']) ?>
                         </td>
                         <td>
                             <?= htmlspecialchars($row['sold_for']) ?>

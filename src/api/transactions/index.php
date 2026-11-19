@@ -168,7 +168,7 @@ if ($routePart === 'update') {
 
 /*
 ------------------------------------------------------------
-GET /api/inventory_tracker/get
+GET /api/transactions/get
 ------------------------------------------------------------
 */
 if ($routePart === 'get') {
@@ -176,7 +176,21 @@ if ($routePart === 'get') {
         sendJson(405, ['success' => false, 'message' => 'Method not allowed.']);
     }
 
-    $transaction = getAllTransactions();
+    // Collect any card search fields from the query string
+    $searchFields = ['name', 'set', 'set_num', 'condition', 'lang'];
+
+    $filters = [];
+    foreach ($searchFields as $field) {
+        $value = trim($_GET[$field] ?? '');
+        if ($value !== '') {
+            $filters[$field] = $value;
+        }
+    }
+
+    // Any search field present -> search; otherwise -> everything
+    $transaction = $filters
+        ? searchAllTransactions($filters)
+        : getAllTransactions();
 
     sendJson(200, [
         'success' => true,
@@ -298,6 +312,70 @@ function getTransactionWithCards(int $transId): ?array
 
 function getAllTransactions(): array
 {
-    $sql = 'SELECT trans_id, `date`, user_id, sold_for FROM transactions';
+    $sql = 'SELECT t.trans_id, t.`date`, t.user_id, t.sold_for,
+        COUNT(e.exchange_id) AS card_count,
+        COALESCE(SUM(c.price), 0) AS total_card_value,
+        COALESCE(SUM(e.recieved), 0) AS received_count
+    FROM transactions t
+    LEFT JOIN exchanged_cards e ON e.trans_id = t.trans_id
+    LEFT JOIN cards c ON c.card_id = e.card_id
+    GROUP BY t.trans_id, t.`date`, t.user_id, t.sold_for
+    ORDER BY t.trans_id';
+
     return PokeDatabase::getDataFromSQL($sql, []);
+}
+
+function searchAllTransactions(array $filters): array
+{
+    $params = [];
+    $conditions = [];
+
+    if (!empty($filters['name'])) {
+        $conditions[] = 'fc.`name` LIKE :name';
+        $params[':name'] = '%' . $filters['name'] . '%';
+    }
+    if (!empty($filters['set'])) {
+        $conditions[] = 'fc.`set` = :set';
+        $params[':set'] = $filters['set'];
+    }
+    if (!empty($filters['set_num'])) {
+        $conditions[] = 'fc.set_num = :set_num';
+        $params[':set_num'] = $filters['set_num'];
+    }
+    if (!empty($filters['rarity'])) {
+        $conditions[] = 'fc.rarity = :rarity';
+        $params[':rarity'] = $filters['rarity'];
+    }
+    if (!empty($filters['condition'])) {
+        $conditions[] = 'fc.`condition` = :condition';
+        $params[':condition'] = $filters['condition'];
+    }
+    if (!empty($filters['lang'])) {
+        $conditions[] = 'fc.lang = :lang';
+        $params[':lang'] = $filters['lang'];
+    }
+
+    // No usable filters: fall back to the full list
+    if (!$conditions) {
+        return getAllTransactions();
+    }
+
+    $sql = 'SELECT t.trans_id, t.`date`, t.user_id, t.sold_for,
+        COUNT(e.exchange_id) AS card_count,
+        COALESCE(SUM(c.price), 0) AS total_card_value,
+        COALESCE(SUM(e.recieved), 0) AS received_count
+    FROM transactions t
+    LEFT JOIN exchanged_cards e ON e.trans_id = t.trans_id
+    LEFT JOIN cards c ON c.card_id = e.card_id
+    WHERE EXISTS (
+        SELECT 1
+        FROM exchanged_cards fe
+        JOIN cards fc ON fc.card_id = fe.card_id
+        WHERE fe.trans_id = t.trans_id
+        AND ' . implode(' AND ', $conditions) . '
+    )
+    GROUP BY t.trans_id, t.`date`, t.user_id, t.sold_for
+    ORDER BY t.trans_id';
+
+    return PokeDatabase::getDataFromSQL($sql, $params);
 }
