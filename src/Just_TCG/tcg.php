@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../includes/config.php';
+
 function postString($key, $default = '')
 {
     return isset($_POST[$key]) && is_string($_POST[$key])
@@ -74,7 +76,7 @@ if (
     $printingOptions[] = $printing_input;
 }
 
-$setsFile = 'C:/xampp/htdocs/PokeBase/src/api/just_tcg/sets.txt';
+$setsFile = __DIR__ . '/../api/just_tcg/sets.txt';
 
 $sets = [];
 $setsError = '';
@@ -468,8 +470,8 @@ if (!is_file($setsFile) || !is_readable($setsFile)) {
     </section>
 
     <script>
-        const apiUrl = "/PokeBase/src/api/just_tcg/index.php";
-        const cardsAddUrl = "/PokeBase/src/api/cards/add";
+        const apiUrl = "api/just_tcg/index.php";
+        const cardsAddUrl = "api/cards/add";
         const MAX_CARDS = 20;
 
         const cardForm = document.getElementById("card-form");
@@ -544,7 +546,7 @@ if (!is_file($setsFile) || !is_readable($setsFile)) {
         }
 
         async function requestJson(url, options = {}) {
-            const response = await fetch(url, options);
+            const response = await fetch(<?= json_encode($mainURL, JSON_HEX_TAG) ?> + url, options);
             const rawResponse = await response.text();
 
             let data;

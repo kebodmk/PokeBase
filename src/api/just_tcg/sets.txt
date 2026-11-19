@@ -9,265 +9,10 @@
         "variants_count": 120,
         "sealed_count": 1,
         "release_date": null,
-        "set_value_usd": 69.87,
-        "set_value_change_7d_pct": 3.161496,
-        "set_value_change_30d_pct": 8.832612,
-        "set_value_change_90d_pct": 15.076639
-    },
-    {
-        "id": "pikachu-world-collection-promos-pokemon",
-        "name": "Pikachu World Collection Promos",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 19,
-        "cards_count": 19,
-        "variants_count": 95,
-        "sealed_count": 3,
-        "release_date": null,
-        "set_value_usd": 2044.12,
-        "set_value_change_7d_pct": 1.102737,
-        "set_value_change_30d_pct": 19.021015,
-        "set_value_change_90d_pct": 85.574752
-    },
-    {
-        "id": "pop-series-1-pokemon",
-        "name": "POP Series 1",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 19,
-        "cards_count": 19,
-        "variants_count": 120,
-        "sealed_count": 1,
-        "release_date": null,
-        "set_value_usd": 1270.42,
-        "set_value_change_7d_pct": 1.51026,
-        "set_value_change_30d_pct": 23.226853,
-        "set_value_change_90d_pct": 197.938883
-    },
-    {
-        "id": "pop-series-2-pokemon",
-        "name": "POP Series 2",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 18,
-        "cards_count": 18,
-        "variants_count": 120,
-        "sealed_count": 1,
-        "release_date": null,
-        "set_value_usd": 741.48,
-        "set_value_change_7d_pct": 0.811962,
-        "set_value_change_30d_pct": 0.74055,
-        "set_value_change_90d_pct": 9.720137
-    },
-    {
-        "id": "pop-series-3-pokemon",
-        "name": "POP Series 3",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 18,
-        "cards_count": 18,
-        "variants_count": 120,
-        "sealed_count": 1,
-        "release_date": null,
-        "set_value_usd": 1319.48,
-        "set_value_change_7d_pct": 0.370762,
-        "set_value_change_30d_pct": 12.225957,
-        "set_value_change_90d_pct": 25.521367
-    },
-    {
-        "id": "pop-series-4-pokemon",
-        "name": "POP Series 4",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 17,
-        "cards_count": 17,
-        "variants_count": 135,
-        "sealed_count": 1,
-        "release_date": null,
-        "set_value_usd": 2904.25,
-        "set_value_change_7d_pct": 0.095575,
-        "set_value_change_30d_pct": 1.046535,
-        "set_value_change_90d_pct": 96.447086
-    },
-    {
-        "id": "pop-series-5-pokemon",
-        "name": "POP Series 5",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 17,
-        "cards_count": 17,
-        "variants_count": 125,
-        "sealed_count": 1,
-        "release_date": null,
-        "set_value_usd": 1913.4,
-        "set_value_change_7d_pct": 1.04413,
-        "set_value_change_30d_pct": 46.055248,
-        "set_value_change_90d_pct": 66.649984
-    },
-    {
-        "id": "pop-series-6-pokemon",
-        "name": "POP Series 6",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 18,
-        "cards_count": 18,
-        "variants_count": 125,
-        "sealed_count": 1,
-        "release_date": null,
-        "set_value_usd": 792.64,
-        "set_value_change_7d_pct": 0.167204,
-        "set_value_change_30d_pct": 3.416097,
-        "set_value_change_90d_pct": 53.019054
-    },
-    {
-        "id": "pop-series-7-pokemon",
-        "name": "POP Series 7",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 17,
-        "cards_count": 17,
-        "variants_count": 115,
-        "sealed_count": 1,
-        "release_date": null,
-        "set_value_usd": 322.19,
-        "set_value_change_7d_pct": 1.772907,
-        "set_value_change_30d_pct": 10.696601,
-        "set_value_change_90d_pct": 32.846399
-    },
-    {
-        "id": "pop-series-8-pokemon",
-        "name": "POP Series 8",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 18,
-        "cards_count": 18,
-        "variants_count": 150,
-        "sealed_count": 1,
-        "release_date": null,
-        "set_value_usd": 368.92,
-        "set_value_change_7d_pct": 8.523027,
-        "set_value_change_30d_pct": 13.611935,
-        "set_value_change_90d_pct": 27.147329
-    },
-    {
-        "id": "pop-series-9-pokemon",
-        "name": "POP Series 9",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 18,
-        "cards_count": 18,
-        "variants_count": 115,
-        "sealed_count": 1,
-        "release_date": null,
-        "set_value_usd": 416.17,
-        "set_value_change_7d_pct": 0.405128,
-        "set_value_change_30d_pct": 6.013827,
-        "set_value_change_90d_pct": 13.613693
-    },
-    {
-        "id": "professor-program-promos-pokemon",
-        "name": "Professor Program Promos",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 70,
-        "cards_count": 70,
-        "variants_count": 350,
-        "sealed_count": 0,
-        "release_date": null,
-        "set_value_usd": 2002.86,
-        "set_value_change_7d_pct": 1.956577,
-        "set_value_change_30d_pct": -0.565361,
-        "set_value_change_90d_pct": 298.516661
-    },
-    {
-        "id": "first-partner-pack-pokemon",
-        "name": "First Partner Pack",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 24,
-        "cards_count": 24,
-        "variants_count": 120,
-        "sealed_count": 9,
-        "release_date": null,
-        "set_value_usd": 64.4,
-        "set_value_change_7d_pct": -0.082756,
-        "set_value_change_30d_pct": 0.722061,
-        "set_value_change_90d_pct": 48.161652
-    },
-    {
-        "id": "ex-trainer-kit-1-latias-latios-pokemon",
-        "name": "EX Trainer Kit 1: Latias & Latios",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 20,
-        "cards_count": 20,
-        "variants_count": 100,
-        "sealed_count": 1,
-        "release_date": null,
-        "set_value_usd": 88.9,
-        "set_value_change_7d_pct": 0.947184,
-        "set_value_change_30d_pct": 26.367245,
-        "set_value_change_90d_pct": 35.972706
-    },
-    {
-        "id": "alternate-art-promos-pokemon",
-        "name": "Alternate Art Promos",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 56,
-        "cards_count": 56,
-        "variants_count": 290,
-        "sealed_count": 1,
-        "release_date": null,
-        "set_value_usd": 2475.02,
-        "set_value_change_7d_pct": 0.497263,
-        "set_value_change_30d_pct": 2.670099,
-        "set_value_change_90d_pct": 8.845833
-    },
-    {
-        "id": "blister-exclusives-pokemon",
-        "name": "Blister Exclusives",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 144,
-        "cards_count": 144,
-        "variants_count": 720,
-        "sealed_count": 0,
-        "release_date": null,
-        "set_value_usd": 2510.97,
-        "set_value_change_7d_pct": -0.121449,
-        "set_value_change_30d_pct": 19.961496,
-        "set_value_change_90d_pct": 63.53089
-    },
-    {
-        "id": "miscellaneous-cards-products-pokemon",
-        "name": "Miscellaneous Cards & Products",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 887,
-        "cards_count": 887,
-        "variants_count": 4450,
-        "sealed_count": 646,
-        "release_date": null,
-        "set_value_usd": 18241.41,
-        "set_value_change_7d_pct": 0.289977,
-        "set_value_change_30d_pct": 3.846134,
-        "set_value_change_90d_pct": 742.954612
-    },
-    {
-        "id": "burger-king-promos-pokemon",
-        "name": "Burger King Promos",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 24,
-        "cards_count": 24,
-        "variants_count": 120,
-        "sealed_count": 0,
-        "release_date": null,
-        "set_value_usd": 917.76,
-        "set_value_change_7d_pct": 1.5464,
-        "set_value_change_30d_pct": 11.297763,
-        "set_value_change_90d_pct": 26.819141
+        "set_value_usd": 68.1,
+        "set_value_change_7d_pct": -3.118445,
+        "set_value_change_30d_pct": 2.09399,
+        "set_value_change_90d_pct": 7.358445
     },
     {
         "id": "nintendo-promos-pokemon",
@@ -279,25 +24,295 @@
         "variants_count": 495,
         "sealed_count": 0,
         "release_date": null,
-        "set_value_usd": 14178.34,
-        "set_value_change_7d_pct": 2.748356,
-        "set_value_change_30d_pct": 16.928156,
-        "set_value_change_90d_pct": 54.412429
+        "set_value_usd": 14686.41,
+        "set_value_change_7d_pct": 4.589969,
+        "set_value_change_30d_pct": 10.192329,
+        "set_value_change_90d_pct": 52.39673
+    },
+    {
+        "id": "pop-series-1-pokemon",
+        "name": "POP Series 1",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 19,
+        "cards_count": 19,
+        "variants_count": 120,
+        "sealed_count": 1,
+        "release_date": null,
+        "set_value_usd": 1177.48,
+        "set_value_change_7d_pct": 0.926876,
+        "set_value_change_30d_pct": 13.686527,
+        "set_value_change_90d_pct": 137.043868
+    },
+    {
+        "id": "ex-trainer-kit-1-latias-latios-pokemon",
+        "name": "EX Trainer Kit 1: Latias & Latios",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 20,
+        "cards_count": 20,
+        "variants_count": 100,
+        "sealed_count": 1,
+        "release_date": null,
+        "set_value_usd": 87.65,
+        "set_value_change_7d_pct": -1.288459,
+        "set_value_change_30d_pct": 8.830138,
+        "set_value_change_90d_pct": 31.492235
+    },
+    {
+        "id": "pikachu-world-collection-promos-pokemon",
+        "name": "Pikachu World Collection Promos",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 19,
+        "cards_count": 19,
+        "variants_count": 95,
+        "sealed_count": 3,
+        "release_date": null,
+        "set_value_usd": 2071.99,
+        "set_value_change_7d_pct": 1.574428,
+        "set_value_change_30d_pct": 3.646687,
+        "set_value_change_90d_pct": 32.967816
+    },
+    {
+        "id": "first-partner-pack-pokemon",
+        "name": "First Partner Pack",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 24,
+        "cards_count": 24,
+        "variants_count": 120,
+        "sealed_count": 9,
+        "release_date": null,
+        "set_value_usd": 65.32,
+        "set_value_change_7d_pct": 0.674908,
+        "set_value_change_30d_pct": 1.749092,
+        "set_value_change_90d_pct": 48.084983
+    },
+    {
+        "id": "pop-series-2-pokemon",
+        "name": "POP Series 2",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 18,
+        "cards_count": 18,
+        "variants_count": 120,
+        "sealed_count": 1,
+        "release_date": null,
+        "set_value_usd": 741.43,
+        "set_value_change_7d_pct": 0.422167,
+        "set_value_change_30d_pct": -0.105161,
+        "set_value_change_90d_pct": 8.179321
+    },
+    {
+        "id": "alternate-art-promos-pokemon",
+        "name": "Alternate Art Promos",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 56,
+        "cards_count": 56,
+        "variants_count": 290,
+        "sealed_count": 1,
+        "release_date": null,
+        "set_value_usd": 2492.01,
+        "set_value_change_7d_pct": -0.059297,
+        "set_value_change_30d_pct": 1.960273,
+        "set_value_change_90d_pct": 7.678341
+    },
+    {
+        "id": "pop-series-3-pokemon",
+        "name": "POP Series 3",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 18,
+        "cards_count": 18,
+        "variants_count": 120,
+        "sealed_count": 1,
+        "release_date": null,
+        "set_value_usd": 1363.65,
+        "set_value_change_7d_pct": 5.885896,
+        "set_value_change_30d_pct": 16.118975,
+        "set_value_change_90d_pct": 29.76736
+    },
+    {
+        "id": "pop-series-4-pokemon",
+        "name": "POP Series 4",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 17,
+        "cards_count": 17,
+        "variants_count": 135,
+        "sealed_count": 1,
+        "release_date": null,
+        "set_value_usd": 2938.58,
+        "set_value_change_7d_pct": -0.048419,
+        "set_value_change_30d_pct": 1.69771,
+        "set_value_change_90d_pct": 84.561532
+    },
+    {
+        "id": "pop-series-5-pokemon",
+        "name": "POP Series 5",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 17,
+        "cards_count": 17,
+        "variants_count": 125,
+        "sealed_count": 1,
+        "release_date": null,
+        "set_value_usd": 1949.44,
+        "set_value_change_7d_pct": 2.627235,
+        "set_value_change_30d_pct": 5.060613,
+        "set_value_change_90d_pct": 85.047019
+    },
+    {
+        "id": "professor-program-promos-pokemon",
+        "name": "Professor Program Promos",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 70,
+        "cards_count": 70,
+        "variants_count": 350,
+        "sealed_count": 0,
+        "release_date": null,
+        "set_value_usd": 2161.79,
+        "set_value_change_7d_pct": 166.50152,
+        "set_value_change_30d_pct": 168.50456,
+        "set_value_change_90d_pct": 258.725115
+    },
+    {
+        "id": "blister-exclusives-pokemon",
+        "name": "Blister Exclusives",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 148,
+        "cards_count": 148,
+        "variants_count": 740,
+        "sealed_count": 0,
+        "release_date": null,
+        "set_value_usd": 2559.94,
+        "set_value_change_7d_pct": 2.726104,
+        "set_value_change_30d_pct": 8.667262,
+        "set_value_change_90d_pct": 59.663555
+    },
+    {
+        "id": "miscellaneous-cards-products-pokemon",
+        "name": "Miscellaneous Cards & Products",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 890,
+        "cards_count": 890,
+        "variants_count": 4465,
+        "sealed_count": 646,
+        "release_date": null,
+        "set_value_usd": 18433.16,
+        "set_value_change_7d_pct": 0.999079,
+        "set_value_change_30d_pct": 5.674734,
+        "set_value_change_90d_pct": 733.233561
+    },
+    {
+        "id": "pop-series-9-pokemon",
+        "name": "POP Series 9",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 18,
+        "cards_count": 18,
+        "variants_count": 115,
+        "sealed_count": 1,
+        "release_date": null,
+        "set_value_usd": 407.65,
+        "set_value_change_7d_pct": -1.446992,
+        "set_value_change_30d_pct": 0.315066,
+        "set_value_change_90d_pct": 9.846359
+    },
+    {
+        "id": "burger-king-promos-pokemon",
+        "name": "Burger King Promos",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 24,
+        "cards_count": 24,
+        "variants_count": 120,
+        "sealed_count": 0,
+        "release_date": null,
+        "set_value_usd": 961.82,
+        "set_value_change_7d_pct": 4.615884,
+        "set_value_change_30d_pct": 14.246821,
+        "set_value_change_90d_pct": 28.490834
+    },
+    {
+        "id": "pop-series-8-pokemon",
+        "name": "POP Series 8",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 18,
+        "cards_count": 18,
+        "variants_count": 150,
+        "sealed_count": 1,
+        "release_date": null,
+        "set_value_usd": 369.94,
+        "set_value_change_7d_pct": 0.219626,
+        "set_value_change_30d_pct": 8.840195,
+        "set_value_change_90d_pct": 21.129889
+    },
+    {
+        "id": "pop-series-7-pokemon",
+        "name": "POP Series 7",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 17,
+        "cards_count": 17,
+        "variants_count": 115,
+        "sealed_count": 1,
+        "release_date": null,
+        "set_value_usd": 324.83,
+        "set_value_change_7d_pct": 0.16204,
+        "set_value_change_30d_pct": 5.35001,
+        "set_value_change_90d_pct": 30.620219
+    },
+    {
+        "id": "pop-series-6-pokemon",
+        "name": "POP Series 6",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 18,
+        "cards_count": 18,
+        "variants_count": 125,
+        "sealed_count": 1,
+        "release_date": null,
+        "set_value_usd": 846.05,
+        "set_value_change_7d_pct": -0.170404,
+        "set_value_change_30d_pct": 1.402954,
+        "set_value_change_90d_pct": 66.105861
     },
     {
         "id": "me06-delta-reign-pokemon",
         "name": "ME06: Delta Reign",
         "game_id": "pokemon",
         "game": "Pokemon",
-        "count": 141,
-        "cards_count": 141,
-        "variants_count": 1100,
+        "count": 143,
+        "cards_count": 143,
+        "variants_count": 1165,
         "sealed_count": 21,
         "release_date": "2026-11-06T00:00:00.000Z",
-        "set_value_usd": 987.79,
-        "set_value_change_7d_pct": 23.710337,
-        "set_value_change_30d_pct": 23.710337,
-        "set_value_change_90d_pct": 23.710337
+        "set_value_usd": 959.09,
+        "set_value_change_7d_pct": -2.0829,
+        "set_value_change_30d_pct": 1.925464,
+        "set_value_change_90d_pct": 1.925464
+    },
+    {
+        "id": "mcdonald-s-promos-2026-pokemon",
+        "name": "McDonald's Promos 2026",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 15,
+        "cards_count": 15,
+        "variants_count": 75,
+        "sealed_count": 0,
+        "release_date": "2026-11-06T00:00:00.000Z",
+        "set_value_usd": 30.98,
+        "set_value_change_7d_pct": -18.397485,
+        "set_value_change_30d_pct": -26.820636,
+        "set_value_change_90d_pct": -26.820636
     },
     {
         "id": "me-30th-celebration-pokemon",
@@ -309,10 +324,10 @@
         "variants_count": 850,
         "sealed_count": 54,
         "release_date": "2026-09-16T00:00:00.000Z",
-        "set_value_usd": 12957.19,
-        "set_value_change_7d_pct": -2.34667,
-        "set_value_change_30d_pct": 29018.847365,
-        "set_value_change_90d_pct": 29018.51835
+        "set_value_usd": 12639.44,
+        "set_value_change_7d_pct": 0.295999,
+        "set_value_change_30d_pct": 13.327761,
+        "set_value_change_90d_pct": 30374.550605
     },
     {
         "id": "me-30th-celebration-classic-collection-pokemon",
@@ -324,10 +339,10 @@
         "variants_count": 150,
         "sealed_count": 0,
         "release_date": "2026-09-16T00:00:00.000Z",
-        "set_value_usd": 833.12,
-        "set_value_change_7d_pct": -1.884081,
-        "set_value_change_30d_pct": -10.762015,
-        "set_value_change_90d_pct": -11.896353
+        "set_value_usd": 739.51,
+        "set_value_change_7d_pct": -3.539867,
+        "set_value_change_30d_pct": -4.456586,
+        "set_value_change_90d_pct": -8.249711
     },
     {
         "id": "me05-pitch-black-pokemon",
@@ -339,10 +354,10 @@
         "variants_count": 995,
         "sealed_count": 23,
         "release_date": "2026-07-17T00:00:00.000Z",
-        "set_value_usd": 747.88,
-        "set_value_change_7d_pct": -0.471346,
-        "set_value_change_30d_pct": -4.692002,
-        "set_value_change_90d_pct": -11.06069
+        "set_value_usd": 701.15,
+        "set_value_change_7d_pct": -0.87085,
+        "set_value_change_30d_pct": -4.569111,
+        "set_value_change_90d_pct": -17.564549
     },
     {
         "id": "me04-chaos-rising-pokemon",
@@ -354,10 +369,10 @@
         "variants_count": 1015,
         "sealed_count": 23,
         "release_date": "2026-05-22T00:00:00.000Z",
-        "set_value_usd": 727.93,
-        "set_value_change_7d_pct": 0.474003,
-        "set_value_change_30d_pct": -1.321704,
-        "set_value_change_90d_pct": -4.760483
+        "set_value_usd": 717.8,
+        "set_value_change_7d_pct": -0.512552,
+        "set_value_change_30d_pct": -1.592693,
+        "set_value_change_90d_pct": -5.595949
     },
     {
         "id": "first-partner-collection-2026-pokemon",
@@ -369,10 +384,10 @@
         "variants_count": 15,
         "sealed_count": 9,
         "release_date": "2026-03-30T00:00:00.000Z",
-        "set_value_usd": 0.25,
+        "set_value_usd": 0.26,
         "set_value_change_7d_pct": 0,
-        "set_value_change_30d_pct": -16.414,
-        "set_value_change_90d_pct": -26.7848
+        "set_value_change_30d_pct": 0,
+        "set_value_change_90d_pct": -20.29
     },
     {
         "id": "me03-perfect-order-pokemon",
@@ -384,10 +399,10 @@
         "variants_count": 1055,
         "sealed_count": 24,
         "release_date": "2026-03-27T00:00:00.000Z",
-        "set_value_usd": 716.94,
-        "set_value_change_7d_pct": -1.495325,
-        "set_value_change_30d_pct": 0.138003,
-        "set_value_change_90d_pct": 2.130826
+        "set_value_usd": 684.89,
+        "set_value_change_7d_pct": -1.018625,
+        "set_value_change_30d_pct": -1.211612,
+        "set_value_change_90d_pct": 5.763205
     },
     {
         "id": "me-ascended-heroes-pokemon",
@@ -396,13 +411,13 @@
         "game": "Pokemon",
         "count": 580,
         "cards_count": 580,
-        "variants_count": 3169,
+        "variants_count": 3171,
         "sealed_count": 40,
         "release_date": "2026-01-30T00:00:00.000Z",
-        "set_value_usd": 5581.58,
-        "set_value_change_7d_pct": -1.764402,
-        "set_value_change_30d_pct": -6.383282,
-        "set_value_change_90d_pct": -8.316907
+        "set_value_usd": 5119.19,
+        "set_value_change_7d_pct": -1.212098,
+        "set_value_change_30d_pct": -6.732645,
+        "set_value_change_90d_pct": -9.415354
     },
     {
         "id": "player-placement-trainer-promos-pokemon",
@@ -416,7 +431,7 @@
         "release_date": "2026-01-02T00:00:00.000Z",
         "set_value_usd": 0.37,
         "set_value_change_7d_pct": 0,
-        "set_value_change_30d_pct": 270,
+        "set_value_change_30d_pct": 0,
         "set_value_change_90d_pct": 270
     },
     {
@@ -429,40 +444,40 @@
         "variants_count": 1095,
         "sealed_count": 25,
         "release_date": "2025-11-14T00:00:00.000Z",
-        "set_value_usd": 1132.01,
-        "set_value_change_7d_pct": 0.13252,
-        "set_value_change_30d_pct": -3.614963,
-        "set_value_change_90d_pct": -6.170733
+        "set_value_usd": 1137.57,
+        "set_value_change_7d_pct": 2.648308,
+        "set_value_change_30d_pct": -5.065316,
+        "set_value_change_90d_pct": -10.543442
     },
     {
         "id": "mee-mega-evolution-energies-pokemon",
         "name": "MEE: Mega Evolution Energies",
         "game_id": "pokemon",
         "game": "Pokemon",
-        "count": 16,
-        "cards_count": 16,
-        "variants_count": 121,
+        "count": 20,
+        "cards_count": 20,
+        "variants_count": 141,
         "sealed_count": 0,
         "release_date": "2025-09-26T00:00:00.000Z",
-        "set_value_usd": 3.79,
-        "set_value_change_7d_pct": 1.689288,
-        "set_value_change_30d_pct": 2.819763,
-        "set_value_change_90d_pct": -4.404855
+        "set_value_usd": 4.75,
+        "set_value_change_7d_pct": -6.172084,
+        "set_value_change_30d_pct": 1.168084,
+        "set_value_change_90d_pct": 0.052274
     },
     {
         "id": "me-mega-evolution-promo-pokemon",
         "name": "ME: Mega Evolution Promo",
         "game_id": "pokemon",
         "game": "Pokemon",
-        "count": 141,
-        "cards_count": 141,
-        "variants_count": 735,
+        "count": 152,
+        "cards_count": 152,
+        "variants_count": 790,
         "sealed_count": 0,
         "release_date": "2025-09-26T00:00:00.000Z",
-        "set_value_usd": 4892.25,
-        "set_value_change_7d_pct": -3.066613,
-        "set_value_change_30d_pct": -4.385625,
-        "set_value_change_90d_pct": -3.759436
+        "set_value_usd": 4752.06,
+        "set_value_change_7d_pct": -1.617527,
+        "set_value_change_30d_pct": 2.154382,
+        "set_value_change_90d_pct": 3.856308
     },
     {
         "id": "me01-mega-evolution-pokemon",
@@ -474,25 +489,10 @@
         "variants_count": 1580,
         "sealed_count": 34,
         "release_date": "2025-09-26T00:00:00.000Z",
-        "set_value_usd": 1578.22,
-        "set_value_change_7d_pct": -0.403293,
-        "set_value_change_30d_pct": -1.208386,
-        "set_value_change_90d_pct": -0.897737
-    },
-    {
-        "id": "sv-black-bolt-pokemon",
-        "name": "SV: Black Bolt",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 333,
-        "cards_count": 333,
-        "variants_count": 2074,
-        "sealed_count": 27,
-        "release_date": "2025-07-18T00:00:00.000Z",
-        "set_value_usd": 4113.11,
-        "set_value_change_7d_pct": -0.97907,
-        "set_value_change_30d_pct": -2.76562,
-        "set_value_change_90d_pct": 0.430819
+        "set_value_usd": 1542.73,
+        "set_value_change_7d_pct": 0.404062,
+        "set_value_change_30d_pct": -0.570722,
+        "set_value_change_90d_pct": 0.286918
     },
     {
         "id": "sv-white-flare-pokemon",
@@ -504,10 +504,25 @@
         "variants_count": 2060,
         "sealed_count": 12,
         "release_date": "2025-07-18T00:00:00.000Z",
-        "set_value_usd": 3676.6,
-        "set_value_change_7d_pct": -0.073484,
-        "set_value_change_30d_pct": 0.509344,
-        "set_value_change_90d_pct": 6.992417
+        "set_value_usd": 3579.3,
+        "set_value_change_7d_pct": -0.364773,
+        "set_value_change_30d_pct": -1.631719,
+        "set_value_change_90d_pct": 3.727046
+    },
+    {
+        "id": "sv-black-bolt-pokemon",
+        "name": "SV: Black Bolt",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 333,
+        "cards_count": 333,
+        "variants_count": 2074,
+        "sealed_count": 27,
+        "release_date": "2025-07-18T00:00:00.000Z",
+        "set_value_usd": 4057.96,
+        "set_value_change_7d_pct": -0.092832,
+        "set_value_change_30d_pct": -0.126461,
+        "set_value_change_90d_pct": 5.707561
     },
     {
         "id": "sv10-destined-rivals-pokemon",
@@ -519,10 +534,10 @@
         "variants_count": 2106,
         "sealed_count": 25,
         "release_date": "2025-05-30T00:00:00.000Z",
-        "set_value_usd": 1670.55,
-        "set_value_change_7d_pct": -1.082859,
-        "set_value_change_30d_pct": -4.086453,
-        "set_value_change_90d_pct": 17.95319
+        "set_value_usd": 1645.24,
+        "set_value_change_7d_pct": 0.856052,
+        "set_value_change_30d_pct": -2.290961,
+        "set_value_change_90d_pct": 15.836774
     },
     {
         "id": "sv09-journey-together-pokemon",
@@ -534,10 +549,10 @@
         "variants_count": 1720,
         "sealed_count": 27,
         "release_date": "2025-03-28T00:00:00.000Z",
-        "set_value_usd": 506.41,
-        "set_value_change_7d_pct": -1.629562,
-        "set_value_change_30d_pct": -2.534043,
-        "set_value_change_90d_pct": 3.305053
+        "set_value_usd": 479.33,
+        "set_value_change_7d_pct": -0.672287,
+        "set_value_change_30d_pct": -3.275709,
+        "set_value_change_90d_pct": -1.577742
     },
     {
         "id": "mcdonald-s-promos-2024-pokemon",
@@ -549,10 +564,10 @@
         "variants_count": 75,
         "sealed_count": 1,
         "release_date": "2025-01-21T00:00:00.000Z",
-        "set_value_usd": 20.05,
-        "set_value_change_7d_pct": 2.03011,
-        "set_value_change_30d_pct": 8.199965,
-        "set_value_change_90d_pct": 11.227531
+        "set_value_usd": 20.27,
+        "set_value_change_7d_pct": 1.89037,
+        "set_value_change_30d_pct": 0.136739,
+        "set_value_change_90d_pct": -3.899359
     },
     {
         "id": "sv-prismatic-evolutions-pokemon",
@@ -564,10 +579,10 @@
         "variants_count": 2275,
         "sealed_count": 43,
         "release_date": "2025-01-17T00:00:00.000Z",
-        "set_value_usd": 4905.95,
-        "set_value_change_7d_pct": -0.497862,
-        "set_value_change_30d_pct": -3.543137,
-        "set_value_change_90d_pct": 1.192412
+        "set_value_usd": 4821.17,
+        "set_value_change_7d_pct": -0.545932,
+        "set_value_change_30d_pct": -2.733977,
+        "set_value_change_90d_pct": -0.509356
     },
     {
         "id": "sv08-surging-sparks-pokemon",
@@ -579,10 +594,10 @@
         "variants_count": 2136,
         "sealed_count": 27,
         "release_date": "2024-11-08T00:00:00.000Z",
-        "set_value_usd": 1200.4,
-        "set_value_change_7d_pct": -0.041509,
-        "set_value_change_30d_pct": -1.032523,
-        "set_value_change_90d_pct": 136.787192
+        "set_value_usd": 1166.93,
+        "set_value_change_7d_pct": -0.362114,
+        "set_value_change_30d_pct": -1.272327,
+        "set_value_change_90d_pct": 39.864146
     },
     {
         "id": "sv07-stellar-crown-pokemon",
@@ -594,10 +609,10 @@
         "variants_count": 1560,
         "sealed_count": 24,
         "release_date": "2024-09-13T00:00:00.000Z",
-        "set_value_usd": 627.15,
-        "set_value_change_7d_pct": 2.093555,
-        "set_value_change_30d_pct": 9.690645,
-        "set_value_change_90d_pct": 16.925347
+        "set_value_usd": 623.99,
+        "set_value_change_7d_pct": 0.339845,
+        "set_value_change_30d_pct": 6.337105,
+        "set_value_change_90d_pct": 13.89034
     },
     {
         "id": "trick-or-trade-booster-bundle-2024-pokemon",
@@ -609,10 +624,10 @@
         "variants_count": 150,
         "sealed_count": 5,
         "release_date": "2024-08-30T00:00:00.000Z",
-        "set_value_usd": 16.39,
-        "set_value_change_7d_pct": -7.050933,
-        "set_value_change_30d_pct": 1.068054,
-        "set_value_change_90d_pct": 13.407761
+        "set_value_usd": 17.84,
+        "set_value_change_7d_pct": 15.576984,
+        "set_value_change_30d_pct": 14.819753,
+        "set_value_change_90d_pct": 33.941278
     },
     {
         "id": "sv-shrouded-fable-pokemon",
@@ -624,10 +639,10 @@
         "variants_count": 845,
         "sealed_count": 23,
         "release_date": "2024-08-02T00:00:00.000Z",
-        "set_value_usd": 838.36,
-        "set_value_change_7d_pct": 0.162931,
-        "set_value_change_30d_pct": -3.219626,
-        "set_value_change_90d_pct": -1.120049
+        "set_value_usd": 818.86,
+        "set_value_change_7d_pct": -1.178157,
+        "set_value_change_30d_pct": -1.688953,
+        "set_value_change_90d_pct": -3.207834
     },
     {
         "id": "battle-academy-2024-pokemon",
@@ -639,10 +654,10 @@
         "variants_count": 695,
         "sealed_count": 1,
         "release_date": "2024-06-21T00:00:00.000Z",
-        "set_value_usd": 73.85,
-        "set_value_change_7d_pct": -0.048772,
-        "set_value_change_30d_pct": 2.582845,
-        "set_value_change_90d_pct": 9.487896
+        "set_value_usd": 73.03,
+        "set_value_change_7d_pct": -0.454067,
+        "set_value_change_30d_pct": 0.837083,
+        "set_value_change_90d_pct": 7.465987
     },
     {
         "id": "sv06-twilight-masquerade-pokemon",
@@ -654,10 +669,10 @@
         "variants_count": 1925,
         "sealed_count": 24,
         "release_date": "2024-05-24T00:00:00.000Z",
-        "set_value_usd": 1223.2,
-        "set_value_change_7d_pct": 0.133307,
-        "set_value_change_30d_pct": -3.127562,
-        "set_value_change_90d_pct": -1.091072
+        "set_value_usd": 1210,
+        "set_value_change_7d_pct": -0.002746,
+        "set_value_change_30d_pct": 0.379457,
+        "set_value_change_90d_pct": 0.633671
     },
     {
         "id": "sv05-temporal-forces-pokemon",
@@ -669,10 +684,10 @@
         "variants_count": 1855,
         "sealed_count": 31,
         "release_date": "2024-03-22T00:00:00.000Z",
-        "set_value_usd": 1211.61,
-        "set_value_change_7d_pct": 0.490103,
-        "set_value_change_30d_pct": -1.454563,
-        "set_value_change_90d_pct": -2.38616
+        "set_value_usd": 1166.96,
+        "set_value_change_7d_pct": -1.682254,
+        "set_value_change_30d_pct": -1.427581,
+        "set_value_change_90d_pct": -1.194346
     },
     {
         "id": "sv-paldean-fates-pokemon",
@@ -684,10 +699,10 @@
         "variants_count": 1695,
         "sealed_count": 37,
         "release_date": "2024-01-26T00:00:00.000Z",
-        "set_value_usd": 2563.59,
-        "set_value_change_7d_pct": 1.405604,
-        "set_value_change_30d_pct": 4.029232,
-        "set_value_change_90d_pct": 9.961154
+        "set_value_usd": 2518.14,
+        "set_value_change_7d_pct": -0.590559,
+        "set_value_change_30d_pct": -0.102781,
+        "set_value_change_90d_pct": 7.256484
     },
     {
         "id": "trading-card-game-classic-pokemon",
@@ -699,10 +714,10 @@
         "variants_count": 510,
         "sealed_count": 1,
         "release_date": "2023-11-17T00:00:00.000Z",
-        "set_value_usd": 673.12,
-        "set_value_change_7d_pct": -0.269283,
-        "set_value_change_30d_pct": 1.398904,
-        "set_value_change_90d_pct": 1.369807
+        "set_value_usd": 682.84,
+        "set_value_change_7d_pct": 0.386802,
+        "set_value_change_30d_pct": 2.33325,
+        "set_value_change_90d_pct": 3.10496
     },
     {
         "id": "sv04-paradox-rift-pokemon",
@@ -714,10 +729,10 @@
         "variants_count": 2200,
         "sealed_count": 31,
         "release_date": "2023-11-03T00:00:00.000Z",
-        "set_value_usd": 1182.62,
-        "set_value_change_7d_pct": 0.15002,
-        "set_value_change_30d_pct": -2.564262,
-        "set_value_change_90d_pct": -0.410415
+        "set_value_usd": 1152.71,
+        "set_value_change_7d_pct": -0.631147,
+        "set_value_change_30d_pct": -1.466891,
+        "set_value_change_90d_pct": -3.569047
     },
     {
         "id": "my-first-battle-pokemon",
@@ -729,10 +744,10 @@
         "variants_count": 240,
         "sealed_count": 2,
         "release_date": "2023-09-29T00:00:00.000Z",
-        "set_value_usd": 239.45,
-        "set_value_change_7d_pct": 0.485865,
-        "set_value_change_30d_pct": 12.68918,
-        "set_value_change_90d_pct": 19.868407
+        "set_value_usd": 251.95,
+        "set_value_change_7d_pct": 1.672773,
+        "set_value_change_30d_pct": 17.080275,
+        "set_value_change_90d_pct": 27.179576
     },
     {
         "id": "sv-scarlet-violet-151-pokemon",
@@ -744,10 +759,10 @@
         "variants_count": 1840,
         "sealed_count": 34,
         "release_date": "2023-09-22T00:00:00.000Z",
-        "set_value_usd": 1771.28,
-        "set_value_change_7d_pct": -0.746208,
-        "set_value_change_30d_pct": -2.065936,
-        "set_value_change_90d_pct": -0.247774
+        "set_value_usd": 1719.48,
+        "set_value_change_7d_pct": -0.93019,
+        "set_value_change_30d_pct": -3.072944,
+        "set_value_change_90d_pct": -0.903325
     },
     {
         "id": "mcdonald-s-promos-2023-pokemon",
@@ -759,10 +774,10 @@
         "variants_count": 75,
         "sealed_count": 1,
         "release_date": "2023-09-12T00:00:00.000Z",
-        "set_value_usd": 19.83,
-        "set_value_change_7d_pct": 0.629319,
-        "set_value_change_30d_pct": -1.969329,
-        "set_value_change_90d_pct": 21.956354
+        "set_value_usd": 19.22,
+        "set_value_change_7d_pct": -0.228439,
+        "set_value_change_30d_pct": -0.669714,
+        "set_value_change_90d_pct": 10.156296
     },
     {
         "id": "trick-or-trade-booster-bundle-2023-pokemon",
@@ -774,10 +789,10 @@
         "variants_count": 155,
         "sealed_count": 4,
         "release_date": "2023-09-01T00:00:00.000Z",
-        "set_value_usd": 8.93,
-        "set_value_change_7d_pct": -2.236361,
-        "set_value_change_30d_pct": 13.827973,
-        "set_value_change_90d_pct": 19.759765
+        "set_value_usd": 9.44,
+        "set_value_change_7d_pct": 3.428305,
+        "set_value_change_30d_pct": 5.673125,
+        "set_value_change_90d_pct": 12.732617
     },
     {
         "id": "sv03-obsidian-flames-pokemon",
@@ -789,10 +804,10 @@
         "variants_count": 2070,
         "sealed_count": 24,
         "release_date": "2023-08-11T00:00:00.000Z",
-        "set_value_usd": 442.5,
-        "set_value_change_7d_pct": -0.839115,
-        "set_value_change_30d_pct": -2.821181,
-        "set_value_change_90d_pct": -5.193864
+        "set_value_usd": 424.06,
+        "set_value_change_7d_pct": 0.22464,
+        "set_value_change_30d_pct": -3.827177,
+        "set_value_change_90d_pct": -10.209759
     },
     {
         "id": "southeast-asia-exclusives-pokemon",
@@ -804,10 +819,10 @@
         "variants_count": 175,
         "sealed_count": 0,
         "release_date": "2023-08-05T00:00:00.000Z",
-        "set_value_usd": 575.02,
-        "set_value_change_7d_pct": -0.806636,
-        "set_value_change_30d_pct": -0.806336,
-        "set_value_change_90d_pct": -0.918095
+        "set_value_usd": 570.56,
+        "set_value_change_7d_pct": -0.66581,
+        "set_value_change_30d_pct": 0.290067,
+        "set_value_change_90d_pct": -1.668924
     },
     {
         "id": "sv02-paldea-evolved-pokemon",
@@ -819,10 +834,10 @@
         "variants_count": 2320,
         "sealed_count": 27,
         "release_date": "2023-06-09T00:00:00.000Z",
-        "set_value_usd": 1772.06,
-        "set_value_change_7d_pct": -0.412953,
-        "set_value_change_30d_pct": -6.528014,
-        "set_value_change_90d_pct": -4.707515
+        "set_value_usd": 1729.63,
+        "set_value_change_7d_pct": -0.899531,
+        "set_value_change_30d_pct": -3.530268,
+        "set_value_change_90d_pct": -8.61146
     },
     {
         "id": "sve-scarlet-violet-energies-pokemon",
@@ -834,25 +849,10 @@
         "variants_count": 285,
         "sealed_count": 0,
         "release_date": "2023-03-31T00:00:00.000Z",
-        "set_value_usd": 37.13,
-        "set_value_change_7d_pct": 2.424851,
-        "set_value_change_30d_pct": 2.584972,
-        "set_value_change_90d_pct": 17.512545
-    },
-    {
-        "id": "sv01-scarlet-violet-base-set-pokemon",
-        "name": "SV01: Scarlet & Violet Base Set",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 273,
-        "cards_count": 273,
-        "variants_count": 2296,
-        "sealed_count": 31,
-        "release_date": "2023-03-31T00:00:00.000Z",
-        "set_value_usd": 740.49,
-        "set_value_change_7d_pct": 0.009138,
-        "set_value_change_30d_pct": -2.815267,
-        "set_value_change_90d_pct": 7.669737
+        "set_value_usd": 37.61,
+        "set_value_change_7d_pct": 1.51255,
+        "set_value_change_30d_pct": 4.390965,
+        "set_value_change_90d_pct": 15.203722
     },
     {
         "id": "sv-scarlet-violet-promo-cards-pokemon",
@@ -864,10 +864,25 @@
         "variants_count": 1418,
         "sealed_count": 0,
         "release_date": "2023-03-31T00:00:00.000Z",
-        "set_value_usd": 8293.19,
-        "set_value_change_7d_pct": -0.965098,
-        "set_value_change_30d_pct": 3.68246,
-        "set_value_change_90d_pct": 17.009552
+        "set_value_usd": 8816.12,
+        "set_value_change_7d_pct": 0.720428,
+        "set_value_change_30d_pct": -0.084086,
+        "set_value_change_90d_pct": 8.68917
+    },
+    {
+        "id": "sv01-scarlet-violet-base-set-pokemon",
+        "name": "SV01: Scarlet & Violet Base Set",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 273,
+        "cards_count": 273,
+        "variants_count": 2296,
+        "sealed_count": 31,
+        "release_date": "2023-03-31T00:00:00.000Z",
+        "set_value_usd": 714.63,
+        "set_value_change_7d_pct": -0.583191,
+        "set_value_change_30d_pct": -1.881824,
+        "set_value_change_90d_pct": 9.182821
     },
     {
         "id": "swsh-crown-zenith-galarian-gallery-pokemon",
@@ -879,10 +894,10 @@
         "variants_count": 350,
         "sealed_count": 0,
         "release_date": "2023-01-20T00:00:00.000Z",
-        "set_value_usd": 2183.61,
-        "set_value_change_7d_pct": -0.710883,
-        "set_value_change_30d_pct": -2.597281,
-        "set_value_change_90d_pct": -3.231325
+        "set_value_usd": 2112.33,
+        "set_value_change_7d_pct": -0.817084,
+        "set_value_change_30d_pct": -3.085219,
+        "set_value_change_90d_pct": -3.68828
     },
     {
         "id": "swsh-crown-zenith-pokemon",
@@ -894,10 +909,10 @@
         "variants_count": 1465,
         "sealed_count": 45,
         "release_date": "2023-01-20T00:00:00.000Z",
-        "set_value_usd": 281.51,
-        "set_value_change_7d_pct": -0.383843,
-        "set_value_change_30d_pct": 0.705825,
-        "set_value_change_90d_pct": 26.613003
+        "set_value_usd": 282.66,
+        "set_value_change_7d_pct": 0.048512,
+        "set_value_change_30d_pct": -0.219167,
+        "set_value_change_90d_pct": 24.763756
     },
     {
         "id": "prize-pack-series-cards-pokemon",
@@ -909,10 +924,10 @@
         "variants_count": 5377,
         "sealed_count": 9,
         "release_date": "2022-11-30T00:00:00.000Z",
-        "set_value_usd": 16365.74,
-        "set_value_change_7d_pct": 1.458631,
-        "set_value_change_30d_pct": 6.218526,
-        "set_value_change_90d_pct": 44.468519
+        "set_value_usd": 17132.93,
+        "set_value_change_7d_pct": 1.341425,
+        "set_value_change_30d_pct": 10.454367,
+        "set_value_change_90d_pct": 35.650881
     },
     {
         "id": "swsh12-silver-tempest-trainer-gallery-pokemon",
@@ -924,10 +939,10 @@
         "variants_count": 150,
         "sealed_count": 0,
         "release_date": "2022-11-11T00:00:00.000Z",
-        "set_value_usd": 446.03,
-        "set_value_change_7d_pct": -1.392962,
-        "set_value_change_30d_pct": -1.26694,
-        "set_value_change_90d_pct": -1.166016
+        "set_value_usd": 426.87,
+        "set_value_change_7d_pct": -1.078076,
+        "set_value_change_30d_pct": -4.595812,
+        "set_value_change_90d_pct": -4.737978
     },
     {
         "id": "swsh12-silver-tempest-pokemon",
@@ -939,25 +954,10 @@
         "variants_count": 1845,
         "sealed_count": 28,
         "release_date": "2022-11-11T00:00:00.000Z",
-        "set_value_usd": 958.3,
-        "set_value_change_7d_pct": 0.520539,
-        "set_value_change_30d_pct": 1.737673,
-        "set_value_change_90d_pct": 8.451503
-    },
-    {
-        "id": "swsh11-lost-origin-pokemon",
-        "name": "SWSH11: Lost Origin",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 233,
-        "cards_count": 233,
-        "variants_count": 1910,
-        "sealed_count": 43,
-        "release_date": "2022-09-09T00:00:00.000Z",
-        "set_value_usd": 1415.11,
-        "set_value_change_7d_pct": 0.248015,
-        "set_value_change_30d_pct": -1.337868,
-        "set_value_change_90d_pct": 1.137167
+        "set_value_usd": 945.94,
+        "set_value_change_7d_pct": -0.098077,
+        "set_value_change_30d_pct": 0.234618,
+        "set_value_change_90d_pct": 6.852057
     },
     {
         "id": "swsh11-lost-origin-trainer-gallery-pokemon",
@@ -969,10 +969,25 @@
         "variants_count": 150,
         "sealed_count": 0,
         "release_date": "2022-09-09T00:00:00.000Z",
-        "set_value_usd": 537.61,
-        "set_value_change_7d_pct": 0.035026,
-        "set_value_change_30d_pct": -2.295802,
-        "set_value_change_90d_pct": -5.572624
+        "set_value_usd": 530.63,
+        "set_value_change_7d_pct": 0.42672,
+        "set_value_change_30d_pct": -0.577953,
+        "set_value_change_90d_pct": -4.860652
+    },
+    {
+        "id": "swsh11-lost-origin-pokemon",
+        "name": "SWSH11: Lost Origin",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 233,
+        "cards_count": 233,
+        "variants_count": 1910,
+        "sealed_count": 43,
+        "release_date": "2022-09-09T00:00:00.000Z",
+        "set_value_usd": 1390.52,
+        "set_value_change_7d_pct": -1.07093,
+        "set_value_change_30d_pct": -1.714021,
+        "set_value_change_90d_pct": 0.131797
     },
     {
         "id": "trick-or-trade-booster-bundle-pokemon",
@@ -984,10 +999,10 @@
         "variants_count": 150,
         "sealed_count": 3,
         "release_date": "2022-09-01T00:00:00.000Z",
-        "set_value_usd": 12.67,
-        "set_value_change_7d_pct": 2.325454,
-        "set_value_change_30d_pct": 2.633078,
-        "set_value_change_90d_pct": 12.777537
+        "set_value_usd": 12.72,
+        "set_value_change_7d_pct": 3.071549,
+        "set_value_change_30d_pct": 1.700456,
+        "set_value_change_90d_pct": 54.118129
     },
     {
         "id": "mcdonald-s-promos-2022-pokemon",
@@ -999,10 +1014,10 @@
         "variants_count": 75,
         "sealed_count": 1,
         "release_date": "2022-08-03T00:00:00.000Z",
-        "set_value_usd": 14.69,
-        "set_value_change_7d_pct": -0.620681,
-        "set_value_change_30d_pct": -3.516487,
-        "set_value_change_90d_pct": 18.864847
+        "set_value_usd": 14.5,
+        "set_value_change_7d_pct": 3.374862,
+        "set_value_change_30d_pct": 0.328338,
+        "set_value_change_90d_pct": 16.897717
     },
     {
         "id": "pokemon-go-pokemon",
@@ -1014,25 +1029,10 @@
         "variants_count": 826,
         "sealed_count": 38,
         "release_date": "2022-07-01T00:00:00.000Z",
-        "set_value_usd": 443.23,
-        "set_value_change_7d_pct": 0.073164,
-        "set_value_change_30d_pct": -0.601914,
-        "set_value_change_90d_pct": 2.119794
-    },
-    {
-        "id": "swsh10-astral-radiance-trainer-gallery-pokemon",
-        "name": "SWSH10: Astral Radiance Trainer Gallery",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 30,
-        "cards_count": 30,
-        "variants_count": 150,
-        "sealed_count": 0,
-        "release_date": "2022-05-27T00:00:00.000Z",
-        "set_value_usd": 387.52,
-        "set_value_change_7d_pct": 0.494929,
-        "set_value_change_30d_pct": -2.650697,
-        "set_value_change_90d_pct": -8.489537
+        "set_value_usd": 436.26,
+        "set_value_change_7d_pct": 0.911361,
+        "set_value_change_30d_pct": 1.829241,
+        "set_value_change_90d_pct": 2.284358
     },
     {
         "id": "swsh10-astral-radiance-pokemon",
@@ -1044,10 +1044,25 @@
         "variants_count": 1765,
         "sealed_count": 31,
         "release_date": "2022-05-27T00:00:00.000Z",
-        "set_value_usd": 917.16,
-        "set_value_change_7d_pct": -0.222016,
-        "set_value_change_30d_pct": -0.564899,
-        "set_value_change_90d_pct": 0.023041
+        "set_value_usd": 907.33,
+        "set_value_change_7d_pct": 0.057202,
+        "set_value_change_30d_pct": 2.401688,
+        "set_value_change_90d_pct": 2.687424
+    },
+    {
+        "id": "swsh10-astral-radiance-trainer-gallery-pokemon",
+        "name": "SWSH10: Astral Radiance Trainer Gallery",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 30,
+        "cards_count": 30,
+        "variants_count": 150,
+        "sealed_count": 0,
+        "release_date": "2022-05-27T00:00:00.000Z",
+        "set_value_usd": 372.48,
+        "set_value_change_7d_pct": -1.057319,
+        "set_value_change_30d_pct": -2.762436,
+        "set_value_change_90d_pct": -9.953611
     },
     {
         "id": "battle-academy-2022-pokemon",
@@ -1059,10 +1074,10 @@
         "variants_count": 695,
         "sealed_count": 2,
         "release_date": "2022-04-01T00:00:00.000Z",
-        "set_value_usd": 45.26,
-        "set_value_change_7d_pct": 2.003352,
-        "set_value_change_30d_pct": 14.907936,
-        "set_value_change_90d_pct": 31.871891
+        "set_value_usd": 45.46,
+        "set_value_change_7d_pct": 0.58275,
+        "set_value_change_30d_pct": 18.203432,
+        "set_value_change_90d_pct": 29.272587
     },
     {
         "id": "swsh09-brilliant-stars-pokemon",
@@ -1074,10 +1089,10 @@
         "variants_count": 1690,
         "sealed_count": 29,
         "release_date": "2022-02-25T00:00:00.000Z",
-        "set_value_usd": 775.1,
-        "set_value_change_7d_pct": -0.940422,
-        "set_value_change_30d_pct": -2.88811,
-        "set_value_change_90d_pct": -3.996963
+        "set_value_usd": 750,
+        "set_value_change_7d_pct": -0.818075,
+        "set_value_change_30d_pct": 7.157262,
+        "set_value_change_90d_pct": 8.087718
     },
     {
         "id": "swsh09-brilliant-stars-trainer-gallery-pokemon",
@@ -1089,10 +1104,10 @@
         "variants_count": 150,
         "sealed_count": 0,
         "release_date": "2022-02-25T00:00:00.000Z",
-        "set_value_usd": 636.46,
-        "set_value_change_7d_pct": -1.522076,
-        "set_value_change_30d_pct": -3.316034,
-        "set_value_change_90d_pct": -7.708512
+        "set_value_usd": 638.9,
+        "set_value_change_7d_pct": 1.181878,
+        "set_value_change_30d_pct": 1.550757,
+        "set_value_change_90d_pct": -2.213786
     },
     {
         "id": "swsh08-fusion-strike-pokemon",
@@ -1104,25 +1119,10 @@
         "variants_count": 2566,
         "sealed_count": 33,
         "release_date": "2021-11-12T00:00:00.000Z",
-        "set_value_usd": 2253.67,
-        "set_value_change_7d_pct": -1.350152,
-        "set_value_change_30d_pct": -2.29353,
-        "set_value_change_90d_pct": -3.335269
-    },
-    {
-        "id": "celebrations-classic-collection-pokemon",
-        "name": "Celebrations: Classic Collection",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 25,
-        "cards_count": 25,
-        "variants_count": 125,
-        "sealed_count": 0,
-        "release_date": "2021-10-08T00:00:00.000Z",
-        "set_value_usd": 431.52,
-        "set_value_change_7d_pct": -0.309824,
-        "set_value_change_30d_pct": -4.557404,
-        "set_value_change_90d_pct": -4.790469
+        "set_value_usd": 2229.16,
+        "set_value_change_7d_pct": -0.596335,
+        "set_value_change_30d_pct": -2.446791,
+        "set_value_change_90d_pct": -4.278279
     },
     {
         "id": "celebrations-pokemon",
@@ -1134,10 +1134,25 @@
         "variants_count": 195,
         "sealed_count": 36,
         "release_date": "2021-10-08T00:00:00.000Z",
-        "set_value_usd": 102.33,
-        "set_value_change_7d_pct": 1.24545,
-        "set_value_change_30d_pct": -0.342423,
-        "set_value_change_90d_pct": -7.212905
+        "set_value_usd": 95.08,
+        "set_value_change_7d_pct": -2.706996,
+        "set_value_change_30d_pct": -4.895244,
+        "set_value_change_90d_pct": -10.156498
+    },
+    {
+        "id": "celebrations-classic-collection-pokemon",
+        "name": "Celebrations: Classic Collection",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 25,
+        "cards_count": 25,
+        "variants_count": 125,
+        "sealed_count": 0,
+        "release_date": "2021-10-08T00:00:00.000Z",
+        "set_value_usd": 415.23,
+        "set_value_change_7d_pct": -1.647903,
+        "set_value_change_30d_pct": -5.348606,
+        "set_value_change_90d_pct": -6.951115
     },
     {
         "id": "swsh07-evolving-skies-pokemon",
@@ -1149,10 +1164,10 @@
         "variants_count": 1935,
         "sealed_count": 33,
         "release_date": "2021-08-27T00:00:00.000Z",
-        "set_value_usd": 7773.62,
-        "set_value_change_7d_pct": -0.461516,
-        "set_value_change_30d_pct": -4.449813,
-        "set_value_change_90d_pct": -7.710126
+        "set_value_usd": 7658.02,
+        "set_value_change_7d_pct": -1.287182,
+        "set_value_change_30d_pct": -5.059222,
+        "set_value_change_90d_pct": -8.511438
     },
     {
         "id": "swsh06-chilling-reign-pokemon",
@@ -1164,10 +1179,10 @@
         "variants_count": 1920,
         "sealed_count": 28,
         "release_date": "2021-06-18T00:00:00.000Z",
-        "set_value_usd": 2033.76,
-        "set_value_change_7d_pct": -0.006135,
-        "set_value_change_30d_pct": -0.546213,
-        "set_value_change_90d_pct": 1.003771
+        "set_value_usd": 2007.58,
+        "set_value_change_7d_pct": -0.631092,
+        "set_value_change_30d_pct": -0.738705,
+        "set_value_change_90d_pct": 0.728977
     },
     {
         "id": "swsh05-battle-styles-pokemon",
@@ -1179,25 +1194,10 @@
         "variants_count": 1625,
         "sealed_count": 30,
         "release_date": "2021-03-19T00:00:00.000Z",
-        "set_value_usd": 811.33,
-        "set_value_change_7d_pct": 0.147384,
-        "set_value_change_30d_pct": -1.556155,
-        "set_value_change_90d_pct": -0.899753
-    },
-    {
-        "id": "shining-fates-shiny-vault-pokemon",
-        "name": "Shining Fates: Shiny Vault",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 122,
-        "cards_count": 122,
-        "variants_count": 610,
-        "sealed_count": 0,
-        "release_date": "2021-02-19T00:00:00.000Z",
-        "set_value_usd": 664.58,
-        "set_value_change_7d_pct": 0.829822,
-        "set_value_change_30d_pct": 2.927041,
-        "set_value_change_90d_pct": 8.474917
+        "set_value_usd": 807.79,
+        "set_value_change_7d_pct": 0.161005,
+        "set_value_change_30d_pct": -0.071907,
+        "set_value_change_90d_pct": 1.167879
     },
     {
         "id": "shining-fates-pokemon",
@@ -1209,10 +1209,25 @@
         "variants_count": 670,
         "sealed_count": 28,
         "release_date": "2021-02-19T00:00:00.000Z",
-        "set_value_usd": 91.59,
-        "set_value_change_7d_pct": 2.207248,
-        "set_value_change_30d_pct": 5.681024,
-        "set_value_change_90d_pct": 3.128571
+        "set_value_usd": 91.74,
+        "set_value_change_7d_pct": 2.01325,
+        "set_value_change_30d_pct": 5.635924,
+        "set_value_change_90d_pct": 1.907154
+    },
+    {
+        "id": "shining-fates-shiny-vault-pokemon",
+        "name": "Shining Fates: Shiny Vault",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 122,
+        "cards_count": 122,
+        "variants_count": 610,
+        "sealed_count": 0,
+        "release_date": "2021-02-19T00:00:00.000Z",
+        "set_value_usd": 647.86,
+        "set_value_change_7d_pct": 0.307706,
+        "set_value_change_30d_pct": 0.933896,
+        "set_value_change_90d_pct": 5.912715
     },
     {
         "id": "mcdonald-s-25th-anniversary-promos-pokemon",
@@ -1224,10 +1239,10 @@
         "variants_count": 250,
         "sealed_count": 1,
         "release_date": "2021-02-09T00:00:00.000Z",
-        "set_value_usd": 99.09,
-        "set_value_change_7d_pct": 0.56966,
-        "set_value_change_30d_pct": 4.256853,
-        "set_value_change_90d_pct": 1.792341
+        "set_value_usd": 99.91,
+        "set_value_change_7d_pct": -0.486428,
+        "set_value_change_30d_pct": 5.998994,
+        "set_value_change_90d_pct": 17.608436
     },
     {
         "id": "swsh04-vivid-voltage-pokemon",
@@ -1239,10 +1254,10 @@
         "variants_count": 1810,
         "sealed_count": 27,
         "release_date": "2020-11-13T00:00:00.000Z",
-        "set_value_usd": 576.35,
-        "set_value_change_7d_pct": 0.899615,
-        "set_value_change_30d_pct": 3.595245,
-        "set_value_change_90d_pct": 5.419387
+        "set_value_usd": 560.95,
+        "set_value_change_7d_pct": -2.042292,
+        "set_value_change_30d_pct": 3.606039,
+        "set_value_change_90d_pct": -4.396663
     },
     {
         "id": "champion-s-path-pokemon",
@@ -1254,10 +1269,10 @@
         "variants_count": 735,
         "sealed_count": 17,
         "release_date": "2020-09-25T00:00:00.000Z",
-        "set_value_usd": 530.52,
-        "set_value_change_7d_pct": -1.152442,
-        "set_value_change_30d_pct": -5.864104,
-        "set_value_change_90d_pct": -11.102896
+        "set_value_usd": 495.86,
+        "set_value_change_7d_pct": -3.735127,
+        "set_value_change_30d_pct": -5.346746,
+        "set_value_change_90d_pct": -9.162224
     },
     {
         "id": "swsh03-darkness-ablaze-pokemon",
@@ -1269,10 +1284,10 @@
         "variants_count": 1855,
         "sealed_count": 28,
         "release_date": "2020-08-14T00:00:00.000Z",
-        "set_value_usd": 296.91,
-        "set_value_change_7d_pct": 0.331538,
-        "set_value_change_30d_pct": 4.490749,
-        "set_value_change_90d_pct": 11.570724
+        "set_value_usd": 297.51,
+        "set_value_change_7d_pct": 3.527755,
+        "set_value_change_30d_pct": 11.105441,
+        "set_value_change_90d_pct": 21.742555
     },
     {
         "id": "battle-academy-pokemon",
@@ -1284,10 +1299,10 @@
         "variants_count": 695,
         "sealed_count": 1,
         "release_date": "2020-07-31T00:00:00.000Z",
-        "set_value_usd": 99.5,
-        "set_value_change_7d_pct": 0.652775,
-        "set_value_change_30d_pct": -2.610542,
-        "set_value_change_90d_pct": 64.454537
+        "set_value_usd": 101.33,
+        "set_value_change_7d_pct": 2.157125,
+        "set_value_change_30d_pct": 4.563589,
+        "set_value_change_90d_pct": 9.252236
     },
     {
         "id": "swsh02-rebel-clash-pokemon",
@@ -1299,10 +1314,10 @@
         "variants_count": 1880,
         "sealed_count": 30,
         "release_date": "2020-05-01T00:00:00.000Z",
-        "set_value_usd": 616.96,
-        "set_value_change_7d_pct": 0.562723,
-        "set_value_change_30d_pct": 6.205157,
-        "set_value_change_90d_pct": 13.182327
+        "set_value_usd": 625.43,
+        "set_value_change_7d_pct": -0.282008,
+        "set_value_change_30d_pct": 5.630384,
+        "set_value_change_90d_pct": 18.243656
     },
     {
         "id": "swsh01-sword-shield-base-set-pokemon",
@@ -1314,10 +1329,10 @@
         "variants_count": 2100,
         "sealed_count": 43,
         "release_date": "2020-02-07T00:00:00.000Z",
-        "set_value_usd": 619.06,
-        "set_value_change_7d_pct": 0.807835,
-        "set_value_change_30d_pct": 1.752114,
-        "set_value_change_90d_pct": 2.947613
+        "set_value_usd": 615.12,
+        "set_value_change_7d_pct": -0.309368,
+        "set_value_change_30d_pct": 1.953256,
+        "set_value_change_90d_pct": 2.1562
     },
     {
         "id": "swsh-sword-shield-promo-cards-pokemon",
@@ -1329,10 +1344,10 @@
         "variants_count": 1715,
         "sealed_count": 0,
         "release_date": "2019-11-15T00:00:00.000Z",
-        "set_value_usd": 9987.71,
-        "set_value_change_7d_pct": 0.585516,
-        "set_value_change_30d_pct": 1.686715,
-        "set_value_change_90d_pct": 10.349245
+        "set_value_usd": 9969.02,
+        "set_value_change_7d_pct": 0.036022,
+        "set_value_change_30d_pct": 1.147841,
+        "set_value_change_90d_pct": 6.082639
     },
     {
         "id": "sm-cosmic-eclipse-pokemon",
@@ -1344,10 +1359,10 @@
         "variants_count": 2370,
         "sealed_count": 20,
         "release_date": "2019-11-01T00:00:00.000Z",
-        "set_value_usd": 6881.27,
-        "set_value_change_7d_pct": 0.734614,
-        "set_value_change_30d_pct": 1.532262,
-        "set_value_change_90d_pct": 7.247043
+        "set_value_usd": 6843.71,
+        "set_value_change_7d_pct": -0.236859,
+        "set_value_change_30d_pct": 0.935133,
+        "set_value_change_90d_pct": 5.478654
     },
     {
         "id": "mcdonald-s-promos-2019-pokemon",
@@ -1359,10 +1374,10 @@
         "variants_count": 60,
         "sealed_count": 0,
         "release_date": "2019-10-01T00:00:00.000Z",
-        "set_value_usd": 189.08,
-        "set_value_change_7d_pct": 0.133758,
-        "set_value_change_30d_pct": 0.891797,
-        "set_value_change_90d_pct": 15.743199
+        "set_value_usd": 195.86,
+        "set_value_change_7d_pct": 3.366577,
+        "set_value_change_30d_pct": 3.374729,
+        "set_value_change_90d_pct": 14.258192
     },
     {
         "id": "hidden-fates-shiny-vault-pokemon",
@@ -1374,10 +1389,10 @@
         "variants_count": 470,
         "sealed_count": 0,
         "release_date": "2019-08-23T00:00:00.000Z",
-        "set_value_usd": 3470.4,
-        "set_value_change_7d_pct": 1.344414,
-        "set_value_change_30d_pct": 1.995907,
-        "set_value_change_90d_pct": 4.234052
+        "set_value_usd": 3494.15,
+        "set_value_change_7d_pct": 0.71065,
+        "set_value_change_30d_pct": 2.537131,
+        "set_value_change_90d_pct": 5.143723
     },
     {
         "id": "hidden-fates-pokemon",
@@ -1389,10 +1404,10 @@
         "variants_count": 670,
         "sealed_count": 18,
         "release_date": "2019-08-23T00:00:00.000Z",
-        "set_value_usd": 336.73,
-        "set_value_change_7d_pct": -0.069368,
-        "set_value_change_30d_pct": -0.555166,
-        "set_value_change_90d_pct": 2.174938
+        "set_value_usd": 332.55,
+        "set_value_change_7d_pct": -0.435789,
+        "set_value_change_30d_pct": 1.803284,
+        "set_value_change_90d_pct": -2.276354
     },
     {
         "id": "sm-unified-minds-pokemon",
@@ -1404,10 +1419,10 @@
         "variants_count": 2350,
         "sealed_count": 24,
         "release_date": "2019-08-02T00:00:00.000Z",
-        "set_value_usd": 5214.43,
-        "set_value_change_7d_pct": 0.939188,
-        "set_value_change_30d_pct": 4.23807,
-        "set_value_change_90d_pct": 12.372997
+        "set_value_usd": 5273.02,
+        "set_value_change_7d_pct": 0.689611,
+        "set_value_change_30d_pct": 3.149211,
+        "set_value_change_90d_pct": 12.462969
     },
     {
         "id": "sm-unbroken-bonds-pokemon",
@@ -1419,10 +1434,10 @@
         "variants_count": 2130,
         "sealed_count": 21,
         "release_date": "2019-05-03T00:00:00.000Z",
-        "set_value_usd": 4489.72,
-        "set_value_change_7d_pct": 0.935686,
-        "set_value_change_30d_pct": 4.470619,
-        "set_value_change_90d_pct": 12.047487
+        "set_value_usd": 4468.75,
+        "set_value_change_7d_pct": 0.211474,
+        "set_value_change_30d_pct": 3.177864,
+        "set_value_change_90d_pct": 13.653321
     },
     {
         "id": "detective-pikachu-pokemon",
@@ -1434,10 +1449,10 @@
         "variants_count": 130,
         "sealed_count": 14,
         "release_date": "2019-04-05T00:00:00.000Z",
-        "set_value_usd": 79.65,
-        "set_value_change_7d_pct": -0.237283,
-        "set_value_change_30d_pct": -7.137247,
-        "set_value_change_90d_pct": 5.765262
+        "set_value_usd": 80.03,
+        "set_value_change_7d_pct": 0.333154,
+        "set_value_change_30d_pct": -1.771381,
+        "set_value_change_90d_pct": 1.64314
     },
     {
         "id": "sm-team-up-pokemon",
@@ -1449,10 +1464,10 @@
         "variants_count": 1870,
         "sealed_count": 24,
         "release_date": "2019-02-01T00:00:00.000Z",
-        "set_value_usd": 12946.76,
-        "set_value_change_7d_pct": 0.339538,
-        "set_value_change_30d_pct": 21.531915,
-        "set_value_change_90d_pct": 22.045974
+        "set_value_usd": 13232.52,
+        "set_value_change_7d_pct": 0.789107,
+        "set_value_change_30d_pct": 4.757807,
+        "set_value_change_90d_pct": 20.499137
     },
     {
         "id": "sm-lost-thunder-pokemon",
@@ -1464,10 +1479,10 @@
         "variants_count": 2125,
         "sealed_count": 20,
         "release_date": "2018-11-02T00:00:00.000Z",
-        "set_value_usd": 3334.52,
-        "set_value_change_7d_pct": 0.676803,
-        "set_value_change_30d_pct": 12.107518,
-        "set_value_change_90d_pct": 22.01241
+        "set_value_usd": 3385.03,
+        "set_value_change_7d_pct": 0.843263,
+        "set_value_change_30d_pct": 2.684591,
+        "set_value_change_90d_pct": 22.316313
     },
     {
         "id": "mcdonald-s-promos-2018-pokemon",
@@ -1479,10 +1494,10 @@
         "variants_count": 60,
         "sealed_count": 0,
         "release_date": "2018-11-02T00:00:00.000Z",
-        "set_value_usd": 349.92,
-        "set_value_change_7d_pct": 0.285388,
-        "set_value_change_30d_pct": 5.053921,
-        "set_value_change_90d_pct": 29.524597
+        "set_value_usd": 351.51,
+        "set_value_change_7d_pct": -0.098803,
+        "set_value_change_30d_pct": 4.471343,
+        "set_value_change_90d_pct": 17.776605
     },
     {
         "id": "dragon-majesty-pokemon",
@@ -1494,10 +1509,10 @@
         "variants_count": 690,
         "sealed_count": 9,
         "release_date": "2018-09-07T00:00:00.000Z",
-        "set_value_usd": 974.87,
-        "set_value_change_7d_pct": 0.021353,
-        "set_value_change_30d_pct": 17.429664,
-        "set_value_change_90d_pct": 33.68447
+        "set_value_usd": 977.85,
+        "set_value_change_7d_pct": 0.506226,
+        "set_value_change_30d_pct": 1.734746,
+        "set_value_change_90d_pct": 23.458823
     },
     {
         "id": "sm-celestial-storm-pokemon",
@@ -1509,10 +1524,10 @@
         "variants_count": 1680,
         "sealed_count": 23,
         "release_date": "2018-08-03T00:00:00.000Z",
-        "set_value_usd": 2299.56,
-        "set_value_change_7d_pct": 2.345501,
-        "set_value_change_30d_pct": 14.425225,
-        "set_value_change_90d_pct": 35.326057
+        "set_value_usd": 2291.45,
+        "set_value_change_7d_pct": -0.53808,
+        "set_value_change_30d_pct": -2.437831,
+        "set_value_change_90d_pct": 33.367993
     },
     {
         "id": "world-championship-decks-pokemon",
@@ -1524,10 +1539,10 @@
         "variants_count": 10134,
         "sealed_count": 37,
         "release_date": "2018-07-01T00:00:00.000Z",
-        "set_value_usd": 9687.36,
-        "set_value_change_7d_pct": 29.000642,
-        "set_value_change_30d_pct": 36.743461,
-        "set_value_change_90d_pct": 87.108661
+        "set_value_usd": 9957.02,
+        "set_value_change_7d_pct": 1.759966,
+        "set_value_change_30d_pct": 56.239059,
+        "set_value_change_90d_pct": 91.246206
     },
     {
         "id": "sm-forbidden-light-pokemon",
@@ -1539,10 +1554,10 @@
         "variants_count": 1315,
         "sealed_count": 20,
         "release_date": "2018-05-04T00:00:00.000Z",
-        "set_value_usd": 1553.38,
-        "set_value_change_7d_pct": 0.080873,
-        "set_value_change_30d_pct": 14.679556,
-        "set_value_change_90d_pct": 22.491995
+        "set_value_usd": 1556.94,
+        "set_value_change_7d_pct": 0.062134,
+        "set_value_change_30d_pct": 1.987167,
+        "set_value_change_90d_pct": 18.265579
     },
     {
         "id": "sm-trainer-kit-alolan-sandslash-alolan-ninetales-pokemon",
@@ -1554,10 +1569,10 @@
         "variants_count": 300,
         "sealed_count": 2,
         "release_date": "2018-04-06T00:00:00.000Z",
-        "set_value_usd": 71.18,
-        "set_value_change_7d_pct": 3.936047,
-        "set_value_change_30d_pct": 9.926042,
-        "set_value_change_90d_pct": 92.352037
+        "set_value_usd": 72.27,
+        "set_value_change_7d_pct": 2.273308,
+        "set_value_change_30d_pct": 9.818409,
+        "set_value_change_90d_pct": 23.595204
     },
     {
         "id": "sm-ultra-prism-pokemon",
@@ -1569,10 +1584,10 @@
         "variants_count": 1570,
         "sealed_count": 22,
         "release_date": "2018-02-02T00:00:00.000Z",
-        "set_value_usd": 2543.39,
-        "set_value_change_7d_pct": -0.168998,
-        "set_value_change_30d_pct": 14.782496,
-        "set_value_change_90d_pct": 27.29529
+        "set_value_usd": 2523.24,
+        "set_value_change_7d_pct": 0.178463,
+        "set_value_change_30d_pct": -0.448374,
+        "set_value_change_90d_pct": 23.141662
     },
     {
         "id": "mcdonald-s-promos-2017-pokemon",
@@ -1584,10 +1599,10 @@
         "variants_count": 60,
         "sealed_count": 0,
         "release_date": "2017-11-07T00:00:00.000Z",
-        "set_value_usd": 105.63,
-        "set_value_change_7d_pct": -1.656959,
-        "set_value_change_30d_pct": 3.47547,
-        "set_value_change_90d_pct": 14.773089
+        "set_value_usd": 102.41,
+        "set_value_change_7d_pct": 1.071465,
+        "set_value_change_30d_pct": 0.008929,
+        "set_value_change_90d_pct": 6.286251
     },
     {
         "id": "sm-crimson-invasion-pokemon",
@@ -1599,10 +1614,10 @@
         "variants_count": 1160,
         "sealed_count": 21,
         "release_date": "2017-11-03T00:00:00.000Z",
-        "set_value_usd": 576.78,
-        "set_value_change_7d_pct": 4.298682,
-        "set_value_change_30d_pct": 7.094898,
-        "set_value_change_90d_pct": 17.266975
+        "set_value_usd": 583.72,
+        "set_value_change_7d_pct": 1.167454,
+        "set_value_change_30d_pct": 6.751399,
+        "set_value_change_90d_pct": 17.57291
     },
     {
         "id": "shining-legends-pokemon",
@@ -1614,10 +1629,10 @@
         "variants_count": 735,
         "sealed_count": 14,
         "release_date": "2017-10-06T00:00:00.000Z",
-        "set_value_usd": 1626.9,
-        "set_value_change_7d_pct": -0.179384,
-        "set_value_change_30d_pct": 1.137637,
-        "set_value_change_90d_pct": 8.346372
+        "set_value_usd": 1643.82,
+        "set_value_change_7d_pct": 0.573888,
+        "set_value_change_30d_pct": 0.798508,
+        "set_value_change_90d_pct": 5.768191
     },
     {
         "id": "sm-burning-shadows-pokemon",
@@ -1629,10 +1644,10 @@
         "variants_count": 1520,
         "sealed_count": 26,
         "release_date": "2017-08-04T00:00:00.000Z",
-        "set_value_usd": 1898.83,
-        "set_value_change_7d_pct": -0.012945,
-        "set_value_change_30d_pct": 2.894475,
-        "set_value_change_90d_pct": 20.595766
+        "set_value_usd": 1906.35,
+        "set_value_change_7d_pct": 0.447215,
+        "set_value_change_30d_pct": 1.312525,
+        "set_value_change_90d_pct": 17.607197
     },
     {
         "id": "sm-guardians-rising-pokemon",
@@ -1644,10 +1659,10 @@
         "variants_count": 1600,
         "sealed_count": 40,
         "release_date": "2017-05-05T00:00:00.000Z",
-        "set_value_usd": 1192.9,
-        "set_value_change_7d_pct": 0.777865,
-        "set_value_change_30d_pct": 3.036571,
-        "set_value_change_90d_pct": 10.674753
+        "set_value_usd": 1204.53,
+        "set_value_change_7d_pct": 0.602565,
+        "set_value_change_30d_pct": 3.91098,
+        "set_value_change_90d_pct": 9.886522
     },
     {
         "id": "sm-trainer-kit-lycanroc-alolan-raichu-pokemon",
@@ -1659,10 +1674,10 @@
         "variants_count": 305,
         "sealed_count": 1,
         "release_date": "2017-04-21T00:00:00.000Z",
-        "set_value_usd": 16.46,
-        "set_value_change_7d_pct": 150.868469,
-        "set_value_change_30d_pct": 157.219824,
-        "set_value_change_90d_pct": 58.144733
+        "set_value_usd": 16.78,
+        "set_value_change_7d_pct": 1.871067,
+        "set_value_change_30d_pct": 153.364428,
+        "set_value_change_90d_pct": 47.171955
     },
     {
         "id": "sm-base-set-pokemon",
@@ -1674,10 +1689,10 @@
         "variants_count": 1595,
         "sealed_count": 32,
         "release_date": "2017-02-03T00:00:00.000Z",
-        "set_value_usd": 711.97,
-        "set_value_change_7d_pct": -0.820568,
-        "set_value_change_30d_pct": -1.498893,
-        "set_value_change_90d_pct": 1.168532
+        "set_value_usd": 700.1,
+        "set_value_change_7d_pct": -0.340907,
+        "set_value_change_30d_pct": -2.208728,
+        "set_value_change_90d_pct": -0.055082
     },
     {
         "id": "sm-promos-pokemon",
@@ -1689,10 +1704,10 @@
         "variants_count": 1685,
         "sealed_count": 0,
         "release_date": "2016-12-14T00:00:00.000Z",
-        "set_value_usd": 14943.71,
-        "set_value_change_7d_pct": 0.309493,
-        "set_value_change_30d_pct": 2.58848,
-        "set_value_change_90d_pct": 9.593217
+        "set_value_usd": 13469.22,
+        "set_value_change_7d_pct": 0.517628,
+        "set_value_change_30d_pct": 3.162096,
+        "set_value_change_90d_pct": 9.933068
     },
     {
         "id": "xy-evolutions-pokemon",
@@ -1704,25 +1719,25 @@
         "variants_count": 1115,
         "sealed_count": 36,
         "release_date": "2016-11-02T00:00:00.000Z",
-        "set_value_usd": 951.8,
-        "set_value_change_7d_pct": 1.697343,
-        "set_value_change_30d_pct": 21.805294,
-        "set_value_change_90d_pct": 17.352165
+        "set_value_usd": 954.47,
+        "set_value_change_7d_pct": 0.941042,
+        "set_value_change_30d_pct": 19.380903,
+        "set_value_change_90d_pct": 20.80579
     },
     {
         "id": "deck-exclusives-pokemon",
         "name": "Deck Exclusives",
         "game_id": "pokemon",
         "game": "Pokemon",
-        "count": 542,
-        "cards_count": 542,
-        "variants_count": 2622,
+        "count": 547,
+        "cards_count": 547,
+        "variants_count": 2779,
         "sealed_count": 0,
         "release_date": "2016-09-01T00:00:00.000Z",
-        "set_value_usd": 4377.74,
-        "set_value_change_7d_pct": 3.250406,
-        "set_value_change_30d_pct": 19.399047,
-        "set_value_change_90d_pct": 46.226533
+        "set_value_usd": 4751.82,
+        "set_value_change_7d_pct": 61.281037,
+        "set_value_change_30d_pct": 405.254063,
+        "set_value_change_90d_pct": 437.265814
     },
     {
         "id": "mcdonald-s-promos-2016-pokemon",
@@ -1734,10 +1749,10 @@
         "variants_count": 60,
         "sealed_count": 0,
         "release_date": "2016-08-05T00:00:00.000Z",
-        "set_value_usd": 1376.58,
-        "set_value_change_7d_pct": 0.186158,
-        "set_value_change_30d_pct": 0.486878,
-        "set_value_change_90d_pct": 4.316606
+        "set_value_usd": 1304.24,
+        "set_value_change_7d_pct": -0.703924,
+        "set_value_change_30d_pct": 0.172489,
+        "set_value_change_90d_pct": 5.386527
     },
     {
         "id": "xy-steam-siege-pokemon",
@@ -1749,25 +1764,25 @@
         "variants_count": 1135,
         "sealed_count": 26,
         "release_date": "2016-08-03T00:00:00.000Z",
-        "set_value_usd": 487.88,
-        "set_value_change_7d_pct": 0.718393,
-        "set_value_change_30d_pct": 1.51523,
-        "set_value_change_90d_pct": 5.412846
+        "set_value_usd": 488.87,
+        "set_value_change_7d_pct": -0.327519,
+        "set_value_change_30d_pct": 1.80409,
+        "set_value_change_90d_pct": 4.000179
     },
     {
         "id": "league-championship-cards-pokemon",
         "name": "League & Championship Cards",
         "game_id": "pokemon",
         "game": "Pokemon",
-        "count": 622,
-        "cards_count": 622,
-        "variants_count": 3155,
+        "count": 623,
+        "cards_count": 623,
+        "variants_count": 3160,
         "sealed_count": 0,
         "release_date": "2016-06-01T00:00:00.000Z",
-        "set_value_usd": 32488.61,
-        "set_value_change_7d_pct": 0.999686,
-        "set_value_change_30d_pct": 9.939807,
-        "set_value_change_90d_pct": 56.569631
+        "set_value_usd": 32750.95,
+        "set_value_change_7d_pct": 0.78476,
+        "set_value_change_30d_pct": 6.439986,
+        "set_value_change_90d_pct": 27.06542
     },
     {
         "id": "xy-fates-collide-pokemon",
@@ -1779,10 +1794,10 @@
         "variants_count": 1195,
         "sealed_count": 25,
         "release_date": "2016-05-02T00:00:00.000Z",
-        "set_value_usd": 962.8,
-        "set_value_change_7d_pct": 0.891502,
-        "set_value_change_30d_pct": 2.106931,
-        "set_value_change_90d_pct": 7.901788
+        "set_value_usd": 971.09,
+        "set_value_change_7d_pct": 1.170242,
+        "set_value_change_30d_pct": 4.439619,
+        "set_value_change_90d_pct": 5.687485
     },
     {
         "id": "xy-trainer-kit-pikachu-libre-suicune-pokemon",
@@ -1794,10 +1809,10 @@
         "variants_count": 305,
         "sealed_count": 1,
         "release_date": "2016-04-27T00:00:00.000Z",
-        "set_value_usd": 123.25,
-        "set_value_change_7d_pct": 0.197012,
-        "set_value_change_30d_pct": 4.920596,
-        "set_value_change_90d_pct": 49.289109
+        "set_value_usd": 124.4,
+        "set_value_change_7d_pct": 0.243346,
+        "set_value_change_30d_pct": 5.97413,
+        "set_value_change_90d_pct": 47.17225
     },
     {
         "id": "generations-radiant-collection-pokemon",
@@ -1809,10 +1824,10 @@
         "variants_count": 160,
         "sealed_count": 0,
         "release_date": "2016-02-22T00:00:00.000Z",
-        "set_value_usd": 1236.14,
-        "set_value_change_7d_pct": -0.491986,
-        "set_value_change_30d_pct": 0.098392,
-        "set_value_change_90d_pct": -5.200404
+        "set_value_usd": 1230.71,
+        "set_value_change_7d_pct": -0.13513,
+        "set_value_change_30d_pct": 0.042266,
+        "set_value_change_90d_pct": -5.735127
     },
     {
         "id": "generations-pokemon",
@@ -1824,10 +1839,10 @@
         "variants_count": 850,
         "sealed_count": 18,
         "release_date": "2016-02-22T00:00:00.000Z",
-        "set_value_usd": 875.05,
-        "set_value_change_7d_pct": 1.953474,
-        "set_value_change_30d_pct": 2.434405,
-        "set_value_change_90d_pct": 10.847515
+        "set_value_usd": 887.46,
+        "set_value_change_7d_pct": 1.181856,
+        "set_value_change_30d_pct": 4.342338,
+        "set_value_change_90d_pct": 11.222786
     },
     {
         "id": "xy-breakpoint-pokemon",
@@ -1839,10 +1854,10 @@
         "variants_count": 1170,
         "sealed_count": 18,
         "release_date": "2016-02-03T00:00:00.000Z",
-        "set_value_usd": 1283.05,
-        "set_value_change_7d_pct": 1.180506,
-        "set_value_change_30d_pct": 9.881255,
-        "set_value_change_90d_pct": 17.858166
+        "set_value_usd": 1294.47,
+        "set_value_change_7d_pct": 0.770849,
+        "set_value_change_30d_pct": 8.59662,
+        "set_value_change_90d_pct": 16.338685
     },
     {
         "id": "mcdonald-s-promos-2015-pokemon",
@@ -1854,10 +1869,10 @@
         "variants_count": 60,
         "sealed_count": 0,
         "release_date": "2015-11-23T00:00:00.000Z",
-        "set_value_usd": 266.81,
-        "set_value_change_7d_pct": 1.015965,
-        "set_value_change_30d_pct": 15.497433,
-        "set_value_change_90d_pct": 62.702551
+        "set_value_usd": 281.93,
+        "set_value_change_7d_pct": 0.086404,
+        "set_value_change_30d_pct": 20.331096,
+        "set_value_change_90d_pct": 70.756371
     },
     {
         "id": "xy-breakthrough-pokemon",
@@ -1869,10 +1884,10 @@
         "variants_count": 1650,
         "sealed_count": 35,
         "release_date": "2015-11-04T00:00:00.000Z",
-        "set_value_usd": 1687.02,
-        "set_value_change_7d_pct": 1.812547,
-        "set_value_change_30d_pct": 7.180678,
-        "set_value_change_90d_pct": 18.018394
+        "set_value_usd": 1714.51,
+        "set_value_change_7d_pct": 1.41773,
+        "set_value_change_30d_pct": 6.583631,
+        "set_value_change_90d_pct": 18.382144
     },
     {
         "id": "xy-ancient-origins-pokemon",
@@ -1884,10 +1899,10 @@
         "variants_count": 940,
         "sealed_count": 18,
         "release_date": "2015-08-12T00:00:00.000Z",
-        "set_value_usd": 3598.42,
-        "set_value_change_7d_pct": 2.642228,
-        "set_value_change_30d_pct": 10.2823,
-        "set_value_change_90d_pct": 12.439368
+        "set_value_usd": 3540.5,
+        "set_value_change_7d_pct": 1.27055,
+        "set_value_change_30d_pct": 4.768309,
+        "set_value_change_90d_pct": 10.324034
     },
     {
         "id": "xy-roaring-skies-pokemon",
@@ -1899,10 +1914,10 @@
         "variants_count": 1060,
         "sealed_count": 19,
         "release_date": "2015-05-06T00:00:00.000Z",
-        "set_value_usd": 1943.72,
-        "set_value_change_7d_pct": 3.189852,
-        "set_value_change_30d_pct": 6.11366,
-        "set_value_change_90d_pct": 27.438654
+        "set_value_usd": 2057.04,
+        "set_value_change_7d_pct": 5.436659,
+        "set_value_change_30d_pct": 12.632814,
+        "set_value_change_90d_pct": 33.95231
     },
     {
         "id": "xy-trainer-kit-latias-latios-pokemon",
@@ -1914,10 +1929,10 @@
         "variants_count": 305,
         "sealed_count": 1,
         "release_date": "2015-04-29T00:00:00.000Z",
-        "set_value_usd": 49.25,
-        "set_value_change_7d_pct": 4.088528,
-        "set_value_change_30d_pct": 9.232144,
-        "set_value_change_90d_pct": 48.475525
+        "set_value_usd": 48.84,
+        "set_value_change_7d_pct": 2.122707,
+        "set_value_change_30d_pct": 11.30148,
+        "set_value_change_90d_pct": 52.819134
     },
     {
         "id": "jumbo-cards-pokemon",
@@ -1929,10 +1944,10 @@
         "variants_count": 1725,
         "sealed_count": 0,
         "release_date": "2015-04-01T00:00:00.000Z",
-        "set_value_usd": 8988.18,
-        "set_value_change_7d_pct": 0.180598,
-        "set_value_change_30d_pct": 5.582627,
-        "set_value_change_90d_pct": 9.006893
+        "set_value_usd": 9220.73,
+        "set_value_change_7d_pct": 0.385471,
+        "set_value_change_30d_pct": 1.434072,
+        "set_value_change_90d_pct": 7.113599
     },
     {
         "id": "double-crisis-pokemon",
@@ -1944,10 +1959,10 @@
         "variants_count": 330,
         "sealed_count": 3,
         "release_date": "2015-03-25T00:00:00.000Z",
-        "set_value_usd": 1417.9,
-        "set_value_change_7d_pct": -0.107146,
-        "set_value_change_30d_pct": 5.126838,
-        "set_value_change_90d_pct": 15.674645
+        "set_value_usd": 1451.86,
+        "set_value_change_7d_pct": -0.355586,
+        "set_value_change_30d_pct": 3.789843,
+        "set_value_change_90d_pct": 18.416744
     },
     {
         "id": "xy-primal-clash-pokemon",
@@ -1959,10 +1974,10 @@
         "variants_count": 1550,
         "sealed_count": 18,
         "release_date": "2015-02-04T00:00:00.000Z",
-        "set_value_usd": 2224.5,
-        "set_value_change_7d_pct": 0.285917,
-        "set_value_change_30d_pct": 3.090218,
-        "set_value_change_90d_pct": 14.718226
+        "set_value_usd": 2246.94,
+        "set_value_change_7d_pct": 0.484964,
+        "set_value_change_30d_pct": 2.834947,
+        "set_value_change_90d_pct": 12.391467
     },
     {
         "id": "xy-trainer-kit-bisharp-wigglytuff-pokemon",
@@ -1974,10 +1989,10 @@
         "variants_count": 305,
         "sealed_count": 1,
         "release_date": "2014-11-14T00:00:00.000Z",
-        "set_value_usd": 231.31,
-        "set_value_change_7d_pct": 0.255421,
-        "set_value_change_30d_pct": 39.899139,
-        "set_value_change_90d_pct": 51.935272
+        "set_value_usd": 250.56,
+        "set_value_change_7d_pct": 17.735828,
+        "set_value_change_30d_pct": 45.84751,
+        "set_value_change_90d_pct": 146.305051
     },
     {
         "id": "xy-phantom-forces-pokemon",
@@ -1989,10 +2004,10 @@
         "variants_count": 1195,
         "sealed_count": 19,
         "release_date": "2014-11-05T00:00:00.000Z",
-        "set_value_usd": 3011.04,
-        "set_value_change_7d_pct": 2.553236,
-        "set_value_change_30d_pct": 2.933881,
-        "set_value_change_90d_pct": 4.932017
+        "set_value_usd": 3044.74,
+        "set_value_change_7d_pct": 0.582534,
+        "set_value_change_30d_pct": 6.340575,
+        "set_value_change_90d_pct": 5.86116
     },
     {
         "id": "xy-furious-fists-pokemon",
@@ -2004,10 +2019,10 @@
         "variants_count": 1150,
         "sealed_count": 25,
         "release_date": "2014-08-13T00:00:00.000Z",
-        "set_value_usd": 1059.6,
-        "set_value_change_7d_pct": -0.528686,
-        "set_value_change_30d_pct": -0.085754,
-        "set_value_change_90d_pct": 7.979137
+        "set_value_usd": 1077.78,
+        "set_value_change_7d_pct": 1.24597,
+        "set_value_change_30d_pct": -0.452975,
+        "set_value_change_90d_pct": 7.240453
     },
     {
         "id": "mcdonald-s-promos-2014-pokemon",
@@ -2019,10 +2034,10 @@
         "variants_count": 60,
         "sealed_count": 0,
         "release_date": "2014-05-23T00:00:00.000Z",
-        "set_value_usd": 209.39,
-        "set_value_change_7d_pct": 0.756758,
-        "set_value_change_30d_pct": 4.078744,
-        "set_value_change_90d_pct": 23.940866
+        "set_value_usd": 215.07,
+        "set_value_change_7d_pct": 2.983934,
+        "set_value_change_30d_pct": 6.190569,
+        "set_value_change_90d_pct": 26.647432
     },
     {
         "id": "xy-flashfire-pokemon",
@@ -2034,10 +2049,10 @@
         "variants_count": 1085,
         "sealed_count": 21,
         "release_date": "2014-05-07T00:00:00.000Z",
-        "set_value_usd": 2946.9,
-        "set_value_change_7d_pct": 0.051963,
-        "set_value_change_30d_pct": 0.604596,
-        "set_value_change_90d_pct": 28.176046
+        "set_value_usd": 2936.52,
+        "set_value_change_7d_pct": -0.207431,
+        "set_value_change_30d_pct": 44.407063,
+        "set_value_change_90d_pct": 1.622885
     },
     {
         "id": "xy-trainer-kit-sylveon-noivern-pokemon",
@@ -2049,10 +2064,10 @@
         "variants_count": 305,
         "sealed_count": 1,
         "release_date": "2014-03-12T00:00:00.000Z",
-        "set_value_usd": 123.09,
-        "set_value_change_7d_pct": 3.748781,
-        "set_value_change_30d_pct": 18.807,
-        "set_value_change_90d_pct": 29.079804
+        "set_value_usd": 146.93,
+        "set_value_change_7d_pct": 265.533872,
+        "set_value_change_30d_pct": 259.405827,
+        "set_value_change_90d_pct": 269.368784
     },
     {
         "id": "xy-base-set-pokemon",
@@ -2064,10 +2079,10 @@
         "variants_count": 1465,
         "sealed_count": 28,
         "release_date": "2014-02-05T00:00:00.000Z",
-        "set_value_usd": 1024.25,
-        "set_value_change_7d_pct": 1.366681,
-        "set_value_change_30d_pct": 8.407945,
-        "set_value_change_90d_pct": 19.500993
+        "set_value_usd": 1018.6,
+        "set_value_change_7d_pct": -0.81863,
+        "set_value_change_30d_pct": 3.170995,
+        "set_value_change_90d_pct": 16.809373
     },
     {
         "id": "xy-promos-pokemon",
@@ -2079,10 +2094,10 @@
         "variants_count": 1345,
         "sealed_count": 0,
         "release_date": "2013-12-16T00:00:00.000Z",
-        "set_value_usd": 19537.85,
-        "set_value_change_7d_pct": 0.508648,
-        "set_value_change_30d_pct": 4.470089,
-        "set_value_change_90d_pct": 22.966055
+        "set_value_usd": 19245.93,
+        "set_value_change_7d_pct": 0.477349,
+        "set_value_change_30d_pct": 5.79321,
+        "set_value_change_90d_pct": 18.489451
     },
     {
         "id": "kalos-starter-set-pokemon",
@@ -2094,25 +2109,10 @@
         "variants_count": 269,
         "sealed_count": 6,
         "release_date": "2013-11-08T00:00:00.000Z",
-        "set_value_usd": 173.57,
-        "set_value_change_7d_pct": -0.914333,
-        "set_value_change_30d_pct": 16.209785,
-        "set_value_change_90d_pct": 23.554493
-    },
-    {
-        "id": "legendary-treasures-pokemon",
-        "name": "Legendary Treasures",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 116,
-        "cards_count": 116,
-        "variants_count": 1085,
-        "sealed_count": 3,
-        "release_date": "2013-11-06T00:00:00.000Z",
-        "set_value_usd": 2449.79,
-        "set_value_change_7d_pct": 0.837092,
-        "set_value_change_30d_pct": 21.626919,
-        "set_value_change_90d_pct": 41.141112
+        "set_value_usd": 179.9,
+        "set_value_change_7d_pct": 2.227123,
+        "set_value_change_30d_pct": 3.443988,
+        "set_value_change_90d_pct": 28.309226
     },
     {
         "id": "legendary-treasures-radiant-collection-pokemon",
@@ -2124,10 +2124,25 @@
         "variants_count": 125,
         "sealed_count": 0,
         "release_date": "2013-11-06T00:00:00.000Z",
-        "set_value_usd": 993.78,
-        "set_value_change_7d_pct": 1.070301,
-        "set_value_change_30d_pct": 6.781513,
-        "set_value_change_90d_pct": 18.570302
+        "set_value_usd": 1009.8,
+        "set_value_change_7d_pct": 0.989744,
+        "set_value_change_30d_pct": 4.910362,
+        "set_value_change_90d_pct": 18.558442
+    },
+    {
+        "id": "legendary-treasures-pokemon",
+        "name": "Legendary Treasures",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 116,
+        "cards_count": 116,
+        "variants_count": 1085,
+        "sealed_count": 3,
+        "release_date": "2013-11-06T00:00:00.000Z",
+        "set_value_usd": 2407.02,
+        "set_value_change_7d_pct": -0.689754,
+        "set_value_change_30d_pct": 2.516944,
+        "set_value_change_90d_pct": 36.844004
     },
     {
         "id": "plasma-blast-pokemon",
@@ -2139,10 +2154,10 @@
         "variants_count": 970,
         "sealed_count": 7,
         "release_date": "2013-08-14T00:00:00.000Z",
-        "set_value_usd": 2737.77,
-        "set_value_change_7d_pct": 0.520889,
-        "set_value_change_30d_pct": 10.755256,
-        "set_value_change_90d_pct": 19.04407
+        "set_value_usd": 2756.03,
+        "set_value_change_7d_pct": 0.814447,
+        "set_value_change_30d_pct": 4.108702,
+        "set_value_change_90d_pct": 19.788161
     },
     {
         "id": "plasma-freeze-pokemon",
@@ -2154,10 +2169,10 @@
         "variants_count": 1115,
         "sealed_count": 5,
         "release_date": "2013-05-08T00:00:00.000Z",
-        "set_value_usd": 6505.62,
-        "set_value_change_7d_pct": 2.082883,
-        "set_value_change_30d_pct": 15.095273,
-        "set_value_change_90d_pct": 31.444443
+        "set_value_usd": 6565.16,
+        "set_value_change_7d_pct": 1.10613,
+        "set_value_change_30d_pct": 7.64641,
+        "set_value_change_90d_pct": 32.70293
     },
     {
         "id": "plasma-storm-pokemon",
@@ -2169,10 +2184,10 @@
         "variants_count": 1300,
         "sealed_count": 5,
         "release_date": "2013-02-06T00:00:00.000Z",
-        "set_value_usd": 5927.12,
-        "set_value_change_7d_pct": 4.627991,
-        "set_value_change_30d_pct": 60.578913,
-        "set_value_change_90d_pct": 146.8319
+        "set_value_usd": 6545.83,
+        "set_value_change_7d_pct": 0.190554,
+        "set_value_change_30d_pct": 72.369709,
+        "set_value_change_90d_pct": 155.250705
     },
     {
         "id": "boundaries-crossed-pokemon",
@@ -2184,10 +2199,10 @@
         "variants_count": 1435,
         "sealed_count": 4,
         "release_date": "2012-11-07T00:00:00.000Z",
-        "set_value_usd": 4452.37,
-        "set_value_change_7d_pct": 0.837899,
-        "set_value_change_30d_pct": 6.755229,
-        "set_value_change_90d_pct": 23.506776
+        "set_value_usd": 4501.53,
+        "set_value_change_7d_pct": 0.70129,
+        "set_value_change_30d_pct": 5.632122,
+        "set_value_change_90d_pct": 18.521858
     },
     {
         "id": "dragon-vault-pokemon",
@@ -2199,10 +2214,10 @@
         "variants_count": 110,
         "sealed_count": 2,
         "release_date": "2012-10-05T00:00:00.000Z",
-        "set_value_usd": 349.47,
-        "set_value_change_7d_pct": 1.486261,
-        "set_value_change_30d_pct": 23.087835,
-        "set_value_change_90d_pct": 42.710026
+        "set_value_usd": 360.86,
+        "set_value_change_7d_pct": 1.071221,
+        "set_value_change_30d_pct": 17.909641,
+        "set_value_change_90d_pct": 40.641494
     },
     {
         "id": "dragons-exalted-pokemon",
@@ -2214,10 +2229,10 @@
         "variants_count": 1205,
         "sealed_count": 2,
         "release_date": "2012-08-15T00:00:00.000Z",
-        "set_value_usd": 4267.31,
-        "set_value_change_7d_pct": 2.98149,
-        "set_value_change_30d_pct": 5.903148,
-        "set_value_change_90d_pct": 20.499783
+        "set_value_usd": 4384.19,
+        "set_value_change_7d_pct": 0.01217,
+        "set_value_change_30d_pct": 7.642488,
+        "set_value_change_90d_pct": 24.261058
     },
     {
         "id": "mcdonald-s-promos-2012-pokemon",
@@ -2229,10 +2244,10 @@
         "variants_count": 60,
         "sealed_count": 0,
         "release_date": "2012-06-15T00:00:00.000Z",
-        "set_value_usd": 133.94,
-        "set_value_change_7d_pct": -0.083128,
-        "set_value_change_30d_pct": 2.079953,
-        "set_value_change_90d_pct": 13.365006
+        "set_value_usd": 133.93,
+        "set_value_change_7d_pct": -0.227676,
+        "set_value_change_30d_pct": 0.132607,
+        "set_value_change_90d_pct": 9.537653
     },
     {
         "id": "dark-explorers-pokemon",
@@ -2244,10 +2259,10 @@
         "variants_count": 1040,
         "sealed_count": 5,
         "release_date": "2012-05-09T00:00:00.000Z",
-        "set_value_usd": 5164.07,
-        "set_value_change_7d_pct": 0.314259,
-        "set_value_change_30d_pct": 8.36159,
-        "set_value_change_90d_pct": 21.384123
+        "set_value_usd": 5319.54,
+        "set_value_change_7d_pct": 0.128731,
+        "set_value_change_30d_pct": 6.407913,
+        "set_value_change_90d_pct": 21.019407
     },
     {
         "id": "next-destinies-pokemon",
@@ -2259,10 +2274,10 @@
         "variants_count": 990,
         "sealed_count": 9,
         "release_date": "2012-02-08T00:00:00.000Z",
-        "set_value_usd": 3091.4,
-        "set_value_change_7d_pct": 7.073291,
-        "set_value_change_30d_pct": 12.096902,
-        "set_value_change_90d_pct": 34.16253
+        "set_value_usd": 3100.67,
+        "set_value_change_7d_pct": -0.567476,
+        "set_value_change_30d_pct": 8.464067,
+        "set_value_change_90d_pct": 33.873382
     },
     {
         "id": "noble-victories-pokemon",
@@ -2274,10 +2289,10 @@
         "variants_count": 1030,
         "sealed_count": 9,
         "release_date": "2011-11-16T00:00:00.000Z",
-        "set_value_usd": 1177.2,
-        "set_value_change_7d_pct": 0.985337,
-        "set_value_change_30d_pct": 8.236974,
-        "set_value_change_90d_pct": 23.746574
+        "set_value_usd": 1186.65,
+        "set_value_change_7d_pct": 1.719302,
+        "set_value_change_30d_pct": 3.881724,
+        "set_value_change_90d_pct": 28.43587
     },
     {
         "id": "bw-trainer-kit-excadrill-zoroark-pokemon",
@@ -2289,10 +2304,10 @@
         "variants_count": 300,
         "sealed_count": 1,
         "release_date": "2011-09-05T00:00:00.000Z",
-        "set_value_usd": 42.97,
-        "set_value_change_7d_pct": -0.411485,
-        "set_value_change_30d_pct": 14.679197,
-        "set_value_change_90d_pct": 31.322113
+        "set_value_usd": 43.99,
+        "set_value_change_7d_pct": 1.19065,
+        "set_value_change_30d_pct": 9.397615,
+        "set_value_change_90d_pct": 46.278418
     },
     {
         "id": "emerging-powers-pokemon",
@@ -2304,10 +2319,10 @@
         "variants_count": 1015,
         "sealed_count": 14,
         "release_date": "2011-08-31T00:00:00.000Z",
-        "set_value_usd": 300.51,
-        "set_value_change_7d_pct": 2.433396,
-        "set_value_change_30d_pct": 12.748012,
-        "set_value_change_90d_pct": 30.252036
+        "set_value_usd": 303.15,
+        "set_value_change_7d_pct": 1.953971,
+        "set_value_change_30d_pct": 10.031201,
+        "set_value_change_90d_pct": 30.803422
     },
     {
         "id": "mcdonald-s-promos-2011-pokemon",
@@ -2319,25 +2334,10 @@
         "variants_count": 60,
         "sealed_count": 0,
         "release_date": "2011-06-17T00:00:00.000Z",
-        "set_value_usd": 103.26,
-        "set_value_change_7d_pct": 0.270337,
-        "set_value_change_30d_pct": 3.13424,
-        "set_value_change_90d_pct": 46.63544
-    },
-    {
-        "id": "black-and-white-promos-pokemon",
-        "name": "Black and White Promos",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 148,
-        "cards_count": 148,
-        "variants_count": 740,
-        "sealed_count": 0,
-        "release_date": "2011-04-25T00:00:00.000Z",
-        "set_value_usd": 12579.35,
-        "set_value_change_7d_pct": 0.224385,
-        "set_value_change_30d_pct": 2.92538,
-        "set_value_change_90d_pct": 22.328612
+        "set_value_usd": 105.37,
+        "set_value_change_7d_pct": 2.13983,
+        "set_value_change_30d_pct": 4.3042,
+        "set_value_change_90d_pct": 17.613989
     },
     {
         "id": "black-and-white-pokemon",
@@ -2349,10 +2349,25 @@
         "variants_count": 1160,
         "sealed_count": 11,
         "release_date": "2011-04-25T00:00:00.000Z",
-        "set_value_usd": 756.79,
-        "set_value_change_7d_pct": 1.503473,
-        "set_value_change_30d_pct": 5.920476,
-        "set_value_change_90d_pct": 18.801795
+        "set_value_usd": 769.91,
+        "set_value_change_7d_pct": 4.462209,
+        "set_value_change_30d_pct": 7.338995,
+        "set_value_change_90d_pct": 23.88363
+    },
+    {
+        "id": "black-and-white-promos-pokemon",
+        "name": "Black and White Promos",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 148,
+        "cards_count": 148,
+        "variants_count": 740,
+        "sealed_count": 0,
+        "release_date": "2011-04-25T00:00:00.000Z",
+        "set_value_usd": 11775.91,
+        "set_value_change_7d_pct": 0.286068,
+        "set_value_change_30d_pct": 2.140027,
+        "set_value_change_90d_pct": 23.10945
     },
     {
         "id": "call-of-legends-pokemon",
@@ -2364,10 +2379,10 @@
         "variants_count": 1005,
         "sealed_count": 3,
         "release_date": "2011-02-09T00:00:00.000Z",
-        "set_value_usd": 10314.47,
-        "set_value_change_7d_pct": 3.127406,
-        "set_value_change_30d_pct": 13.294484,
-        "set_value_change_90d_pct": 71.485247
+        "set_value_usd": 10223.75,
+        "set_value_change_7d_pct": 1.378037,
+        "set_value_change_30d_pct": 18.829683,
+        "set_value_change_90d_pct": 39.305039
     },
     {
         "id": "triumphant-pokemon",
@@ -2379,10 +2394,10 @@
         "variants_count": 970,
         "sealed_count": 2,
         "release_date": "2010-11-03T00:00:00.000Z",
-        "set_value_usd": 4310.22,
-        "set_value_change_7d_pct": 1.803023,
-        "set_value_change_30d_pct": 16.73906,
-        "set_value_change_90d_pct": 57.132676
+        "set_value_usd": 4679.68,
+        "set_value_change_7d_pct": 4.55852,
+        "set_value_change_30d_pct": 21.945675,
+        "set_value_change_90d_pct": 70.715566
     },
     {
         "id": "undaunted-pokemon",
@@ -2394,25 +2409,10 @@
         "variants_count": 855,
         "sealed_count": 2,
         "release_date": "2010-08-18T00:00:00.000Z",
-        "set_value_usd": 5938.03,
-        "set_value_change_7d_pct": 1.284195,
-        "set_value_change_30d_pct": 15.063004,
-        "set_value_change_90d_pct": 49.921712
-    },
-    {
-        "id": "unleashed-pokemon",
-        "name": "Unleashed",
-        "game_id": "pokemon",
-        "game": "Pokemon",
-        "count": 96,
-        "cards_count": 96,
-        "variants_count": 895,
-        "sealed_count": 2,
-        "release_date": "2010-05-12T00:00:00.000Z",
-        "set_value_usd": 3464.34,
-        "set_value_change_7d_pct": 0.422821,
-        "set_value_change_30d_pct": 11.074889,
-        "set_value_change_90d_pct": 45.25461
+        "set_value_usd": 6055.64,
+        "set_value_change_7d_pct": 2.147443,
+        "set_value_change_30d_pct": 12.613018,
+        "set_value_change_90d_pct": 45.533322
     },
     {
         "id": "hgss-trainer-kit-gyarados-raichu-pokemon",
@@ -2424,10 +2424,25 @@
         "variants_count": 300,
         "sealed_count": 1,
         "release_date": "2010-05-12T00:00:00.000Z",
-        "set_value_usd": 215.93,
-        "set_value_change_7d_pct": 0.074447,
-        "set_value_change_30d_pct": 4.628249,
-        "set_value_change_90d_pct": 16.515265
+        "set_value_usd": 221.49,
+        "set_value_change_7d_pct": 2.282799,
+        "set_value_change_30d_pct": 6.369962,
+        "set_value_change_90d_pct": 17.44359
+    },
+    {
+        "id": "unleashed-pokemon",
+        "name": "Unleashed",
+        "game_id": "pokemon",
+        "game": "Pokemon",
+        "count": 96,
+        "cards_count": 96,
+        "variants_count": 895,
+        "sealed_count": 2,
+        "release_date": "2010-05-12T00:00:00.000Z",
+        "set_value_usd": 3647.7,
+        "set_value_change_7d_pct": 5.66156,
+        "set_value_change_30d_pct": 8.997616,
+        "set_value_change_90d_pct": 31.960598
     },
     {
         "id": "heartgold-soulsilver-pokemon",
@@ -2439,10 +2454,10 @@
         "variants_count": 1175,
         "sealed_count": 2,
         "release_date": "2010-02-10T00:00:00.000Z",
-        "set_value_usd": 5063.91,
-        "set_value_change_7d_pct": 2.293018,
-        "set_value_change_30d_pct": 18.266591,
-        "set_value_change_90d_pct": 35.118084
+        "set_value_usd": 5175.25,
+        "set_value_change_7d_pct": 1.201722,
+        "set_value_change_30d_pct": 6.663628,
+        "set_value_change_90d_pct": 34.512169
     },
     {
         "id": "hgss-promos-pokemon",
@@ -2454,10 +2469,10 @@
         "variants_count": 190,
         "sealed_count": 0,
         "release_date": "2010-02-01T00:00:00.000Z",
-        "set_value_usd": 4455.91,
-        "set_value_change_7d_pct": 8.282114,
-        "set_value_change_30d_pct": 88.730578,
-        "set_value_change_90d_pct": 127.965224
+        "set_value_usd": 4652.39,
+        "set_value_change_7d_pct": 0.139479,
+        "set_value_change_30d_pct": 18.684797,
+        "set_value_change_90d_pct": 141.198919
     },
     {
         "id": "rumble-pokemon",
@@ -2469,10 +2484,10 @@
         "variants_count": 80,
         "sealed_count": 0,
         "release_date": "2009-11-16T00:00:00.000Z",
-        "set_value_usd": 4604.41,
-        "set_value_change_7d_pct": 0.195155,
-        "set_value_change_30d_pct": 6.214221,
-        "set_value_change_90d_pct": 9.368472
+        "set_value_usd": 7336.87,
+        "set_value_change_7d_pct": -0.225548,
+        "set_value_change_30d_pct": 397.733415,
+        "set_value_change_90d_pct": 401.149562
     },
     {
         "id": "arceus-pokemon",
@@ -2484,10 +2499,10 @@
         "variants_count": 1020,
         "sealed_count": 11,
         "release_date": "2009-11-04T00:00:00.000Z",
-        "set_value_usd": 3888.09,
-        "set_value_change_7d_pct": 1.110949,
-        "set_value_change_30d_pct": 21.642122,
-        "set_value_change_90d_pct": 62.156291
+        "set_value_usd": 4262.54,
+        "set_value_change_7d_pct": 3.061478,
+        "set_value_change_30d_pct": 13.507344,
+        "set_value_change_90d_pct": 72.389151
     },
     {
         "id": "supreme-victors-pokemon",
@@ -2499,10 +2514,10 @@
         "variants_count": 1465,
         "sealed_count": 3,
         "release_date": "2009-08-19T00:00:00.000Z",
-        "set_value_usd": 5777.99,
-        "set_value_change_7d_pct": 2.830168,
-        "set_value_change_30d_pct": 15.731674,
-        "set_value_change_90d_pct": 61.540655
+        "set_value_usd": 5841.86,
+        "set_value_change_7d_pct": 1.669283,
+        "set_value_change_30d_pct": 9.892429,
+        "set_value_change_90d_pct": 61.160841
     },
     {
         "id": "rising-rivals-pokemon",
@@ -2514,10 +2529,10 @@
         "variants_count": 1110,
         "sealed_count": 2,
         "release_date": "2009-05-16T00:00:00.000Z",
-        "set_value_usd": 5463.29,
-        "set_value_change_7d_pct": 1.562872,
-        "set_value_change_30d_pct": 18.432666,
-        "set_value_change_90d_pct": 39.982548
+        "set_value_usd": 5652.52,
+        "set_value_change_7d_pct": 2.345605,
+        "set_value_change_30d_pct": 13.041205,
+        "set_value_change_90d_pct": 47.229188
     },
     {
         "id": "platinum-pokemon",
@@ -2529,10 +2544,10 @@
         "variants_count": 1270,
         "sealed_count": 8,
         "release_date": "2009-02-11T00:00:00.000Z",
-        "set_value_usd": 3470.62,
-        "set_value_change_7d_pct": 2.281762,
-        "set_value_change_30d_pct": 31.510819,
-        "set_value_change_90d_pct": 54.202125
+        "set_value_usd": 3654.12,
+        "set_value_change_7d_pct": 1.473977,
+        "set_value_change_30d_pct": 11.354697,
+        "set_value_change_90d_pct": 59.467801
     },
     {
         "id": "stormfront-pokemon",
@@ -2544,10 +2559,10 @@
         "variants_count": 1005,
         "sealed_count": 2,
         "release_date": "2008-11-05T00:00:00.000Z",
-        "set_value_usd": 3432.74,
-        "set_value_change_7d_pct": 1.73348,
-        "set_value_change_30d_pct": 17.768942,
-        "set_value_change_90d_pct": 46.343362
+        "set_value_usd": 3356.76,
+        "set_value_change_7d_pct": 3.096295,
+        "set_value_change_30d_pct": 18.706804,
+        "set_value_change_90d_pct": 53.831183
     },
     {
         "id": "countdown-calendar-promos-pokemon",
@@ -2559,10 +2574,10 @@
         "variants_count": 120,
         "sealed_count": 0,
         "release_date": "2008-10-01T00:00:00.000Z",
-        "set_value_usd": 1783.97,
-        "set_value_change_7d_pct": 0,
-        "set_value_change_30d_pct": 5.617986,
-        "set_value_change_90d_pct": 100.037517
+        "set_value_usd": 1830.16,
+        "set_value_change_7d_pct": 10.964498,
+        "set_value_change_30d_pct": 8.841763,
+        "set_value_change_90d_pct": 956.594831
     },
     {
         "id": "legends-awakened-pokemon",
@@ -2574,10 +2589,10 @@
         "variants_count": 1425,
         "sealed_count": 3,
         "release_date": "2008-08-20T00:00:00.000Z",
-        "set_value_usd": 3932.42,
-        "set_value_change_7d_pct": 3.245339,
-        "set_value_change_30d_pct": 56.228058,
-        "set_value_change_90d_pct": 96.084356
+        "set_value_usd": 4129.64,
+        "set_value_change_7d_pct": 5.063897,
+        "set_value_change_30d_pct": 12.816292,
+        "set_value_change_90d_pct": 113.428717
     },
     {
         "id": "majestic-dawn-pokemon",
@@ -2589,10 +2604,10 @@
         "variants_count": 980,
         "sealed_count": 4,
         "release_date": "2008-05-21T00:00:00.000Z",
-        "set_value_usd": 4174.02,
-        "set_value_change_7d_pct": 7.975907,
-        "set_value_change_30d_pct": 29.696114,
-        "set_value_change_90d_pct": 51.038377
+        "set_value_usd": 4059.02,
+        "set_value_change_7d_pct": 2.31693,
+        "set_value_change_30d_pct": 19.799757,
+        "set_value_change_90d_pct": 60.534912
     },
     {
         "id": "great-encounters-pokemon",
@@ -2604,10 +2619,10 @@
         "variants_count": 1040,
         "sealed_count": 2,
         "release_date": "2008-02-13T00:00:00.000Z",
-        "set_value_usd": 2348.89,
-        "set_value_change_7d_pct": 7.101098,
-        "set_value_change_30d_pct": 17.411104,
-        "set_value_change_90d_pct": 42.971196
+        "set_value_usd": 2463.91,
+        "set_value_change_7d_pct": 1.663262,
+        "set_value_change_30d_pct": 13.291947,
+        "set_value_change_90d_pct": 36.606304
     },
     {
         "id": "secret-wonders-pokemon",
@@ -2619,10 +2634,10 @@
         "variants_count": 1310,
         "sealed_count": 2,
         "release_date": "2007-11-07T00:00:00.000Z",
-        "set_value_usd": 3388.35,
-        "set_value_change_7d_pct": 9.470287,
-        "set_value_change_30d_pct": 47.959617,
-        "set_value_change_90d_pct": 109.963835
+        "set_value_usd": 3486.78,
+        "set_value_change_7d_pct": 3.43795,
+        "set_value_change_30d_pct": 23.576036,
+        "set_value_change_90d_pct": 103.789626
     },
     {
         "id": "dp-trainer-kit-manaphy-lucario-pokemon",
@@ -2634,10 +2649,10 @@
         "variants_count": 115,
         "sealed_count": 1,
         "release_date": "2007-09-03T00:00:00.000Z",
-        "set_value_usd": 32.29,
-        "set_value_change_7d_pct": 1.32105,
-        "set_value_change_30d_pct": 8.42005,
-        "set_value_change_90d_pct": 39.224698
+        "set_value_usd": 31.78,
+        "set_value_change_7d_pct": -1.256287,
+        "set_value_change_30d_pct": 5.491687,
+        "set_value_change_90d_pct": 18.24258
     },
     {
         "id": "mysterious-treasures-pokemon",
@@ -2649,10 +2664,10 @@
         "variants_count": 1220,
         "sealed_count": 4,
         "release_date": "2007-08-22T00:00:00.000Z",
-        "set_value_usd": 2013.88,
-        "set_value_change_7d_pct": 5.181218,
-        "set_value_change_30d_pct": 11.648105,
-        "set_value_change_90d_pct": 39.074532
+        "set_value_usd": 2072.33,
+        "set_value_change_7d_pct": 0.486446,
+        "set_value_change_30d_pct": 12.323532,
+        "set_value_change_90d_pct": 35.162845
     },
     {
         "id": "diamond-and-pearl-pokemon",
@@ -2664,10 +2679,10 @@
         "variants_count": 1285,
         "sealed_count": 5,
         "release_date": "2007-05-23T00:00:00.000Z",
-        "set_value_usd": 2287.45,
-        "set_value_change_7d_pct": 0.553622,
-        "set_value_change_30d_pct": 22.748284,
-        "set_value_change_90d_pct": 50.665816
+        "set_value_usd": 2296.27,
+        "set_value_change_7d_pct": 0.809143,
+        "set_value_change_30d_pct": 18.503652,
+        "set_value_change_90d_pct": 37.062964
     },
     {
         "id": "diamond-and-pearl-promos-pokemon",
@@ -2679,10 +2694,10 @@
         "variants_count": 330,
         "sealed_count": 0,
         "release_date": "2007-05-01T00:00:00.000Z",
-        "set_value_usd": 5402.24,
-        "set_value_change_7d_pct": 1.688389,
-        "set_value_change_30d_pct": 30.286448,
-        "set_value_change_90d_pct": 76.941513
+        "set_value_usd": 5418.75,
+        "set_value_change_7d_pct": -1.458609,
+        "set_value_change_30d_pct": 6.54944,
+        "set_value_change_90d_pct": 56.736322
     },
     {
         "id": "ex-power-keepers-pokemon",
@@ -2694,10 +2709,10 @@
         "variants_count": 995,
         "sealed_count": 3,
         "release_date": "2007-02-01T00:00:00.000Z",
-        "set_value_usd": 9231.84,
-        "set_value_change_7d_pct": 0.32362,
-        "set_value_change_30d_pct": 11.855771,
-        "set_value_change_90d_pct": 20.299349
+        "set_value_usd": 10155.87,
+        "set_value_change_7d_pct": 0.155787,
+        "set_value_change_30d_pct": 21.255541,
+        "set_value_change_90d_pct": 48.53685
     },
     {
         "id": "ex-dragon-frontiers-pokemon",
@@ -2709,10 +2724,10 @@
         "variants_count": 950,
         "sealed_count": 3,
         "release_date": "2006-11-08T00:00:00.000Z",
-        "set_value_usd": 11560.23,
-        "set_value_change_7d_pct": 1.911383,
-        "set_value_change_30d_pct": 10.813706,
-        "set_value_change_90d_pct": 39.885667
+        "set_value_usd": 11809.3,
+        "set_value_change_7d_pct": 0.628728,
+        "set_value_change_30d_pct": 6.290848,
+        "set_value_change_90d_pct": 40.622398
     },
     {
         "id": "ex-crystal-guardians-pokemon",
@@ -2724,10 +2739,10 @@
         "variants_count": 945,
         "sealed_count": 2,
         "release_date": "2006-08-30T00:00:00.000Z",
-        "set_value_usd": 9798.13,
-        "set_value_change_7d_pct": 2.387411,
-        "set_value_change_30d_pct": 13.079173,
-        "set_value_change_90d_pct": 35.069468
+        "set_value_usd": 9930.29,
+        "set_value_change_7d_pct": 2.890955,
+        "set_value_change_30d_pct": 8.064813,
+        "set_value_change_90d_pct": 34.63133
     },
     {
         "id": "ex-holon-phantoms-pokemon",
@@ -2739,10 +2754,10 @@
         "variants_count": 1045,
         "sealed_count": 4,
         "release_date": "2006-05-03T00:00:00.000Z",
-        "set_value_usd": 23795.99,
-        "set_value_change_7d_pct": 1.756204,
-        "set_value_change_30d_pct": 1888.605658,
-        "set_value_change_90d_pct": 1911.34339
+        "set_value_usd": 23247.6,
+        "set_value_change_7d_pct": 0.800684,
+        "set_value_change_30d_pct": 6.692431,
+        "set_value_change_90d_pct": 1952.986023
     },
     {
         "id": "ex-legend-maker-pokemon",
@@ -2754,10 +2769,10 @@
         "variants_count": 875,
         "sealed_count": 2,
         "release_date": "2006-02-13T00:00:00.000Z",
-        "set_value_usd": 9401.07,
-        "set_value_change_7d_pct": 1.964951,
-        "set_value_change_30d_pct": 8.833668,
-        "set_value_change_90d_pct": 72.376633
+        "set_value_usd": 9115.1,
+        "set_value_change_7d_pct": 2.164245,
+        "set_value_change_30d_pct": 5.699925,
+        "set_value_change_90d_pct": 75.072105
     },
     {
         "id": "ex-delta-species-pokemon",
@@ -2769,10 +2784,10 @@
         "variants_count": 1105,
         "sealed_count": 4,
         "release_date": "2005-10-31T00:00:00.000Z",
-        "set_value_usd": 16644.85,
-        "set_value_change_7d_pct": 1.664632,
-        "set_value_change_30d_pct": 44.679241,
-        "set_value_change_90d_pct": 118.892724
+        "set_value_usd": 17777.78,
+        "set_value_change_7d_pct": 1.068192,
+        "set_value_change_30d_pct": 35.8252,
+        "set_value_change_90d_pct": 132.871499
     },
     {
         "id": "ex-unseen-forces-pokemon",
@@ -2784,10 +2799,10 @@
         "variants_count": 1225,
         "sealed_count": 4,
         "release_date": "2005-08-22T00:00:00.000Z",
-        "set_value_usd": 20076.56,
-        "set_value_change_7d_pct": 4.474993,
-        "set_value_change_30d_pct": 20.93217,
-        "set_value_change_90d_pct": 46.856449
+        "set_value_usd": 20487.82,
+        "set_value_change_7d_pct": 0.10746,
+        "set_value_change_30d_pct": 10.385161,
+        "set_value_change_90d_pct": 68.638766
     },
     {
         "id": "ex-emerald-pokemon",
@@ -2799,10 +2814,10 @@
         "variants_count": 1110,
         "sealed_count": 4,
         "release_date": "2005-05-09T00:00:00.000Z",
-        "set_value_usd": 10729.44,
-        "set_value_change_7d_pct": 1.026523,
-        "set_value_change_30d_pct": 10.5188,
-        "set_value_change_90d_pct": 26.632762
+        "set_value_usd": 10777.32,
+        "set_value_change_7d_pct": 0.786041,
+        "set_value_change_30d_pct": 3.232142,
+        "set_value_change_90d_pct": 22.132448
     },
     {
         "id": "ex-deoxys-pokemon",
@@ -2814,10 +2829,10 @@
         "variants_count": 1140,
         "sealed_count": 4,
         "release_date": "2005-02-14T00:00:00.000Z",
-        "set_value_usd": 11692.13,
-        "set_value_change_7d_pct": 2.613755,
-        "set_value_change_30d_pct": 26.89499,
-        "set_value_change_90d_pct": 40.416346
+        "set_value_usd": 12097.66,
+        "set_value_change_7d_pct": 3.633129,
+        "set_value_change_30d_pct": 13.158019,
+        "set_value_change_90d_pct": 42.835958
     },
     {
         "id": "ex-team-rocket-returns-pokemon",
@@ -2826,13 +2841,13 @@
         "game": "Pokemon",
         "count": 111,
         "cards_count": 111,
-        "variants_count": 1161,
+        "variants_count": 1165,
         "sealed_count": 2,
         "release_date": "2004-11-01T00:00:00.000Z",
-        "set_value_usd": 33198.95,
-        "set_value_change_7d_pct": 0.464442,
-        "set_value_change_30d_pct": 11.174341,
-        "set_value_change_90d_pct": 43.659929
+        "set_value_usd": 33321,
+        "set_value_change_7d_pct": 0.119251,
+        "set_value_change_30d_pct": 2.416693,
+        "set_value_change_90d_pct": 42.221979
     },
     {
         "id": "ex-battle-stadium-pokemon",
@@ -2844,10 +2859,10 @@
         "variants_count": 245,
         "sealed_count": 3,
         "release_date": "2004-10-18T00:00:00.000Z",
-        "set_value_usd": 222.74,
-        "set_value_change_7d_pct": 54.096617,
-        "set_value_change_30d_pct": 60.212454,
-        "set_value_change_90d_pct": 71.458369
+        "set_value_usd": 239.25,
+        "set_value_change_7d_pct": 7.978813,
+        "set_value_change_30d_pct": 106.545485,
+        "set_value_change_90d_pct": 119.851542
     },
     {
         "id": "ex-firered-leafgreen-pokemon",
@@ -2859,10 +2874,10 @@
         "variants_count": 1235,
         "sealed_count": 4,
         "release_date": "2004-08-30T00:00:00.000Z",
-        "set_value_usd": 10888.24,
-        "set_value_change_7d_pct": 0.078303,
-        "set_value_change_30d_pct": 9.882484,
-        "set_value_change_90d_pct": 36.250543
+        "set_value_usd": 11436.1,
+        "set_value_change_7d_pct": 1.459359,
+        "set_value_change_30d_pct": 3.535262,
+        "set_value_change_90d_pct": 37.229423
     },
     {
         "id": "kids-wb-promos-pokemon",
@@ -2889,10 +2904,10 @@
         "variants_count": 970,
         "sealed_count": 5,
         "release_date": "2004-06-14T00:00:00.000Z",
-        "set_value_usd": 6190.87,
-        "set_value_change_7d_pct": 4.506781,
-        "set_value_change_30d_pct": 13.673601,
-        "set_value_change_90d_pct": 32.280334
+        "set_value_usd": 6323.97,
+        "set_value_change_7d_pct": 1.453636,
+        "set_value_change_30d_pct": 7.78281,
+        "set_value_change_90d_pct": 27.607185
     },
     {
         "id": "ex-team-magma-vs-team-aqua-pokemon",
@@ -2904,10 +2919,10 @@
         "variants_count": 925,
         "sealed_count": 5,
         "release_date": "2004-03-15T00:00:00.000Z",
-        "set_value_usd": 7491.68,
-        "set_value_change_7d_pct": 1.211655,
-        "set_value_change_30d_pct": 32.298399,
-        "set_value_change_90d_pct": 52.997605
+        "set_value_usd": 7548.81,
+        "set_value_change_7d_pct": 0.087825,
+        "set_value_change_30d_pct": 3.853621,
+        "set_value_change_90d_pct": 54.357876
     },
     {
         "id": "ex-dragon-pokemon",
@@ -2919,10 +2934,10 @@
         "variants_count": 940,
         "sealed_count": 3,
         "release_date": "2003-11-24T00:00:00.000Z",
-        "set_value_usd": 7502.33,
-        "set_value_change_7d_pct": 2.034976,
-        "set_value_change_30d_pct": 5.861784,
-        "set_value_change_90d_pct": 38.638357
+        "set_value_usd": 7700.82,
+        "set_value_change_7d_pct": 1.040934,
+        "set_value_change_30d_pct": 7.772687,
+        "set_value_change_90d_pct": 42.539637
     },
     {
         "id": "ex-sandstorm-pokemon",
@@ -2934,10 +2949,10 @@
         "variants_count": 965,
         "sealed_count": 3,
         "release_date": "2003-09-18T00:00:00.000Z",
-        "set_value_usd": 5567.81,
-        "set_value_change_7d_pct": 2.096879,
-        "set_value_change_30d_pct": 10.67416,
-        "set_value_change_90d_pct": 38.064541
+        "set_value_usd": 5775.41,
+        "set_value_change_7d_pct": 1.18807,
+        "set_value_change_30d_pct": 12.273975,
+        "set_value_change_90d_pct": 44.651545
     },
     {
         "id": "ex-ruby-and-sapphire-pokemon",
@@ -2949,10 +2964,10 @@
         "variants_count": 1050,
         "sealed_count": 3,
         "release_date": "2003-06-18T00:00:00.000Z",
-        "set_value_usd": 4285.68,
-        "set_value_change_7d_pct": 1.495417,
-        "set_value_change_30d_pct": 11.788961,
-        "set_value_change_90d_pct": 60.347374
+        "set_value_usd": 4395.84,
+        "set_value_change_7d_pct": 0.73946,
+        "set_value_change_30d_pct": 7.729323,
+        "set_value_change_90d_pct": 63.128028
     },
     {
         "id": "skyridge-pokemon",
@@ -2964,10 +2979,10 @@
         "variants_count": 1660,
         "sealed_count": 3,
         "release_date": "2003-05-12T00:00:00.000Z",
-        "set_value_usd": 36334.55,
-        "set_value_change_7d_pct": 0.537633,
-        "set_value_change_30d_pct": 4.32037,
-        "set_value_change_90d_pct": 15.089389
+        "set_value_usd": 36438.12,
+        "set_value_change_7d_pct": 0.098629,
+        "set_value_change_30d_pct": 2.423327,
+        "set_value_change_90d_pct": 14.380752
     },
     {
         "id": "aquapolis-pokemon",
@@ -2979,10 +2994,10 @@
         "variants_count": 1700,
         "sealed_count": 1,
         "release_date": "2003-01-15T00:00:00.000Z",
-        "set_value_usd": 29790.03,
-        "set_value_change_7d_pct": 0.690655,
-        "set_value_change_30d_pct": 3.786484,
-        "set_value_change_90d_pct": 1075.080161
+        "set_value_usd": 32059.52,
+        "set_value_change_7d_pct": 0.68052,
+        "set_value_change_30d_pct": 4.186318,
+        "set_value_change_90d_pct": 4575.619335
     },
     {
         "id": "best-of-promos-pokemon",
@@ -2994,10 +3009,10 @@
         "variants_count": 75,
         "sealed_count": 0,
         "release_date": "2002-12-01T00:00:00.000Z",
-        "set_value_usd": 3922.03,
-        "set_value_change_7d_pct": 0.010091,
-        "set_value_change_30d_pct": 0.454862,
-        "set_value_change_90d_pct": 51.82918
+        "set_value_usd": 3947.01,
+        "set_value_change_7d_pct": 0.905818,
+        "set_value_change_30d_pct": 1.225701,
+        "set_value_change_90d_pct": 50.287814
     },
     {
         "id": "expedition-pokemon",
@@ -3009,10 +3024,10 @@
         "variants_count": 1620,
         "sealed_count": 3,
         "release_date": "2002-09-15T00:00:00.000Z",
-        "set_value_usd": 19425.82,
-        "set_value_change_7d_pct": 0.65073,
-        "set_value_change_30d_pct": 18.566258,
-        "set_value_change_90d_pct": 68.584602
+        "set_value_usd": 21565.13,
+        "set_value_change_7d_pct": 4.46467,
+        "set_value_change_30d_pct": 9.387257,
+        "set_value_change_90d_pct": 115.34861
     },
     {
         "id": "e-reader-sample-cards-pokemon",
@@ -3039,10 +3054,10 @@
         "variants_count": 1100,
         "sealed_count": 4,
         "release_date": "2002-05-24T00:00:00.000Z",
-        "set_value_usd": 37475.86,
-        "set_value_change_7d_pct": 0.508289,
-        "set_value_change_30d_pct": 56.241763,
-        "set_value_change_90d_pct": 98.429888
+        "set_value_usd": 37713.61,
+        "set_value_change_7d_pct": 0.114041,
+        "set_value_change_30d_pct": 6.532991,
+        "set_value_change_90d_pct": 89.277964
     },
     {
         "id": "neo-destiny-pokemon",
@@ -3054,10 +3069,10 @@
         "variants_count": 1130,
         "sealed_count": 6,
         "release_date": "2002-02-28T00:00:00.000Z",
-        "set_value_usd": 21073.57,
-        "set_value_change_7d_pct": 0.038849,
-        "set_value_change_30d_pct": 0.985248,
-        "set_value_change_90d_pct": 7.118875
+        "set_value_usd": 22150.79,
+        "set_value_change_7d_pct": 0.25943,
+        "set_value_change_30d_pct": 10.109381,
+        "set_value_change_90d_pct": 15.666718
     },
     {
         "id": "neo-revelation-pokemon",
@@ -3069,10 +3084,10 @@
         "variants_count": 660,
         "sealed_count": 3,
         "release_date": "2001-09-21T00:00:00.000Z",
-        "set_value_usd": 6552.92,
-        "set_value_change_7d_pct": 1.417984,
-        "set_value_change_30d_pct": 5.752989,
-        "set_value_change_90d_pct": 18.33419
+        "set_value_usd": 6451.95,
+        "set_value_change_7d_pct": -0.09643,
+        "set_value_change_30d_pct": 1.702979,
+        "set_value_change_90d_pct": 10.222193
     },
     {
         "id": "southern-islands-pokemon",
@@ -3084,10 +3099,10 @@
         "variants_count": 90,
         "sealed_count": 1,
         "release_date": "2001-07-31T00:00:00.000Z",
-        "set_value_usd": 2533.41,
-        "set_value_change_7d_pct": 1.436835,
-        "set_value_change_30d_pct": 15.945089,
-        "set_value_change_90d_pct": 42.430146
+        "set_value_usd": 2647.46,
+        "set_value_change_7d_pct": 0.08845,
+        "set_value_change_30d_pct": 11.695534,
+        "set_value_change_90d_pct": 47.143549
     },
     {
         "id": "neo-discovery-pokemon",
@@ -3099,10 +3114,10 @@
         "variants_count": 750,
         "sealed_count": 5,
         "release_date": "2001-06-01T00:00:00.000Z",
-        "set_value_usd": 5500.57,
-        "set_value_change_7d_pct": 3.167259,
-        "set_value_change_30d_pct": 10.87484,
-        "set_value_change_90d_pct": 37.412054
+        "set_value_usd": 5584.09,
+        "set_value_change_7d_pct": 0.049054,
+        "set_value_change_30d_pct": 14.793708,
+        "set_value_change_90d_pct": 44.843087
     },
     {
         "id": "neo-genesis-pokemon",
@@ -3114,10 +3129,10 @@
         "variants_count": 1110,
         "sealed_count": 6,
         "release_date": "2000-12-16T00:00:00.000Z",
-        "set_value_usd": 5930.71,
-        "set_value_change_7d_pct": -0.67524,
-        "set_value_change_30d_pct": 9.7391,
-        "set_value_change_90d_pct": 23.855702
+        "set_value_usd": 6084.13,
+        "set_value_change_7d_pct": 0.74404,
+        "set_value_change_30d_pct": 11.255115,
+        "set_value_change_90d_pct": 46.104007
     },
     {
         "id": "gym-challenge-pokemon",
@@ -3129,10 +3144,10 @@
         "variants_count": 1325,
         "sealed_count": 8,
         "release_date": "2000-10-16T00:00:00.000Z",
-        "set_value_usd": 7815.59,
-        "set_value_change_7d_pct": 0.2688,
-        "set_value_change_30d_pct": 8.186435,
-        "set_value_change_90d_pct": 52.660611
+        "set_value_usd": 7964.45,
+        "set_value_change_7d_pct": 0.229944,
+        "set_value_change_30d_pct": 3.263298,
+        "set_value_change_90d_pct": 28.207315
     },
     {
         "id": "gym-heroes-pokemon",
@@ -3144,10 +3159,10 @@
         "variants_count": 1320,
         "sealed_count": 8,
         "release_date": "2000-10-14T00:00:00.000Z",
-        "set_value_usd": 5407.82,
-        "set_value_change_7d_pct": 34.589751,
-        "set_value_change_30d_pct": 31.141122,
-        "set_value_change_90d_pct": 35.167819
+        "set_value_usd": 5475.15,
+        "set_value_change_7d_pct": 0.902987,
+        "set_value_change_30d_pct": 64.377412,
+        "set_value_change_90d_pct": 33.397678
     },
     {
         "id": "team-rocket-pokemon",
@@ -3159,10 +3174,10 @@
         "variants_count": 830,
         "sealed_count": 6,
         "release_date": "2000-04-24T00:00:00.000Z",
-        "set_value_usd": 4198.54,
-        "set_value_change_7d_pct": -0.500116,
-        "set_value_change_30d_pct": 1.015139,
-        "set_value_change_90d_pct": 9.15139
+        "set_value_usd": 4244.81,
+        "set_value_change_7d_pct": 1.596993,
+        "set_value_change_30d_pct": 1.134559,
+        "set_value_change_90d_pct": 7.801973
     },
     {
         "id": "base-set-2-pokemon",
@@ -3174,10 +3189,10 @@
         "variants_count": 650,
         "sealed_count": 7,
         "release_date": "2000-02-24T00:00:00.000Z",
-        "set_value_usd": 1691.5,
-        "set_value_change_7d_pct": -0.620212,
-        "set_value_change_30d_pct": 3.872252,
-        "set_value_change_90d_pct": 18.069396
+        "set_value_usd": 1795.95,
+        "set_value_change_7d_pct": 2.17867,
+        "set_value_change_30d_pct": 11.382098,
+        "set_value_change_90d_pct": 19.206075
     },
     {
         "id": "fossil-pokemon",
@@ -3189,10 +3204,10 @@
         "variants_count": 620,
         "sealed_count": 7,
         "release_date": "1999-10-10T00:00:00.000Z",
-        "set_value_usd": 3893.63,
-        "set_value_change_7d_pct": 5.080646,
-        "set_value_change_30d_pct": 9.009688,
-        "set_value_change_90d_pct": 20.778395
+        "set_value_usd": 4135.7,
+        "set_value_change_7d_pct": 4.536234,
+        "set_value_change_30d_pct": 22.296753,
+        "set_value_change_90d_pct": 34.274002
     },
     {
         "id": "wotc-promo-pokemon",
@@ -3204,10 +3219,10 @@
         "variants_count": 350,
         "sealed_count": 1,
         "release_date": "1999-07-01T00:00:00.000Z",
-        "set_value_usd": 9414.57,
-        "set_value_change_7d_pct": 0.394311,
-        "set_value_change_30d_pct": 1.573156,
-        "set_value_change_90d_pct": 23.986399
+        "set_value_usd": 9455.11,
+        "set_value_change_7d_pct": 0.206033,
+        "set_value_change_30d_pct": 1.13284,
+        "set_value_change_90d_pct": 13.156946
     },
     {
         "id": "jungle-pokemon",
@@ -3219,10 +3234,10 @@
         "variants_count": 640,
         "sealed_count": 6,
         "release_date": "1999-06-16T00:00:00.000Z",
-        "set_value_usd": 3564.61,
-        "set_value_change_7d_pct": 5.549413,
-        "set_value_change_30d_pct": 12.826606,
-        "set_value_change_90d_pct": 177.379235
+        "set_value_usd": 3598.88,
+        "set_value_change_7d_pct": 3.180686,
+        "set_value_change_30d_pct": 13.308429,
+        "set_value_change_90d_pct": 32.852009
     },
     {
         "id": "base-set-shadowless-pokemon",
@@ -3234,10 +3249,10 @@
         "variants_count": 1020,
         "sealed_count": 9,
         "release_date": "1999-01-09T00:00:00.000Z",
-        "set_value_usd": 16941.92,
-        "set_value_change_7d_pct": 0.8935,
-        "set_value_change_30d_pct": 2.441233,
-        "set_value_change_90d_pct": 15.095402
+        "set_value_usd": 14757.78,
+        "set_value_change_7d_pct": -0.176185,
+        "set_value_change_30d_pct": 1.852148,
+        "set_value_change_90d_pct": 20.061696
     },
     {
         "id": "base-set-pokemon",
@@ -3249,9 +3264,9 @@
         "variants_count": 515,
         "sealed_count": 7,
         "release_date": "1999-01-09T00:00:00.000Z",
-        "set_value_usd": 2189.81,
-        "set_value_change_7d_pct": 0.120479,
-        "set_value_change_30d_pct": 2.197432,
-        "set_value_change_90d_pct": 6.925958
+        "set_value_usd": 2225.89,
+        "set_value_change_7d_pct": 0.77288,
+        "set_value_change_30d_pct": 2.352409,
+        "set_value_change_90d_pct": 7.779416
     }
 ]
