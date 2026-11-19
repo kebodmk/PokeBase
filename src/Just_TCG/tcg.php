@@ -126,6 +126,7 @@ if (!is_file($setsFile) || !is_readable($setsFile)) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -253,6 +254,7 @@ if (!is_file($setsFile) || !is_readable($setsFile)) {
         }
     </style>
 </head>
+
 <body>
     <h1>Just TCG</h1>
 
@@ -261,22 +263,14 @@ if (!is_file($setsFile) || !is_readable($setsFile)) {
             Update Sets
         </button>
 
-        <p
-            id="update-sets-status"
-            role="status"
-            aria-live="polite"
-        ></p>
+        <p id="update-sets-status" role="status" aria-live="polite"></p>
 
         <p>
             <span id="sets-count"><?= count($sets) ?></span>
             sets loaded.
         </p>
 
-        <p
-            id="sets-file-error"
-            class="error"
-            <?= $setsError === '' ? 'hidden' : '' ?>
-        ><?= escape($setsError) ?></p>
+        <p id="sets-file-error" class="error" <?= $setsError === '' ? 'hidden' : '' ?>><?= escape($setsError) ?></p>
     </section>
 
     <form id="card-form" method="post">
@@ -289,12 +283,9 @@ if (!is_file($setsFile) || !is_readable($setsFile)) {
                 <option value="">-- Select a set --</option>
 
                 <?php foreach ($sets as $set): ?>
-                    <option
-                        value="<?= escape($set['id']) ?>"
-                        <?= $set_input === $set['id']
-                            ? 'selected'
-                            : '' ?>
-                    >
+                    <option value="<?= escape($set['id']) ?>" <?= $set_input === $set['id']
+                          ? 'selected'
+                          : '' ?>>
                         <?= escape($set['name']) ?>
                     </option>
                 <?php endforeach; ?>
@@ -304,25 +295,15 @@ if (!is_file($setsFile) || !is_readable($setsFile)) {
         <div class="field">
             <label for="text2">Set Number</label>
 
-            <input
-                type="text"
-                id="text2"
-                name="text2"
-                value="<?= escape($set_number_input) ?>"
-                placeholder="For example: 4 or 004/102"
-            >
+            <input type="text" id="text2" name="text2" value="<?= escape($set_number_input) ?>"
+                placeholder="For example: 4 or 004/102">
         </div>
 
         <div class="field">
             <label for="text3">Name</label>
 
-            <input
-                type="text"
-                id="text3"
-                name="text3"
-                value="<?= escape($name_input) ?>"
-                placeholder="For example: Charizard"
-            >
+            <input type="text" id="text3" name="text3" value="<?= escape($name_input) ?>"
+                placeholder="For example: Charizard">
         </div>
 
         <details open>
@@ -333,12 +314,9 @@ if (!is_file($setsFile) || !is_readable($setsFile)) {
 
                 <select id="extra1" name="extra1">
                     <?php foreach ($languages as $value => $label): ?>
-                        <option
-                            value="<?= escape($value) ?>"
-                            <?= $language_input === $value
-                                ? 'selected'
-                                : '' ?>
-                        >
+                        <option value="<?= escape($value) ?>" <?= $language_input === $value
+                              ? 'selected'
+                              : '' ?>>
                             <?= escape($label) ?>
                         </option>
                     <?php endforeach; ?>
@@ -349,66 +327,41 @@ if (!is_file($setsFile) || !is_readable($setsFile)) {
                 <label for="card_type">Card Type</label>
 
                 <select id="card_type" name="card_type" required>
-                    <option
-                        value="raw"
-                        <?= $card_type_input === 'raw'
-                            ? 'selected'
-                            : '' ?>
-                    >
+                    <option value="raw" <?= $card_type_input === 'raw'
+                        ? 'selected'
+                        : '' ?>>
                         Raw
                     </option>
 
-                    <option
-                        value="graded"
-                        <?= $card_type_input === 'graded'
-                            ? 'selected'
-                            : '' ?>
-                    >
+                    <option value="graded" <?= $card_type_input === 'graded'
+                        ? 'selected'
+                        : '' ?>>
                         Graded
                     </option>
                 </select>
             </div>
 
-            <div
-                class="field"
-                id="raw-condition-field"
-                <?= $card_type_input === 'graded' ? 'hidden' : '' ?>
-            >
+            <div class="field" id="raw-condition-field" <?= $card_type_input === 'graded' ? 'hidden' : '' ?>>
                 <label for="extra2">Condition</label>
 
-                <select
-                    id="extra2"
-                    name="extra2"
-                    <?= $card_type_input === 'raw'
-                        ? 'required'
-                        : 'disabled' ?>
-                >
+                <select id="extra2" name="extra2" <?= $card_type_input === 'raw'
+                    ? 'required'
+                    : 'disabled' ?>>
                     <?php foreach ($rawConditions as $condition): ?>
-                        <option
-                            value="<?= escape($condition) ?>"
-                            <?= $condition_input === $condition
-                                ? 'selected'
-                                : '' ?>
-                        >
+                        <option value="<?= escape($condition) ?>" <?= $condition_input === $condition
+                              ? 'selected'
+                              : '' ?>>
                             <?= escape($condition) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
             </div>
 
-            <div
-                class="field"
-                id="graded-condition-field"
-                <?= $card_type_input === 'raw' ? 'hidden' : '' ?>
-            >
+            <div class="field" id="graded-condition-field" <?= $card_type_input === 'raw' ? 'hidden' : '' ?>>
                 <label for="graded_variant_id">Grading Option</label>
 
-                <select
-                    id="graded_variant_id"
-                    name="graded_variant_id"
-                    aria-describedby="graded-help"
-                    <?= $card_type_input === 'raw' ? 'disabled' : '' ?>
-                >
+                <select id="graded_variant_id" name="graded_variant_id" aria-describedby="graded-help"
+                    <?= $card_type_input === 'raw' ? 'disabled' : '' ?>>
                     <option value="">
                         -- All available grades --
                     </option>
@@ -428,12 +381,9 @@ if (!is_file($setsFile) || !is_readable($setsFile)) {
                     <option value="">-- Any printing --</option>
 
                     <?php foreach ($printingOptions as $printing): ?>
-                        <option
-                            value="<?= escape($printing) ?>"
-                            <?= $printing_input === $printing
-                                ? 'selected'
-                                : '' ?>
-                        >
+                        <option value="<?= escape($printing) ?>" <?= $printing_input === $printing
+                              ? 'selected'
+                              : '' ?>>
                             <?= escape($printing) ?>
                         </option>
                     <?php endforeach; ?>
@@ -454,11 +404,7 @@ if (!is_file($setsFile) || !is_readable($setsFile)) {
             Queries run only when you press Query Listed Cards.
         </p>
 
-        <p
-            id="add-card-status"
-            role="status"
-            aria-live="polite"
-        ></p>
+        <p id="add-card-status" role="status" aria-live="polite"></p>
     </form>
 
     <noscript>
@@ -516,11 +462,7 @@ if (!is_file($setsFile) || !is_readable($setsFile)) {
     <section>
         <h2>Card Results</h2>
 
-        <p
-            id="card-request-status"
-            role="status"
-            aria-live="polite"
-        ></p>
+        <p id="card-request-status" role="status" aria-live="polite"></p>
 
         <div id="card-results"></div>
     </section>
@@ -749,8 +691,8 @@ if (!is_file($setsFile) || !is_readable($setsFile)) {
 
             gradedHelp.textContent = options.length > 0
                 ? options.length +
-                  " grading option(s) loaded. Choose one and add " +
-                  "a new entry to queue that specific variant."
+                " grading option(s) loaded. Choose one and add " +
+                "a new entry to queue that specific variant."
                 : "No graded choices matched this entry.";
         }
 
@@ -796,8 +738,8 @@ if (!is_file($setsFile) || !is_readable($setsFile)) {
 
             cell.textContent =
                 value === null ||
-                value === undefined ||
-                value === ""
+                    value === undefined ||
+                    value === ""
                     ? "—"
                     : String(value);
 
@@ -1019,14 +961,14 @@ if (!is_file($setsFile) || !is_readable($setsFile)) {
                         addCell(row, market?.price_status);
 
                         addCell(
-    row,
-    formatUpdated(market?.updated_at)
-);
+                            row,
+                            formatUpdated(market?.updated_at)
+                        );
 
-addDatabaseButton(row, card, variant, market);
+                        addDatabaseButton(row, card, variant, market);
 
-tbody.appendChild(row);
-rowCount++;
+                        tbody.appendChild(row);
+                        rowCount++;
                     }
                 }
             }
@@ -1374,7 +1316,7 @@ rowCount++;
                 updateStatus.className = "error";
                 updateStatus.textContent = saved
                     ? "Sets were saved, but refreshing failed: " +
-                      error.message
+                    error.message
                     : "Error: " + error.message;
             } finally {
                 setsUpdateInProgress = false;
@@ -1386,106 +1328,107 @@ rowCount++;
         renderQueue();
 
         function addDatabaseButton(row, card, variant, market) {
-    const cell = document.createElement("td");
-    const button = document.createElement("button");
-    const message = document.createElement("small");
+            const cell = document.createElement("td");
+            const button = document.createElement("button");
+            const message = document.createElement("small");
 
-    button.type = "button";
-    button.textContent = "Add to Database";
+            button.type = "button";
+            button.textContent = "Add to Database";
 
-    message.className = "help-text";
-    message.setAttribute("role", "status");
+            message.className = "help-text";
+            message.setAttribute("role", "status");
 
-    const validPrice =
-        typeof market?.price === "number" &&
-        Number.isFinite(market.price) &&
-        market.price >= 0;
+            const validPrice =
+                typeof market?.price === "number" &&
+                Number.isFinite(market.price) &&
+                market.price >= 0;
 
-    const validTimestamp =
-        typeof market?.updated_at === "number" &&
-        Number.isFinite(market.updated_at);
+            const validTimestamp =
+                typeof market?.updated_at === "number" &&
+                Number.isFinite(market.updated_at);
 
-    const priceDate = validTimestamp
-        ? new Date(market.updated_at * 1000)
-        : null;
+            const priceDate = validTimestamp
+                ? new Date(market.updated_at * 1000)
+                : null;
 
-    const validDate =
-        priceDate !== null &&
-        !Number.isNaN(priceDate.getTime());
+            const validDate =
+                priceDate !== null &&
+                !Number.isNaN(priceDate.getTime());
 
-    if (!validPrice || !validDate) {
-        button.disabled = true;
-        message.textContent =
-            "A price and update date are required to save.";
-    }
-
-    button.addEventListener("click", async () => {
-        const setName = typeof card.set === "string"
-            ? card.set
-            : card.set?.name ?? "";
-
-        const payload = {
-            name: card.name ?? "",
-            set: setName,
-            set_num: card.number ?? "",
-            lang: variant.language ?? "",
-            price: market.price,
-            price_date: priceDate.toISOString().slice(0, 10),
-
-            condition: variant.type === "graded"
-                ? null
-                : variant.condition ?? null,
-
-            printing: variant.printing ?? null,
-
-            grade: variant.type === "graded"
-                ? variant.grading?.canonical ?? null
-                : null
-        };
-
-        button.disabled = true;
-        button.textContent = "Saving...";
-        message.className = "help-text";
-        message.textContent = "";
-
-        try {
-            const result = await requestJson(
-    cardsAddUrl,
-    {
-        method: "POST",
-        credentials: "same-origin",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-    }
-);
-
-            if (result.success !== true) {
-                throw new Error(
-                    result.message ||
-                    result.error || "The card could not be saved."
-                );
+            if (!validPrice || !validDate) {
+                button.disabled = true;
+                message.textContent =
+                    "A price and update date are required to save.";
             }
 
-            button.textContent = "Added";
-            message.className = "help-text success";
-            message.textContent =
-                "Database card ID: " + result.card.card_id;
-        } catch (error) {
-            console.error(error);
+            button.addEventListener("click", async () => {
+                const setName = typeof card.set === "string"
+                    ? card.set
+                    : card.set?.name ?? "";
 
-            button.disabled = false;
-            button.textContent = "Retry Save";
-            message.className = "help-text error";
-            message.textContent = error.message;
+                const payload = {
+                    name: card.name ?? "",
+                    set: setName,
+                    set_num: card.number ?? "",
+                    lang: variant.language ?? "",
+                    price: market.price,
+                    price_date: priceDate.toISOString().slice(0, 10),
+
+                    condition: variant.type === "graded"
+                        ? null
+                        : variant.condition ?? null,
+
+                    printing: variant.printing ?? null,
+
+                    grade: variant.type === "graded"
+                        ? variant.grading?.canonical ?? null
+                        : null
+                };
+
+                button.disabled = true;
+                button.textContent = "Saving...";
+                message.className = "help-text";
+                message.textContent = "";
+
+                try {
+                    const result = await requestJson(
+                        cardsAddUrl,
+                        {
+                            method: "POST",
+                            credentials: "same-origin",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(payload)
+                        }
+                    );
+
+                    if (result.success !== true) {
+                        throw new Error(
+                            result.message ||
+                            result.error || "The card could not be saved."
+                        );
+                    }
+
+                    button.textContent = "Added";
+                    message.className = "help-text success";
+                    message.textContent =
+                        "Database card ID: " + result.card.card_id;
+                } catch (error) {
+                    console.error(error);
+
+                    button.disabled = false;
+                    button.textContent = "Retry Save";
+                    message.className = "help-text error";
+                    message.textContent = error.message;
+                }
+            });
+
+            cell.append(button, message);
+            row.appendChild(cell);
         }
-    });
-
-    cell.append(button, message);
-    row.appendChild(cell);
-}
 
     </script>
 </body>
+
 </html>
