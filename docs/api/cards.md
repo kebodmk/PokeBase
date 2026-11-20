@@ -18,7 +18,8 @@ Every parameter is optional. Each one you add narrows the results (they are comb
 *?grade=* **exact match** <br>
 *?price_date=* **YYYY-MM-DD** <br>
 *?price_min=* <br>
-*?price_max=* **price range, inclusive**
+*?price_max=* **price range, inclusive** <br>
+*?in_inventory=1* **only cards still in inventory: no `exchanged_cards` row with `recieved` = 0**
 
     Get -> HTTP 200
     Not Get -> HTTP 405

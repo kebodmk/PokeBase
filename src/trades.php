@@ -19,18 +19,21 @@
 <div id = "main">
     <div id = "trades">
         <div id = "trades-top">
+            <button type = "button" id = "update-prices" disabled title = "Add a card to update prices">Update Prices</button>
             <button type = "button">Past Transactions</button>
         </div>
         <form id = "trade-form" action = "processes/complete_trade.php" method = "POST">
             <div id = "trade-grid">
                 <section class = "trade-column" data-recieved = "1">
                     <h3>Incoming (Purchases)</h3>
+                    <p class = "column-total">Total Value: <output>$0.00</output></p>
                     <div class = "card-list"></div>
                     <button type = "button" class = "add-card" aria-label = "Add incoming card">+</button>
                 </section>
                 <div id = "trade-divider"></div>
                 <section class = "trade-column" data-recieved = "0">
                     <h3>Outgoing (Sales)</h3>
+                    <p class = "column-total">Total Value: <output>$0.00</output></p>
                     <div class = "card-list"></div>
                     <button type = "button" class = "add-card" aria-label = "Add outgoing card">+</button>
                 </section>
@@ -72,10 +75,11 @@
                 <?php echo options(TRADE_CONDITIONS); ?>
             </select>
         </label>
-        <label data-type = "graded">Grade <input type = "number" data-field = "grade" min = "1" max = "10" step = "0.5" required></label>
+        <label data-type = "graded">Grade (priced from <?php echo htmlspecialchars(TRADE_DEFAULT_GRADING_COMPANY); ?>) <input type = "number" data-field = "grade" min = "1" max = "10" step = "0.5" required></label>
         <label>Printing
             <select data-field = "printing" required><?php echo options(TRADE_PRINTINGS); ?></select>
         </label>
+        <p class = "card-error gerror" role = "alert" hidden></p>
         <button type = "button" class = "confirm-card">Add Card</button>
         <button type = "button" class = "cancel-card">Cancel</button>
     </div>

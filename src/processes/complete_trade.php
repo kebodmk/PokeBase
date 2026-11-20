@@ -60,7 +60,6 @@ if (!is_array($cards) || count($cards) === 0) {
 }
 
 $errors = [];
-$setNames = getSetNames();
 $tradeCards = [];
 
 // Validate all data from POST request
@@ -72,39 +71,10 @@ foreach (array_values($cards) as $i => $card) {
 
     $card = array_map(fn($value) => is_string($value) ? trim($value) : null, $card);
     $label = 'Card ' . ($i + 1) . (($card['name'] ?? '') !== '' ? " ({$card['name']})" : '');
-    $cardErrors = [];
+    $cardErrors = array_merge(validateTradeCard($card), validateTradePrice($card['price'] ?? null, $card['price_date'] ?? null));
 
     if (!in_array($card['recieved'] ?? null, ['0', '1'], true)) {
-        $cardErrors[] = 'must be incoming or outgoing';
-    }
-    if (!in_array($card['set'] ?? null, $setNames, true)) {
-        $cardErrors[] = 'set is not a known set';
-    }
-    foreach (['set_num' => 'set number', 'name' => 'name'] as $field => $fieldName) {
-        $value = $card[$field] ?? '';
-        if ($value === '' || strlen($value) > 45) {
-            $cardErrors[] = "$fieldName is required and must be 45 characters or fewer";
-        }
-    }
-    if (!in_array($card['lang'] ?? null, TRADE_LANGUAGES, true)) {
-        $cardErrors[] = 'language is invalid';
-    }
-    if (!in_array($card['printing'] ?? null, TRADE_PRINTINGS, true)) {
-        $cardErrors[] = 'printing is invalid';
-    }
-
-    $type = $card['card_type'] ?? null;
-    if ($type === 'raw') {
-        if (!in_array($card['condition'] ?? null, TRADE_CONDITIONS, true)) {
-            $cardErrors[] = 'condition is invalid';
-        }
-    } elseif ($type === 'graded') {
-        $grade = $card['grade'] ?? '';
-        if (!is_numeric($grade) || $grade < 1 || $grade > 10) {
-            $cardErrors[] = 'grade must be a number from 1 to 10';
-        }
-    } else {
-        $cardErrors[] = 'card type must be raw or graded';
+        array_unshift($cardErrors, 'must be incoming or outgoing');
     }
 
     if (count($cardErrors) > 0) {
@@ -143,10 +113,41 @@ if (count($errors) > 0) {
 
 
 $exchangedCards = [];
+$priceUpdates = [];
+$usedOutgoingIds = [];
 
-// Ensure data matches stored cards
+// Incoming cards always become a new card row, even when a matching card is already in the database.
+// Outgoing cards must match a card in inventory. Same matching rule as findDatabaseCard() in trades.js
 foreach ($tradeCards as [$label, $card]) {
     $graded = $card['card_type'] === 'graded';
+    $grade = $graded ? (string)(float)$card['grade'] : null;
+    $incoming = $card['recieved'] === '1';
+
+    // The page sets price_from_api when JustTCG confirmed the card (it was not in the database, or its
+    // price was synced), and price_overridden when the employee typed their own price
+    $apiPriced = ($card['price_from_api'] ?? '') === '1';
+    $overridden = ($card['price_overridden'] ?? '') === '1';
+
+    $newCard = [
+        'recieved' => true,
+        'name' => $card['name'],
+        'set' => $card['set'],
+        'set_num' => $card['set_num'],
+        'lang' => $card['lang'],
+        'price' => (float)$card['price'],
+        'price_date' => $card['price_date'],
+        'condition' => $graded ? null : $card['condition'],
+        'printing' => $card['printing'],
+        'grade' => $grade,
+    ];
+
+    // JustTCG already confirmed this card exists, so no database lookup is needed.
+    // /api/transactions/add creates the card in the same database transaction.
+    if ($incoming && $apiPriced) {
+        $exchangedCards[] = $newCard;
+        continue;
+    }
+
     $query = [
         'name' => $card['name'],
         'set' => $card['set'],
@@ -154,7 +155,11 @@ foreach ($tradeCards as [$label, $card]) {
         'lang' => $card['lang'],
         'printing' => $card['printing'],
     ];
-    $query += $graded ? ['grade' => (string)(float)$card['grade']] : ['condition' => $card['condition']];
+    $query += $graded ? ['grade' => $grade] : ['condition' => $card['condition']];
+    // Outgoing cards must be in inventory, i.e. never sent out before
+    if (!$incoming) {
+        $query['in_inventory'] = '1';
+    }
 
     $result = callApi('GET', 'cards/search?' . http_build_query($query));
     if (($result['success'] ?? false) !== true) {
@@ -163,18 +168,36 @@ foreach ($tradeCards as [$label, $card]) {
 
     $match = null;
     foreach ($result['cards'] as $row) {
-        if (strcasecmp($row['name'], $card['name']) === 0 && ($graded ? $row['condition'] : $row['grade']) === null) {
+        $usedHere = !$incoming && in_array((int)$row['card_id'], $usedOutgoingIds, true);
+        if (!$usedHere && strcasecmp($row['name'], $card['name']) === 0 && ($graded ? $row['condition'] : $row['grade']) === null) {
             $match = $row;
             break;
         }
     }
 
-    if ($match === null) {
-        $errors[] = "$label was not found in the database.";
+    // Incoming: a database match only proves the card exists. It still gets its own new card row.
+    if ($incoming) {
+        if ($match === null) {
+            $errors[] = "$label was not found in the database or on JustTCG.";
+            continue;
+        }
+        $exchangedCards[] = $newCard;
         continue;
     }
 
-    $exchangedCards[] = ['card_id' => (int)$match['card_id'], 'recieved' => $card['recieved'] === '1'];
+    if ($match === null) {
+        $errors[] = "$label is not in inventory. Outgoing cards must be in the database and not already sold.";
+        continue;
+    }
+
+    $cardId = (int)$match['card_id'];
+    $exchangedCards[] = ['card_id' => $cardId, 'recieved' => false];
+    $usedOutgoingIds[] = $cardId;
+
+    // Save a price synced from JustTCG or overridden on the page onto the card being sold
+    if ($apiPriced || $overridden) {
+        $priceUpdates[$cardId] = ['price' => (float)$card['price'], 'price_date' => $card['price_date']];
+    }
 }
 
 if (count($errors) > 0) {
@@ -192,5 +215,20 @@ if (($result['success'] ?? false) !== true) {
     fail(502, $result['message'] ?? 'Unable to save the transaction.', $result['errors'] ?? []);
 }
 
+$message = 'Transaction #' . $result['transaction']['trans_id'] . ' completed.';
+
+// Save prices that were synced from JustTCG or overridden on the page for outgoing cards.
+// Runs only after the transaction is saved. A failure here leaves the old price, not a broken transaction.
+$failedUpdates = 0;
+foreach ($priceUpdates as $cardId => $fields) {
+    $update = callApi('PUT', 'cards/update/' . $cardId, $fields);
+    if (($update['success'] ?? false) !== true) {
+        $failedUpdates++;
+    }
+}
+if ($failedUpdates > 0) {
+    $message .= " $failedUpdates updated card price(s) could not be saved.";
+}
+
 // Confirmation message
-sendJson(201, ['success' => true, 'message' => 'Transaction #' . $result['transaction']['trans_id'] . ' completed.']);
+sendJson(201, ['success' => true, 'message' => $message]);
