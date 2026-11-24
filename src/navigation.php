@@ -5,6 +5,7 @@
   $isLoggedIn = $sessionUser !== null;
 
   $isManager = $isLoggedIn && strtolower(trim($sessionUser["role"])) === ROLE_MANAGER;
+  $isEmployee = $isLoggedIn && strtolower(trim($sessionUser["role"])) === ROLE_EMPLOYEE;
 
   $profileName = $isLoggedIn
     ? trim($sessionUser["first_name"] . " " . $sessionUser["last_name"])
@@ -30,9 +31,14 @@
     <div id = "navButtons" class = "invisible">
         <button id = "home">Home</button>
         <button id = "inventory">Inventory</button>
-        <button id = "trades">Trades</button>
+        <?php if ($isManager || $isEmployee): ?>
+            <button id = "trades">Trades</button>
+        <?php endif; ?>
         <?php if ($isManager): ?>
-        <button id = "manager">Manager View</button>
+            <button id = "manager">Manager View</button>
+        <?php endif; ?>
+        <?php if ($isManager || $isEmployee): ?>
+            <button id = "addCards">Add Cards</button>
         <?php endif; ?>
         <?php if ($isLoggedIn): ?>
             <form id = "logoutForm" method = "post" action = "./processes/logout.php">
@@ -42,5 +48,6 @@
             <button id = "login">Login</button>
         <?php endif; ?>
         <!-- SET THIS TO SHOW UP IF PYTHON SERVER IS AVAILABLE -->
-        <button id = "scan">Scan Cards</button>
+         <!-- REMOVE CLASS ONCE WORKS YET -->
+        <button id = "scan" class="invisible">Scan Cards</button>
     </div>

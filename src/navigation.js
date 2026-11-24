@@ -27,6 +27,10 @@ function init(){
     url = "./trades.php";
     enableButtons(tradesBtn, url);
 
+    addCardsBtn = document.getElementById("addCards");
+    url = "./tcg.php";
+    enableButtons(addCardsBtn, url);
+
     managerBtn = document.getElementById("manager");
     url = "./manager.php";
     if (managerBtn) enableButtons(managerBtn, url);
@@ -67,6 +71,7 @@ function checkURL(url) {
 
 // Show the button unless we're already on that page
 function enableButtons(btn, url) {
+    if (!btn) return;
     if (!checkURL(url)) {
         btn.addEventListener("click", function () {
             window.location.href = url;

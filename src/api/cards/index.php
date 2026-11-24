@@ -43,9 +43,6 @@ if ($routePart === 'search') {
 
     foreach ($exactColumns as $column) {
         $value = trim((string)($_GET[$column] ?? ''));
-        if ($column === 'set_num') {
-            $value = normalizeSetNumber($value);
-        }
         if ($value !== '') {
             $conditions[] = "`$column` = :$column";
             $search_params[':' . $column] = $value;
@@ -71,11 +68,6 @@ if ($routePart === 'search') {
             $conditions[] = "price $operator :$param";
             $search_params[':' . $param] = (float)$value;
         }
-    }
-
-    // In inventory = the card has never gone out (no exchanged_cards row with recieved = 0)
-    if (($_GET['in_inventory'] ?? '') === '1') {
-        $conditions[] = 'NOT EXISTS (SELECT 1 FROM exchanged_cards e WHERE e.card_id = cards.card_id AND e.recieved = 0)';
     }
 
     $search_sql = 'SELECT ' . CARD_SELECT_COLUMNS . ' FROM cards';
@@ -167,7 +159,7 @@ if ($routePart === 'update') {
     PokeDatabase::executeSQL($audit_sql, [
         ':user_id' => $userInserting['user_id'] ?? "System",
         ':date' => date('Y-m-d'),
-        ':notes' => "{$fields['name']} card updated.",
+        ':notes' => "{$fields['name']} card information modified.",
     ]);
 
     sendJson(200, [

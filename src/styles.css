@@ -276,3 +276,35 @@ tbody tr:nth-child(even) {
 tbody tr:hover {
     background-color: #8089eb;
 }
+/* Match heading sizes and weights */
+  .heading-h1 { font-size: 2em; font-weight: bold; }
+  .heading-h2 { font-size: 1.5em; font-weight: bold; }
+  .heading-h3 { font-size: 1.17em; font-weight: bold; }
+
+  .field-row {
+    margin-bottom: 0.6em;
+  }
+
+  /* Locked state: looks like plain text, untouchable */
+  #cardForm input[readonly] {
+    border: 1px solid transparent;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    padding: 2px 4px;
+    pointer-events: none; /* Prevents clicking or focusing while locked */
+  }
+
+  /* Editable state: looks like standard input boxes */
+  #cardForm input:not([readonly]) {
+    border: 1px solid #888;
+    background: #fff;
+    color: #000;
+    font: inherit;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .inline-input {
+    width: 110px;
+  }

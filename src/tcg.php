@@ -1,137 +1,11 @@
-<?php
-
-require_once __DIR__ . '/../includes/config.php';
-
-function postString($key, $default = '')
-{
-    return isset($_POST[$key]) && is_string($_POST[$key])
-        ? trim($_POST[$key])
-        : $default;
-}
-
-function escape($value)
-{
-    return htmlspecialchars(
-        (string) $value,
-        ENT_QUOTES | ENT_SUBSTITUTE,
-        'UTF-8'
-    );
-}
-
-$set_input = postString('text1');
-$set_number_input = postString('text2');
-$name_input = postString('text3');
-$language_input = postString('extra1', 'en');
-$condition_input = postString('extra2', 'Near Mint');
-$card_type_input = postString('card_type', 'raw');
-$printing_input = postString('printing');
-
-if (!in_array($card_type_input, ['raw', 'graded'], true)) {
-    $card_type_input = 'raw';
-}
-
-$languages = [
-    'en' => 'English',
-    'jap' => 'Japanese',
-    'ch' => 'Chinese',
-    'kor' => 'Korean',
-];
-
-if (!isset($languages[$language_input])) {
-    $language_input = 'en';
-}
-
-$rawConditions = [
-    'Near Mint',
-    'Lightly Played',
-    'Moderately Played',
-    'Heavily Played',
-    'Damaged',
-    'Sealed',
-];
-
-$legacyConditions = [
-    'mint' => 'Near Mint',
-    'near-mint' => 'Near Mint',
-];
-
-$condition_input = $legacyConditions[$condition_input]
-    ?? $condition_input;
-
-if (!in_array($condition_input, $rawConditions, true)) {
-    $condition_input = 'Near Mint';
-}
-
-$printingOptions = [
-    'Normal',
-    'Holofoil',
-    '1st Edition Holofoil',
-    'Unlimited Holofoil',
-];
-
-if (
-    $printing_input !== ''
-    && !in_array($printing_input, $printingOptions, true)
-) {
-    $printingOptions[] = $printing_input;
-}
-
-$setsFile = __DIR__ . '/../api/just_tcg/sets.txt';
-
-$sets = [];
-$setsError = '';
-
-if (!is_file($setsFile) || !is_readable($setsFile)) {
-    $setsError =
-        'No readable sets.txt found. Click Update Sets to create it.';
-} else {
-    $contents = file_get_contents($setsFile);
-
-    if ($contents === false) {
-        $setsError = 'Could not read sets.txt.';
-    } else {
-        $decoded = json_decode($contents, true);
-
-        if (
-            json_last_error() !== JSON_ERROR_NONE
-            || !is_array($decoded)
-        ) {
-            $setsError = 'sets.txt does not contain valid JSON.';
-        } else {
-            $savedSets = $decoded['data'] ?? $decoded;
-
-            if (!is_array($savedSets)) {
-                $setsError = 'No sets list found in sets.txt.';
-            } else {
-                foreach ($savedSets as $set) {
-                    if (
-                        !is_array($set)
-                        || !isset($set['id'], $set['name'])
-                        || !is_string($set['id'])
-                        || !is_string($set['name'])
-                    ) {
-                        continue;
-                    }
-
-                    $sets[] = $set;
-                }
-
-                if (!$sets) {
-                    $setsError =
-                        'The saved file contains no usable sets.';
-                }
-            }
-        }
-    }
-}
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src = "./navigation.js"></script>
+    <link rel="stylesheet" type="text/css" href="./styles.css">
 
     <title>Just TCG Card List</title>
 
@@ -258,6 +132,136 @@ if (!is_file($setsFile) || !is_readable($setsFile)) {
 </head>
 
 <body>
+<?php
+require_once __DIR__ . '/includes/auth_cookie.php';
+require_once __DIR__ . '/includes/config.php';
+include __DIR__ . "/navigation.php";
+
+function postString($key, $default = '')
+{
+    return isset($_POST[$key]) && is_string($_POST[$key])
+        ? trim($_POST[$key])
+        : $default;
+}
+
+function escape($value)
+{
+    return htmlspecialchars(
+        (string) $value,
+        ENT_QUOTES | ENT_SUBSTITUTE,
+        'UTF-8'
+    );
+}
+
+$set_input = postString('text1');
+$set_number_input = postString('text2');
+$name_input = postString('text3');
+$language_input = postString('extra1', 'en');
+$condition_input = postString('extra2', 'Near Mint');
+$card_type_input = postString('card_type', 'raw');
+$printing_input = postString('printing');
+
+if (!in_array($card_type_input, ['raw', 'graded'], true)) {
+    $card_type_input = 'raw';
+}
+
+$languages = [
+    'en' => 'English',
+    'jap' => 'Japanese',
+    'ch' => 'Chinese',
+    'kor' => 'Korean',
+];
+
+if (!isset($languages[$language_input])) {
+    $language_input = 'en';
+}
+
+$rawConditions = [
+    'Near Mint',
+    'Lightly Played',
+    'Moderately Played',
+    'Heavily Played',
+    'Damaged',
+    'Sealed',
+];
+
+$legacyConditions = [
+    'mint' => 'Near Mint',
+    'near-mint' => 'Near Mint',
+];
+
+$condition_input = $legacyConditions[$condition_input]
+    ?? $condition_input;
+
+if (!in_array($condition_input, $rawConditions, true)) {
+    $condition_input = 'Near Mint';
+}
+
+$printingOptions = [
+    'Normal',
+    'Holofoil',
+    '1st Edition Holofoil',
+    'Unlimited Holofoil',
+];
+
+if (
+    $printing_input !== ''
+    && !in_array($printing_input, $printingOptions, true)
+) {
+    $printingOptions[] = $printing_input;
+}
+
+$setsFile = __DIR__ . '/api/just_tcg/sets.txt';
+
+$sets = [];
+$setsError = '';
+
+if (!is_file($setsFile) || !is_readable($setsFile)) {
+    $setsError =
+        'No readable sets.txt found. Click Update Sets to create it.';
+} else {
+    $contents = file_get_contents($setsFile);
+
+    if ($contents === false) {
+        $setsError = 'Could not read sets.txt.';
+    } else {
+        $decoded = json_decode($contents, true);
+
+        if (
+            json_last_error() !== JSON_ERROR_NONE
+            || !is_array($decoded)
+        ) {
+            $setsError = 'sets.txt does not contain valid JSON.';
+        } else {
+            $savedSets = $decoded['data'] ?? $decoded;
+
+            if (!is_array($savedSets)) {
+                $setsError = 'No sets list found in sets.txt.';
+            } else {
+                foreach ($savedSets as $set) {
+                    if (
+                        !is_array($set)
+                        || !isset($set['id'], $set['name'])
+                        || !is_string($set['id'])
+                        || !is_string($set['name'])
+                    ) {
+                        continue;
+                    }
+
+                    $sets[] = $set;
+                }
+
+                if (!$sets) {
+                    $setsError =
+                        'The saved file contains no usable sets.';
+                }
+            }
+        }
+    }
+}
+
+?>
+<div id = "main">
     <h1>Just TCG</h1>
 
     <section class="sets-section">
@@ -1431,6 +1435,7 @@ if (!is_file($setsFile) || !is_readable($setsFile)) {
         }
 
     </script>
+</div>
 </body>
 
 </html>
