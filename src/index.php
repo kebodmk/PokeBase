@@ -5,11 +5,11 @@
 <div id = "main">
     <div id = "intro">
         <h1> Welcome to Pokébase! </h1>
-        <BR><BR>
+        
         <h2> Pokébase is a tool used to keep inventory of your cards and see the value of each of them.</h2>
-        <BR><BR>
+        
         <h2> Features </h2>
-        <BR>
+        
         <ol>
             <li><h3>Inventory</h3></li>
             <ul>

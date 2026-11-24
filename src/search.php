@@ -2,7 +2,7 @@
     require_once __DIR__ . "/includes/config.php";
     include "includes/functions.php";
 
-    $cardDataURL = $mainURL."/api/cards/search?";
+    $cardDataURL = $mainURL."/api/cards/search?in_inventory=1";
     $cardResponse  = getJSONFromURL($cardDataURL);
     $cards = $cardResponse["cards"];
 
@@ -12,7 +12,7 @@
         $selected_Set   = trim($_GET['set'] ?? '');
         $selected_Print = trim($_GET['printing'] ?? '');
 
-        if ($search_string !== '') {
+        {
             $displayedCards = [];
 
             foreach ($cards as $card) {

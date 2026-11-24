@@ -12,12 +12,6 @@ function runSearch() {
     // Cancel any request still in flight so an old, slow response
     // can't overwrite a newer one.
     controller.abort();
-
-    if (query === '') {
-        resultsDiv.innerHTML = '';
-        return;
-    }
-
     controller = new AbortController();
 
     const params = new URLSearchParams({
@@ -47,3 +41,6 @@ searchBar.addEventListener('input', () => {
 // Dropdowns are single clicks, so refresh immediately.
 setFilter.addEventListener('change', runSearch);
 printFilter.addEventListener('change', runSearch);
+
+// Show the full inventory before anything is typed.
+runSearch();

@@ -70,6 +70,13 @@ if ($routePart === 'search') {
         }
     }
 
+    // In inventory = the card was received (an exchanged_cards row with recieved <> 0)
+    // and has not gone out (no exchanged_cards row with recieved = 0)
+    if (($_GET['in_inventory'] ?? '') === '1') {
+        $conditions[] = 'EXISTS (SELECT 1 FROM exchanged_cards e WHERE e.card_id = cards.card_id AND e.recieved <> 0)';
+        $conditions[] = 'NOT EXISTS (SELECT 1 FROM exchanged_cards e WHERE e.card_id = cards.card_id AND e.recieved = 0)';
+    }
+
     $search_sql = 'SELECT ' . CARD_SELECT_COLUMNS . ' FROM cards';
     if (count($conditions) > 0) {
         $search_sql .= ' WHERE ' . implode(' AND ', $conditions);

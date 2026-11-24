@@ -7,7 +7,7 @@
 <script src="search.js" defer></script>
 <div id = "main">
     <div class="topnav" style = "text-align:center">
-        <h2>Search for cards in inventory here</h2>
+        <h2>Search Cards in Inventory</h2>
         <div class="topnav">
             <input type="text" id="search-bar" placeholder="Search..">
         </div>

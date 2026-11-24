@@ -62,6 +62,7 @@ include "includes/header.php";
 include "navigation.php";
 ?>
 <div id = "main">
+    <?php include "manager.php"; ?>
     <h2 style = "text-align:center">User Accounts</h2>
     <div class='gerror'><?php echo htmlspecialchars($error); ?></div>
     <div class='gmessage'><?php echo htmlspecialchars($message); ?></div>

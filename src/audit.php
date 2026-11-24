@@ -60,6 +60,7 @@
 
 ?>
 <div id = "main">
+    <?php include "manager.php"; ?>
     <h1 style = "text-align:center">Audit Log</h1>
     <div class="table-container" style = "display: flex; justify-content: center; align-items: center;">
         <table id="auditTable">

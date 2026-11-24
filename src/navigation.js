@@ -32,7 +32,7 @@ function init(){
     enableButtons(addCardsBtn, url);
 
     managerBtn = document.getElementById("manager");
-    url = "./manager.php";
+    url = "./audit.php";
     if (managerBtn) enableButtons(managerBtn, url);
 
     loginBtn = document.getElementById("login");

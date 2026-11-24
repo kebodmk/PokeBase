@@ -1,19 +1,18 @@
 <?php
-    require_once __DIR__ . '/includes/auth_cookie.php';
+    // Partial: included at the top of the manager pages (audit, sales, users).
+    // Opened directly, it sends the user to the Audits page instead.
+    if (basename($_SERVER["SCRIPT_FILENAME"]) === "manager.php") {
+        header("Location: ./audit.php");
+        exit;
+    }
 
-    requirePageRole([ROLE_MANAGER]);
-
-    include "includes/header.php";
-    include "navigation.php";
+    // $isManager is set by navigation.php; employees can view audits/sales but not these options
+    if (!empty($isManager)):
 ?>
 <script src="managerNavigation.js"></script>
-<div id = "main">
-    <div id="managerButtons">
-        <button id="audit_log">Audit Log</button>
-        <button id="sales_hist">Sales History</button>
-        <button id="users">Users</button>
-    </div>
+<div id="managerButtons">
+    <button id="audit_log">Audit Log</button>
+    <button id="sales_hist">Sales History</button>
+    <button id="users">Users</button>
 </div>
-<?php
-    include "includes/footer.php";
-?>
+<?php endif; ?>

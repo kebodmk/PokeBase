@@ -95,6 +95,9 @@ header img{
 #navButtons.invisible{
     display: none;
 }
+#managerButtons{
+    text-align: center;
+}
 #main.invisible{
     display: none;
 }

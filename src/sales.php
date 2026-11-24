@@ -111,7 +111,8 @@
 
 
 <div id="main">
-    <h2 style="text-align:center">Recent sales</h2>
+    <?php include "manager.php"; ?>
+    <h2 style="text-align:center">Recent Sales</h2>
 
     <form method="get" style="text-align:center; margin-bottom:1rem;">
         <input type="date" name="date" value="<?php echo htmlspecialchars($date); ?>">
@@ -129,6 +130,8 @@
     <!-- temporary button to update rows for inventory_tracker -->
     <button id="updateInventoryBtn">Update Inventory</button>
     
+    <h2 style="text-align:center">Recent Transactions</h2>
+
     <!-- Card search, just above the table -->
     <form method="get" id="searchForm">
         <div class="search-row">
