@@ -2,7 +2,7 @@
 
 const TRADE_LANGUAGES = ['English', 'Japanese', 'Chinese', 'Korean'];
 const TRADE_CONDITIONS = ['Near Mint', 'Lightly Played', 'Moderately Played', 'Heavily Played', 'Damaged', 'Sealed'];
-const TRADE_PRINTINGS = ['Normal', 'Holofoil', 'First Edition', 'First Edition Holofoil'];
+const TRADE_PRINTINGS = ['Normal', 'Holofoil', 'Reverse Holofoil', 'First Edition', 'First Edition Holofoil'];
 
 // Graded cards are priced from this company's JustTCG listings. The page has no company field.
 const TRADE_DEFAULT_GRADING_COMPANY = 'PSA';
@@ -14,6 +14,7 @@ const TRADE_LANGUAGE_CODES = ['English' => 'en', 'Japanese' => 'jap', 'Chinese' 
 const TRADE_PRINTING_ALIASES = [
     'Normal' => ['Normal', 'Unlimited'],
     'Holofoil' => ['Holofoil', 'Unlimited Holofoil'],
+    'Reverse Holofoil' => ['Reverse Holofoil'],
     'First Edition' => ['1st Edition', '1st Edition Normal'],
     'First Edition Holofoil' => ['1st Edition Holofoil'],
 ];
@@ -51,6 +52,50 @@ function getSetIdsByName(): array
     }
 
     return $ids;
+}
+
+// JustTCG set id => set name
+function getSetNamesById(): array
+{
+    $names = [];
+    foreach (getSetIdsByName() as $name => $id) {
+        $names[$id] ??= $name;
+    }
+
+    return $names;
+}
+
+// JustTCG printing name => trades page printing, e.g. "Unlimited Holofoil" => "Holofoil"
+function tradePrintingFromJustTcg(string $printing): ?string
+{
+    foreach (TRADE_PRINTING_ALIASES as $pagePrinting => $aliases) {
+        if (in_array($printing, $aliases, true)) {
+            return $pagePrinting;
+        }
+    }
+
+    return null;
+}
+
+// Normalizes a card's set number to the printed form, e.g. "8/108" => "008/108", "19" => "019".
+// Numeric parts are padded to 3 digits. Parts with letters (TG01/TG30, SV001/SV094, SWSH050)
+// cannot be padded safely and are only uppercased. Same rule as normalizeSetNumber() in trades.js.
+function normalizeSetNumber(string $setNumber): string
+{
+    $setNumber = strtoupper(preg_replace('/\s+/', '', $setNumber));
+    $parts = explode('/', $setNumber);
+
+    if (count($parts) > 2) {
+        return $setNumber;
+    }
+
+    foreach ($parts as &$part) {
+        if (preg_match('/^\d+$/', $part)) {
+            $part = str_pad(ltrim($part, '0'), 3, '0', STR_PAD_LEFT);
+        }
+    }
+
+    return implode('/', $parts);
 }
 
 // Checks the card fields sent by the trade page. Values must already be trimmed strings or null.

@@ -70,6 +70,9 @@ foreach (array_values($cards) as $i => $card) {
     }
 
     $card = array_map(fn($value) => is_string($value) ? trim($value) : null, $card);
+    if (isset($card['set_num'])) {
+        $card['set_num'] = normalizeSetNumber($card['set_num']);
+    }
     $label = 'Card ' . ($i + 1) . (($card['name'] ?? '') !== '' ? " ({$card['name']})" : '');
     $cardErrors = array_merge(validateTradeCard($card), validateTradePrice($card['price'] ?? null, $card['price_date'] ?? null));
 
@@ -117,7 +120,7 @@ $priceUpdates = [];
 $usedOutgoingIds = [];
 
 // Incoming cards always become a new card row, even when a matching card is already in the database.
-// Outgoing cards must match a card in inventory. Same matching rule as findDatabaseCard() in trades.js
+// Outgoing cards must match a card in inventory. Same matching rule as findDatabaseCards() in trades.js
 foreach ($tradeCards as [$label, $card]) {
     $graded = $card['card_type'] === 'graded';
     $grade = $graded ? (string)(float)$card['grade'] : null;

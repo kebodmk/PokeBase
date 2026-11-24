@@ -111,6 +111,24 @@ header img{
     font-weight: bold;
     margin: 0 0 0.75rem;
 }
+.offer-values{
+    margin: -0.5rem 0 0.75rem;
+}
+.offer-values p{
+    margin: 0;
+}
+.card-choices{
+    margin-bottom: 0.5rem;
+}
+.card-choices p{
+    font-weight: bold;
+}
+.card-choices button{
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 0.25rem;
+}
 .card-price{
     display: flex;
     flex-wrap: wrap;

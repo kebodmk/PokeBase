@@ -27,6 +27,11 @@
                 <section class = "trade-column" data-recieved = "1">
                     <h3>Incoming (Purchases)</h3>
                     <p class = "column-total">Total Value: <output>$0.00</output></p>
+                    <div class = "offer-values" aria-label = "Incoming total value at offer percentages">
+                        <?php foreach ([70, 75, 80] as $percent): ?>
+                            <p><?php echo $percent; ?>% value: <output data-percent = "<?php echo $percent; ?>">$0.00</output></p>
+                        <?php endforeach; ?>
+                    </div>
                     <div class = "card-list"></div>
                     <button type = "button" class = "add-card" aria-label = "Add incoming card">+</button>
                 </section>
@@ -53,12 +58,12 @@
 <template id = "card-template">
     <div class = "trade-card editing">
         <label>Set
-            <select data-field = "set" required>
-                <option value = "">-- Select a set --</option>
+            <select data-field = "set">
+                <option value = "">-- Find from set number &amp; name --</option>
                 <?php echo options(getSetNames()); ?>
             </select>
         </label>
-        <label>Set Number <input type = "text" data-field = "set_num" maxlength = "45" required></label>
+        <label>Set Number <input type = "text" data-field = "set_num" maxlength = "45" placeholder = "e.g. 019/098" required></label>
         <label>Name <input type = "text" data-field = "name" maxlength = "45" required></label>
         <label>Language
             <select data-field = "lang" required><?php echo options(TRADE_LANGUAGES); ?></select>
@@ -80,6 +85,7 @@
             <select data-field = "printing" required><?php echo options(TRADE_PRINTINGS); ?></select>
         </label>
         <p class = "card-error gerror" role = "alert" hidden></p>
+        <div class = "card-choices" role = "group" hidden></div>
         <button type = "button" class = "confirm-card">Add Card</button>
         <button type = "button" class = "cancel-card">Cancel</button>
     </div>

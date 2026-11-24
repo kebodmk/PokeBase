@@ -6,6 +6,8 @@ Card helpers shared by /api/cards and /api/transactions
 ------------------------------------------------------------
 */
 
+require_once __DIR__ . '/../../includes/trade_options.php';
+
 const CARD_REQUIRED_TEXT_FIELDS = ['name', 'set', 'set_num', 'lang'];
 const CARD_OPTIONAL_TEXT_FIELDS = ['condition', 'printing', 'grade'];
 const CARD_TEXT_MAX_LENGTH = 45;
@@ -27,6 +29,9 @@ function validateCardFields(array $data, bool $partial): array
         }
 
         $value = trim((string)$data[$field]);
+        if ($field === 'set_num') {
+            $value = normalizeSetNumber($value);
+        }
         if ($value === '') {
             $errors[] = "$field cannot be empty.";
         } elseif (strlen($value) > CARD_TEXT_MAX_LENGTH) {

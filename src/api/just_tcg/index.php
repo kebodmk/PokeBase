@@ -418,13 +418,81 @@ function matchTradeCards(
         'grade' => $graded ? (float) $tradeCard['grade'] : null,
     ]);
 
-    // q= is a partial search, so "Charizard" also returns
-    // "Charizard (Black Dot Error)". Only an exact name counts.
+    return exactNameCards($cards, tradeMatchName($tradeCard));
+}
+
+// The JustTCG card name to match or the typed name.
+function tradeMatchName(array $tradeCard)
+{
+    return ($tradeCard['tcg_name'] ?? '') !== '' ? $tradeCard['tcg_name'] : $tradeCard['name'];
+}
+
+// q= is a partial search
+function exactNameCards(array $cards, $name)
+{
     return array_values(array_filter(
         $cards,
         fn($card) => is_string($card['name'] ?? null)
-            && strcasecmp(trim($card['name']), $tradeCard['name']) === 0
+            && strcasecmp(trim($card['name']), $name) === 0
     ));
+}
+
+// Raw printings JustTCG lists for the trade card in any condition,
+// named as on the trades page when possible, e.g. ['Normal', 'Reverse Holofoil'].
+function availableTradePrintings(array $cards, array $tradeCard, $setId)
+{
+    $cards = exactNameCards(filterCardVariants($cards, [
+        'set_id' => $setId,
+        'set_number' => $tradeCard['set_num'],
+        'card_type' => 'raw',
+        'condition' => '',
+        'variant_id' => '',
+        'printings' => [],
+        'grading_company' => '',
+        'languages' => JUSTTCG_LANGUAGE_ALIASES[
+            TRADE_LANGUAGE_CODES[$tradeCard['lang']]
+        ],
+        'grade' => null,
+    ]), tradeMatchName($tradeCard));
+
+    $printings = [];
+
+    foreach ($cards as $card) {
+        foreach ($card['variants'] as $variant) {
+            $printing = (string) ($variant['printing'] ?? '');
+            $printing = tradePrintingFromJustTcg($printing) ?? $printing;
+
+            if ($printing !== '') {
+                $printings[$printing] = true;
+            }
+        }
+    }
+
+    return array_keys($printings);
+}
+
+// Trades page routes are for employees and managers only
+function requireTradeUser()
+{
+    $user = getSessionUser();
+
+    if ($user === null) {
+        sendJson([
+            'success' => false,
+            'error' => 'You must be logged in to do that.',
+        ], 401);
+    }
+
+    if (!in_array(
+        strtolower(trim((string) $user['role'])),
+        [ROLE_MANAGER, ROLE_EMPLOYEE],
+        true
+    )) {
+        sendJson([
+            'success' => false,
+            'error' => 'You do not have permission to perform that action.',
+        ], 403);
+    }
 }
 
 // Returns ['price' => float|null, 'matched' => label|null] from the
@@ -467,6 +535,7 @@ $allowedRoutes = [
     'update_sets' => 'POST',
     'search_cards' => 'POST',
     'trade_price' => 'POST',
+    'trade_lookup' => 'POST',
 ];
 
 if (!isset($allowedRoutes[$routePart])) {
@@ -690,34 +759,18 @@ if ($routePart === 'search_cards') {
 // ------------------------------------------------------------
 
 if ($routePart === 'trade_price') {
-    $user = getSessionUser();
-
-    if ($user === null) {
-        sendJson([
-            'success' => false,
-            'error' => 'You must be logged in to do that.',
-        ], 401);
-    }
-
-    if (!in_array(
-        strtolower(trim((string) $user['role'])),
-        [ROLE_MANAGER, ROLE_EMPLOYEE],
-        true
-    )) {
-        sendJson([
-            'success' => false,
-            'error' => 'You do not have permission to perform that action.',
-        ], 403);
-    }
+    requireTradeUser();
 
     $tradeCard = [];
 
     foreach (
-        ['set', 'set_num', 'name', 'lang', 'card_type', 'condition', 'grade', 'printing']
+        ['set', 'set_num', 'name', 'tcg_name', 'lang', 'card_type', 'condition', 'grade', 'printing']
         as $field
     ) {
         $tradeCard[$field] = postString($field);
     }
+
+    $tradeCard['set_num'] = normalizeSetNumber($tradeCard['set_num']);
 
     $cardErrors = validateTradeCard($tradeCard);
 
@@ -734,8 +787,9 @@ if ($routePart === 'trade_price') {
 
     // JustTCG search returns raw or graded variants, never both, so a
     // graded card is first confirmed to exist through its raw listing.
+    $searchResults = searchTradeCards($tradeCard, $setId, [], $tcgApiKey);
     $rawCards = matchTradeCards(
-        searchTradeCards($tradeCard, $setId, [], $tcgApiKey),
+        $searchResults,
         $tradeCard,
         $setId,
         'raw',
@@ -743,9 +797,24 @@ if ($routePart === 'trade_price') {
     );
 
     if (!$rawCards) {
+        // Say whether the card exists in another printing or condition,
+        // so a wrong dropdown choice does not read as "card does not exist".
+        $printings = availableTradePrintings($searchResults, $tradeCard, $setId);
+
+        if (!$printings) {
+            $error = 'No card matching this set, number, name and language was found on JustTCG.';
+        } elseif (!in_array($tradeCard['printing'], $printings, true)) {
+            $error = 'JustTCG has this card only in printing: '
+                . implode(', ', $printings) . '.';
+        } else {
+            $error = 'JustTCG has no ' . $tradeCard['condition']
+                . ' ' . $tradeCard['printing'] . ' listing for this card.';
+        }
+
         sendJson([
             'success' => false,
-            'error' => 'No card matching these details was found on JustTCG.',
+            'error' => $error,
+            'available_printings' => $printings,
         ], 404);
     }
 
@@ -776,6 +845,139 @@ if ($routePart === 'trade_price') {
         'price_date' => date('Y-m-d'),
         'matched' => $pick['matched'],
         'grading_company' => $graded ? TRADE_DEFAULT_GRADING_COMPANY : null,
+    ]);
+}
+
+// ------------------------------------------------------------
+// POST index.php?route=trade_lookup
+//
+// Every JustTCG card matching a trades-page name + set number,
+// with its raw variants and prices
+//
+// Response: { success, price_date, cards: [{ set, name, number, rarity,
+//   variants: [{ printing, condition, price|null }] }] }
+// Set, printing and condition use the trades page's names.
+// ------------------------------------------------------------
+
+if ($routePart === 'trade_lookup') {
+    requireTradeUser();
+
+    $name = postString('name');
+    $setNumber = normalizeSetNumber(postString('set_num'));
+    $setName = postString('set');
+    $language = postString('lang');
+    $setIds = getSetIdsByName();
+    $errors = [];
+
+    foreach (['name' => $name, 'set number' => $setNumber] as $fieldName => $value) {
+        if ($value === '' || strlen($value) > 45) {
+            $errors[] = "$fieldName is required and must be 45 characters or fewer";
+        }
+    }
+
+    if ($setName !== '' && !isset($setIds[$setName])) {
+        $errors[] = 'set is not a known set';
+    }
+
+    if (!isset(TRADE_LANGUAGE_CODES[$language])) {
+        $errors[] = 'language is invalid';
+    }
+
+    if ($errors) {
+        sendJson([
+            'success' => false,
+            'error' => 'Card details are invalid: ' . implode(', ', $errors) . '.',
+        ], 422);
+    }
+
+    $params = [
+        'game' => 'pokemon',
+        'q' => $name,
+        'number' => $setNumber,
+        'limit' => 20,
+    ];
+
+    if ($setName !== '') {
+        $params['set'] = $setIds[$setName];
+    }
+
+    $upstream = requestJustTcg('v2', 'cards', $params, $tcgApiKey);
+    $cards = $upstream['data'] ?? null;
+
+    if (!is_array($cards)) {
+        sendJson([
+            'success' => false,
+            'error' => 'JustTCG returned an unexpected cards structure.',
+        ], 502);
+    }
+
+    $setNamesById = getSetNamesById();
+    $languages = JUSTTCG_LANGUAGE_ALIASES[TRADE_LANGUAGE_CODES[$language]];
+    $results = [];
+
+    foreach ($cards as $card) {
+        if (!is_array($card) || !is_string($card['name'] ?? null)) {
+            continue;
+        }
+
+        $setId = is_array($card['set'] ?? null) ? ($card['set']['id'] ?? '') : '';
+
+        if (!isset($setNamesById[$setId]) || !cardNumberMatches($setNumber, $card['number'] ?? '')) {
+            continue;
+        }
+
+        $variants = [];
+
+        foreach (is_array($card['variants'] ?? null) ? $card['variants'] : [] as $variant) {
+            if (!is_array($variant) || ($variant['type'] ?? '') !== 'raw') {
+                continue;
+            }
+
+            $printing = tradePrintingFromJustTcg((string) ($variant['printing'] ?? ''));
+            $condition = $variant['condition'] ?? '';
+            $variantLanguage = strtolower(trim((string) ($variant['language'] ?? '')));
+
+            if (
+                $printing === null
+                || !in_array($condition, TRADE_CONDITIONS, true)
+                || !in_array($variantLanguage, $languages, true)
+            ) {
+                continue;
+            }
+
+            $price = variantMarketPrice($variant);
+
+            // "Normal" and "Unlimited" both map to Normal; keep the first
+            $variants["$printing|$condition"] ??= [
+                'printing' => $printing,
+                'condition' => $condition,
+                'price' => $price === null ? null : round($price, 2),
+            ];
+        }
+
+        if ($variants) {
+            $results[] = [
+                'set' => $setNamesById[$setId],
+                'name' => trim($card['name']),
+                'number' => (string) ($card['number'] ?? ''),
+                'rarity' => $card['rarity'] ?? null,
+                'variants' => array_values($variants),
+            ];
+        }
+    }
+
+    if (!$results) {
+        sendJson([
+            'success' => false,
+            'error' => 'No ' . $language . ' card with this name and set number was found on JustTCG'
+                . ($setName !== '' ? ' in ' . $setName : '') . '.',
+        ], 404);
+    }
+
+    sendJson([
+        'success' => true,
+        'price_date' => date('Y-m-d'),
+        'cards' => $results,
     ]);
 }
 

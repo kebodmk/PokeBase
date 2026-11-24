@@ -43,6 +43,9 @@ if ($routePart === 'search') {
 
     foreach ($exactColumns as $column) {
         $value = trim((string)($_GET[$column] ?? ''));
+        if ($column === 'set_num') {
+            $value = normalizeSetNumber($value);
+        }
         if ($value !== '') {
             $conditions[] = "`$column` = :$column";
             $search_params[':' . $column] = $value;
