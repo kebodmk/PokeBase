@@ -16,7 +16,7 @@
             $displayedCards = [];
 
             foreach ($cards as $card) {
-                $matchesName  = str_contains(strtolower($card["name"]), strtolower($search_string));
+                $matchesName  = stripos($card["name"], $search_string) !== false;
                 $matchesSet   = $selected_Set === ''   || strcasecmp($card["set"], $selected_Set) === 0;
                 $matchesPrint = $selected_Print === '' || strcasecmp($card["printing"], $selected_Print) === 0;
 

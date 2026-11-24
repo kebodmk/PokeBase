@@ -1,20 +1,46 @@
-const form = document.getElementById("cardForm");
-const editableInputs = form.querySelectorAll("input:not([type='hidden'])");
-const editBtn = document.getElementById("editBtn");
-const submitBtn = document.getElementById("submitBtn");
+(function () {
+  const form = document.getElementById("cardForm");
+  const editableInputs = form.querySelectorAll("input:not([type='hidden'])");
+  const editBtn = document.getElementById("editBtn");
+  const submitBtn = document.getElementById("submitBtn");
+  const priceInput = form.elements["price"];
 
-editBtn.addEventListener("click", () => {
-editableInputs.forEach(input => input.readOnly = false);
+  function lockForm() {
+    editableInputs.forEach(input => input.readOnly = true);
+    submitBtn.classList.add("invisible");
+    editBtn.classList.remove("invisible");
+  }
 
-editableInputs[0].focus();
-editBtn.classList.add("invisible");
-submitBtn.classList.remove("invisible");
-});
+  function formatPrice() {
+    const n = parseFloat(priceInput.value);
+    if (!isNaN(n)) {
+      priceInput.value = n.toFixed(2);
+    }
+  }
 
-form.addEventListener("submit", async (e) => {
-    e.preventDefault(); // stop the normal form submission
+  priceInput.addEventListener("blur", formatPrice);
 
-    const data = Object.fromEntries(new FormData(form).entries());
+  editBtn.addEventListener("click", () => {
+    editableInputs.forEach(input => input.readOnly = false);
+    editableInputs[0].focus();
+    editBtn.classList.add("invisible");
+    submitBtn.classList.remove("invisible");
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const val = (name) => form.elements[name].value.trim();
+    const data = {
+      name:      val("name"),
+      price:     parseFloat(val("price")),
+      set:       val("set"),
+      set_num:   val("set_num"),
+      printing:  val("printing"),
+      condition: val("condition"),
+      grade:     val("grade") === "" ? null : val("grade"),
+      lang:      val("language")
+    };
 
     try {
       const response = await fetch(form.getAttribute("action"), {
@@ -23,7 +49,7 @@ form.addEventListener("submit", async (e) => {
           "Content-Type": "application/json",
           "Accept": "application/json"
         },
-        credentials: "same-origin", // sends your session cookie
+        credentials: "same-origin",
         body: JSON.stringify(data)
       });
 
@@ -35,14 +61,18 @@ form.addEventListener("submit", async (e) => {
       const result = await response.json();
 
       if (result.success) {
-        // Lock the form again
-        editableInputs.forEach(input => input.readOnly = true);
-        submitBtn.classList.add("invisible");
-        editBtn.classList.remove("invisible");
+        formatPrice();
+        lockForm();
       } else {
         alert(result.message || "Update failed.");
       }
     } catch (err) {
       alert("Network error: " + err.message);
     }
-});
+  });
+
+  // Start locked and formatted, and re-lock if restored from the back/forward cache
+  formatPrice();
+  lockForm();
+  window.addEventListener("pageshow", lockForm);
+})();

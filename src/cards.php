@@ -84,52 +84,54 @@ if ($card === null) {
     $grade = $card["grade"] ?? "";
 
 ?>
-<form id="cardForm" action="api/cards/update/<?= htmlspecialchars((string)$cardId) ?>">
-  <!-- Hidden so PHP script knows which database row to update -->
-  <input type="hidden" name="card_id" value="<?= htmlspecialchars((string)$cardId) ?>">
+<div id="main">
+  <form id="cardForm" autocomplete="off" action="api/cards/update/<?= htmlspecialchars((string)$cardId) ?>">
+    <!-- Hidden so PHP script knows which database row to update -->
+    <input type="hidden" name="card_id" value="<?= htmlspecialchars((string)$cardId) ?>">
 
-  <div class="field-row heading-h1">
-    <input type="text" name="name" value="<?= htmlspecialchars((string)$cardName) ?>" readonly>
-  </div>
+    <div class="field-row heading-h1">
+      <input type="text" name="name" value="<?= htmlspecialchars((string)$cardName) ?>" readonly>
+    </div>
 
-  <div class="field-row heading-h2">
-    <span>Price (Updated on <?= htmlspecialchars((string)$priceDate) ?>): $</span>
-    <input type="text" inputmode="decimal" step="0.01" name="price" class="heading-h2 inline-input" value="<?= htmlspecialchars((string)$price) ?>" readonly>
-  </div>
+    <div class="field-row heading-h2">
+      <span>Price (Updated on <?= htmlspecialchars((string)$priceDate) ?>): $</span>
+      <input type="text" inputmode="decimal" step="0.01" name="price" class="heading-h2 inline-input" value="<?= htmlspecialchars((string)$price) ?>" readonly>
+    </div>
 
-  <div class="field-row heading-h3">
-    <label for="cardSet">Card Set:</label>
-    <input type="text" id="cardSet" name="set" value="<?= htmlspecialchars((string)$cardSet) ?>" readonly>
-  </div>
+    <div class="field-row heading-h3">
+      <label for="cardSet">Card Set:</label>
+      <input type="text" id="cardSet" name="set" value="<?= htmlspecialchars((string)$cardSet) ?>" readonly>
+    </div>
 
-  <div class="field-row heading-h3">
-    <label for="cardSetNum">Card Set Number:</label>
-    <input type="text" id="cardSetNum" name="set_num" value="<?= htmlspecialchars((string)$cardSetNum) ?>" readonly>
-  </div>
+    <div class="field-row heading-h3">
+      <label for="cardSetNum">Card Set Number:</label>
+      <input type="text" id="cardSetNum" name="set_num" value="<?= htmlspecialchars((string)$cardSetNum) ?>" readonly>
+    </div>
 
-  <div class="field-row heading-h3">
-    <label for="print">Print Edition:</label>
-    <input type="text" id="print" name="printing" value="<?= htmlspecialchars((string)$print) ?>" readonly>
-  </div>
+    <div class="field-row heading-h3">
+      <label for="print">Print Edition:</label>
+      <input type="text" id="print" name="printing" value="<?= htmlspecialchars((string)$print) ?>" readonly>
+    </div>
 
-  <div class="field-row heading-h3">
-    <label for="condition">Card Condition:</label>
-    <input type="text" id="condition" name="condition" value="<?= htmlspecialchars((string)$condition) ?>" readonly>
-  </div>
+    <div class="field-row heading-h3">
+      <label for="condition">Card Condition:</label>
+      <input type="text" id="condition" name="condition" value="<?= htmlspecialchars((string)$condition) ?>" readonly>
+    </div>
 
-  <div class="field-row heading-h3">
-    <label for="grade">PSA:</label>
-    <input type="text" id="grade" name="grade" value="<?= htmlspecialchars((string)$grade) ?>" readonly>
-  </div>
+    <div class="field-row heading-h3">
+      <label for="grade">PSA:</label>
+      <input type="text" id="grade" name="grade" value="<?= htmlspecialchars((string)$grade) ?>" readonly>
+    </div>
 
-  <div class="field-row heading-h3">
-    <label for="language">Card Language:</label>
-    <input type="text" id="language" name="language" value="<?= htmlspecialchars((string)$language) ?>" readonly>
-  </div>
+    <div class="field-row heading-h3">
+      <label for="language">Card Language:</label>
+      <input type="text" id="language" name="language" value="<?= htmlspecialchars((string)$language) ?>" readonly>
+    </div>
 
-  <?php if ($isManager): ?>
-    <button type="button" id="editBtn">Edit</button>
-  <?php endif; ?>
-  <button type="submit" id="submitBtn" class="invisible">Submit</button>
-</form>
+    <?php if ($isManager): ?>
+      <button type="button" id="editBtn">Edit</button>
+    <?php endif; ?>
+    <button type="submit" id="submitBtn" class="invisible">Submit</button>
+  </form>
+</div>
 <script src="cardUpdate.js"></script>
